@@ -1,0 +1,298 @@
+(local lume (require :lib.lume))
+(local fennel (require :fennel))
+
+(fn string-from [path]
+  "return lines read from file at path"
+  (icollect [line (io.lines path)] line))
+
+(fn string-pushback [s]
+  "return string with 1st character from s pushed to last position"
+  (.. 
+   (string.sub s 2 (length s))
+   (string.sub s 1 1)))
+
+(fn string-tonumbers [s]
+  "return collection of digits from string s"
+  (let [result []]
+    (for [i 1 (length s)]
+      (table.insert result (tonumber (string.sub s i i))))
+    result))
+
+(fn string-tonumarray [str]
+  "return collection of numbers from string str"
+  (icollect [s (string.gmatch str (.. "[^ ]+"))] (tonumber s)))
+
+(fn string-toarray [s]
+  "return collection of characters from string s abc->[a b c]"
+  (let [result []]
+    (for [i 1 (length s)]
+      (table.insert result (string.sub s i i)))
+    result))
+
+(fn string-split [str sep]
+  "return strings from str separated at occurrences of sep"
+  (icollect [s (string.gmatch str (.. "[^" sep "]+"))] s))
+
+(fn array-to-number [xs]
+  "return integer value represented as collection xs of its digits [1 2 3]->123"
+  (var result 0)
+  (each [_ x (ipairs xs)]
+    (set result (+ (tonumber x) (* result 10))))
+  result)
+
+(fn math-sum [n]
+  "return sum of range numbers from 1 to n"
+  (var result 0)
+  (for [i 1 n 1]
+    (set result (+ result i)))
+  result)
+
+(fn math-pow [x i]
+  "return exponent exp of value mant x i->xⁱ"
+  (if (= i 0) 1
+      (= i 1) x
+      (* x (math-pow x (- i 1)))))
+
+(fn math-gcd [a b]
+  "return greatest common denominator of a and b: 12,9->3"
+  (if (= 0 b) a
+      (math-gcd b (% a b))))
+
+(fn int [x]
+  "return integer representation of x"
+  (or (tonumber x)
+      (math.tointeger x)))
+
+(fn math-lcm [a b]
+  "return least common multiplier of a and b"
+  (int (/ (* a b) (math-gcd a b))))
+
+(fn math-fact [n]
+  "return factorial of n"
+  (if (<= n 1) 1
+      (* n (math-fact (- n 1)))))
+
+(fn math-min [t]
+  "return smallest element from collection t"
+  (table.sort t)
+  (. t 1))
+
+(fn take [xs n]
+  "return first n elements from collection xs"
+  (let [result []]
+    (for [i 1 n 1]
+      (table.insert result (. xs i)))
+    result))
+
+(fn rest [xs]
+  "return elements from collection xs starting at index two till end"
+  (table.remove xs 1)
+  xs)
+
+(fn table-print [xs]
+  "print to output elements of xs"
+  (print (fennel.view xs)))
+
+(fn table-sum [xs]
+  "return sum of elements at xs collection"
+  (accumulate [sum 0 _ x (ipairs xs)]
+    (if (lume.isarray x)
+        (+ sum (table-sum x))
+        (+ sum x))))
+
+(fn table-sort [xs]
+  "return table sorted in ascending order"
+  (table.sort xs)
+  xs)
+
+(fn table-join [xs ys]
+  "return collection with all ys elements appended to all xs elements"
+  (table.move ys 1 (length ys) (+ 1 (length xs)) xs))
+
+(fn table-contains? [t e]
+  "return bool indicating if collection t contains element e"
+  (if (lume.find t e)
+      true
+      false))
+
+(fn table-identical-2d? [a b]
+  "return bool indicating if 2D collection a has identical elements to b"
+  (var result true)
+  (for [i 1 (length a) 1]
+    (for [j 1 (length (. a i)) 1]
+      (when (not= (. (. a i) j)
+                  (. (. b i) j))
+        (set result false))))
+  result)
+
+(fn table-identical? [t1 t2]
+  "return bool indicating all t1 elements present in t2 collection"
+  (and 
+   (= (length t1)
+      (length t2))
+   (lume.all t1 #(table-contains? t2 $))))
+
+(fn table-zip [t1 t2]
+  "return collection of tuples: 1st t1 element, 1st t2 element, then 2nd t1 and 2nd t2, and so on"
+  (assert (= (length t1) (length t2)))
+  (let [result []]
+    (for [i 1 (length t1) 1]
+      (when (. t2 i)
+        (table.insert result [(. t1 i) (. t2 i)])))
+    result))
+
+(fn table-reverse [xs]
+  "return collection with xs elements reversed"
+  (let [result []]
+    (each [_ x (ipairs xs)]
+      (table.insert result 1 x))
+    result))
+
+(fn table-zero? [t]
+  "return bool indicating if all t elements are zeros"
+  (and (< 0 (length t))
+       (lume.all t #(= 0 $))))
+
+(fn table-range [xs f t]
+  "return collection of xs elements starting at index f ending at index t"
+  (let [result []]
+    (fcollect [i f t 1] (table.insert result (. xs i)))
+    result))
+
+(fn table-apply [t1 t2 f]
+  "return collection of (f t1 t2) applications to elements of t1 and t2"
+  (assert (= (length t1)
+             (length t2)))
+  (let [result []]
+    (for [i 1 (length t1) 1]
+      (table.insert result (f (. t1 i) (. t2 i))))
+    result))
+
+(fn table-clone [xs]
+  "return shallow copy of xs elements"
+  (let [res []]
+    (each [_ x (pairs xs)]
+      (table.insert res x))
+    res))
+
+(macro times [t body1 & rest-body]
+  `(fcollect [i# 1 ,t 1]
+     (do ,body1 ,(unpack rest-body))))
+
+(fn table-group-by [xs n]
+  "return n-ary collection of linear xs"
+  (assert (= 0 (% (length xs) n)))
+  (let [result []
+        in (table-clone xs)]
+    (while (not= 0 (length in))
+      (table.insert result (take in n))
+      (times n (rest in)))
+    result))
+
+(fn table-transpose [xs]
+  "return rows of 2D collection xs as columns"
+  (let [result []]
+    (for [j 1 (length (. xs 1)) 1]
+      (table.insert result j [])
+      (for [i 1 (length xs) 1]
+        (table.insert (. result j) i (. (. xs i) j))))
+    result))
+
+(fn table-replace [t i j v]
+  "return collection with i,j element of t replaced with v"
+  (let [old (table.remove (. t i) j)]
+    (table.insert (. t i) j v)
+    old))
+
+(lambda table-move [pos xs1 xs2 ?n]
+  "moves element(s) at pos from xs1 into same pos at collection xs2"
+  (if (not ?n)
+      (table.insert xs2 pos (table.remove xs1 pos))
+      (let [tmp []]
+        (for [i 1 ?n]
+          (table.insert tmp 1 (table.remove xs1 pos)))
+        (for [i 1 ?n]
+          (table.insert xs2 pos (table.remove tmp 1)))))
+  nil)
+
+(fn table-tostring [xs]
+  "joins elements of xs with empty string"
+  (if xs
+      (table.concat xs "")
+      ""))
+
+(fn first [xs]
+  "return element from collection xs at index of one"
+  (. xs 1))
+
+(fn last [xs]
+  "return last element from collection xs"
+  (. xs (length xs)))
+
+(fn fold [t]
+  "return sum of values of t"
+  (lume.reduce t (fn [acc x] (+ acc x))))
+
+(fn empty? [xs]
+  "return bool indicating if xs contains any elements or is empty"
+  (or (= nil xs)
+      (= 0 (length xs))))
+
+(fn range [s len]
+  "return collection of consecutive numbers starting at s till length len"
+  (fcollect [i s (+ s len) 1] i))
+
+(fn range-to [s e]
+  "return collection of consecutive numbers starting at s ending at e"
+  (fcollect [i s e 1] i))
+
+(fn dec [x]
+  "return 1 decrement of x"
+  (- x 1))
+
+(fn inc [x]
+  "return 1 increment of x"
+  (+ x 1))
+
+{: string-from
+ : string-pushback
+ : string-tonumbers
+ : string-tonumarray
+ : string-toarray
+ : string-split
+ : array-to-number
+ : math-sum
+ : math-pow
+ : math-gcd
+ : math-lcm
+ : math-fact
+ : math-min
+ : table-print
+ : table-sum
+ : table-sort
+ : table-join
+ : table-identical-2d?
+ : table-identical?
+ : table-zip
+ : table-reverse
+ : table-contains?
+ : table-zero?
+ : table-range
+ : table-apply
+ : table-clone
+ : table-group-by
+ : table-transpose
+ : table-replace
+ : table-move
+ : table-tostring
+ : first
+ : last
+ : take
+ : rest
+ : fold
+ : empty?
+ : range
+ : range-to
+ : dec
+ : inc
+ : int}
