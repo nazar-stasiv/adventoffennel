@@ -11,13 +11,6 @@
    (string.sub s 2 (length s))
    (string.sub s 1 1)))
 
-(fn string-tonumbers [s]
-  "return collection of digits from string s"
-  (let [result []]
-    (for [i 1 (length s)]
-      (table.insert result (tonumber (string.sub s i i))))
-    result))
-
 (fn string-tonumarray [str]
   "return collection of numbers from string str"
   (icollect [s (string.gmatch str (.. "[^ ]+"))] (tonumber s)))
@@ -256,7 +249,6 @@
 
 {: string-from
  : string-pushback
- : string-tonumbers
  : string-tonumarray
  : string-toarray
  : string-split
