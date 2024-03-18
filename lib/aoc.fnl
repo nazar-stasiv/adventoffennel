@@ -5,6 +5,12 @@
   "return lines read from file at path"
   (icollect [line (io.lines path)] line))
 
+(fn string-last-index-of [s c]
+  "returns index of c in s looking backwards or 0 if not found"
+  (let [index (string.find (string.reverse s) c 1 true)]
+    (if index (- (+ 1 (length s)) index)
+        0)))
+
 (fn string-pushback [s]
   "return string with 1st character from s pushed to last position"
   (.. 
@@ -21,6 +27,18 @@
     (for [i 1 (length s)]
       (table.insert result (string.sub s i i)))
     result))
+
+(fn string-ends-with [s c]
+  "returns bool indicating if c is in last position of s"
+  (if (= c (. (string-toarray s) (length s)))
+      true
+      false))
+
+(fn string-starts-with [s c]
+  "returns bool indicating if c is prefix for s"
+  ;;(assert (>= (length s) (length c)))
+  (let [n (string.sub s 1 (length c))]
+    (= n c)))
 
 (fn string-split [str sep]
   "return strings from str separated at occurrences of sep"
@@ -231,6 +249,11 @@
   (or (= nil xs)
       (= 0 (length xs))))
 
+(fn table-contains-2d? [t e]
+  "return bool indicating if collection t contains table e"
+  (let [xs (lume.filter t #(table-identical? $ e))]
+    (not (empty? xs))))
+
 (fn range [s len]
   "return collection of consecutive numbers starting at s till length len"
   (fcollect [i s (+ s len) 1] i))
@@ -248,9 +271,12 @@
   (+ x 1))
 
 {: string-from
+ : string-last-index-of
  : string-pushback
  : string-tonumarray
  : string-toarray
+ : string-ends-with
+ : string-starts-with
  : string-split
  : array-to-number
  : math-sum
@@ -283,6 +309,7 @@
  : rest
  : fold
  : empty?
+ : table-contains-2d?
  : range
  : range-to
  : dec
