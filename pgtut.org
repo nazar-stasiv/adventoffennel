@@ -63,8 +63,7 @@ create unique index idx_email on customer(email);
 
 Indexes  come handy  for  tables where  sequential  scan would  create
 unnecessary load.   This is especially  true for queries  filtering on
-date or timestamp  column values. Sometimes partial  index (with where
-clause) can be just enough
+date or timestamp  column values
 
 #+begin_src sql :exports both :engine postgresql :dbhost localhost :database dvdrental
 drop index if exists idx_return_date;
@@ -86,5 +85,31 @@ create index idx_payment_date on payment(payment_date);
 
 Because  each insert  or update  operation requires  changes to  index
 data, maintaining indexes takes up some resources from Postgresql. See
-explain query to check if query planner uses index.
+explain  query to  check if  query planner  uses index,  e.g. show  me
+number of rentals that has not been returned yet
+
+#+begin_src sql :exports both :engine postgresql :dbhost localhost :database dvdrental
+explain select count(rental_date) from rental where return_date is null;
+#+end_src
+
+#+RESULTS:
+| QUERY PLAN                                                   |
+|--------------------------------------------------------------|
+| Aggregate  (cost=310.90..310.91 rows=1 width=8)              |
+| ->  Seq Scan on rental  (cost=0.00..310.44 rows=183 width=8) |
+| Filter: (return_date IS NULL)                                |
+
+Partial index is bad fit here, i'll recreate it without where clause
+
+#+begin_src sql :exports both :engine postgresql :dbhost localhost :database dvdrental
+drop index if exists idx_return_date;
+create index idx_return_date on rental(return_date);
+#+end_src
+
+#+RESULTS:
+| DROP INDEX   |
+|--------------|
+| CREATE INDEX |
+
+With new index cost estimated by query planner improved tenfold.
 
