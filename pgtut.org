@@ -1,0 +1,90 @@
+#+TITLE: postgresqltutorial.com
+#+AUTHOR: postgresqltutorial.com
+#+EMAIL: nazar@autistici.org
+#+LANGUAGE: en
+#+OPTIONS: title:t author:t email:nil toc:nil num:nil timestamp:nil
+
+* CLI
+
+Use psql to manage database and query data
+
+#+begin_example
+\l --list databases
+\c dvdrental --connect to dvdrental
+\dt --list tables
+\d table --describe table
+\di --show indexes
+\s --list command history
+\g --execute previous command
+\? --list psql commands
+\h explain --show explain man page
+\timing --enable query timing
+\q --quit psql
+#+end_example
+
+* DVDRental
+
+Download sample database
+
+#+begin_src shell :results silent :exports code
+wget -P /tmp https://www.postgresqltutorial.com/wp-content/uploads/2019/05/dvdrental.zip
+unzip /tmp/dvdrental.zip -d /tmp
+#+end_src
+
+Recreate database from backup
+
+#+begin_src shell :results silent :exports code
+dropdb --if-exists dvdrental
+createdb dvdrental
+pg_restore -d dvdrental /tmp/dvdrental.tar
+#+end_src
+
+* Indexes
+
+Indexes are required  for where clauses filtering results  with is not
+null, like,  in, between or comparison  operators.  Postgresql creates
+indexes  for  =primary   key=  and  =unique  not  null=   or  =foreign  key=
+constraints. To  search for  phone number or  email columns  I'll need
+indexes for =address= and =rental= tables.
+
+#+begin_src sql :exports both :engine postgresql :dbhost localhost :database dvdrental
+drop index if exists idx_phone;
+create index idx_phone on address(phone);
+drop index if exists idx_email;
+create unique index idx_email on customer(email);
+#+end_src
+
+#+RESULTS:
+| DROP INDEX   |
+|--------------|
+| CREATE INDEX |
+| DROP INDEX   |
+| CREATE INDEX |
+
+Indexes  come handy  for  tables where  sequential  scan would  create
+unnecessary load.   This is especially  true for queries  filtering on
+date or timestamp  column values. Sometimes partial  index (with where
+clause) can be just enough
+
+#+begin_src sql :exports both :engine postgresql :dbhost localhost :database dvdrental
+drop index if exists idx_return_date;
+create index idx_return_date on rental(return_date) where return_date is not null;
+drop index if exists idx_rental_date;
+create index idx_rental_date on rental(rental_date);
+drop index if exists idx_payment_date;
+create index idx_payment_date on payment(payment_date);
+#+end_src
+
+#+RESULTS:
+| DROP INDEX   |
+|--------------|
+| CREATE INDEX |
+| DROP INDEX   |
+| CREATE INDEX |
+| DROP INDEX   |
+| CREATE INDEX |
+
+Because  each insert  or update  operation requires  changes to  index
+data, maintaining indexes takes up some resources from Postgresql. See
+explain query to check if query planner uses index.
+
