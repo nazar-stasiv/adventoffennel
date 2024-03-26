@@ -113,3 +113,33 @@ create index idx_return_date on rental(return_date);
 
 With new index cost estimated by query planner improved tenfold.
 
+* Revenue
+
+Show me revenue per quarter
+
+#+begin_src sql :exports both :engine postgresql :dbhost localhost :database dvdrental
+select extract(quarter from p.payment_date::date) as quart, sum(p.amount)::money as rev
+from payment p group by 1 order by 1
+#+end_src
+
+#+RESULTS:
+| quart | rev        |
+|-------+------------|
+|     1 | £32,238.40 |
+|     2 | £29,073.64 |
+
+Show me revenue per month
+
+#+begin_src sql :engine postgresql :dbhost localhost :database dvdrental :exports both
+select to_char(p.payment_date, 'yyyy-mm') as mon, sum(p.amount)::money as rev
+from payment p group by 1 order by 1
+#+end_src
+
+#+RESULTS:
+|     mon | rev        |
+|---------+------------|
+| 2007-02 | £8,351.84  |
+| 2007-03 | £23,886.56 |
+| 2007-04 | £28,559.46 |
+| 2007-05 | £514.18    |
+
