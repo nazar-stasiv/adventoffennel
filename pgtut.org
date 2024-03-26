@@ -143,3 +143,81 @@ from payment p group by 1 order by 1
 | 2007-04 | £28,559.46 |
 | 2007-05 | £514.18    |
 
+* Customer
+
+Show top 10 customers who rent the longest
+
+#+begin_src sql :exports both :engine postgresql :dbhost localhost :database dvdrental 
+select customer_id cust, sum(extract(day from return_date - rental_date)) as days
+from rental where return_date is not null group by 1 order by 2 desc
+offset 0 fetch next 10 rows only
+#+end_src
+
+#+RESULTS:
+| cust | days |
+|------+------|
+|  526 |  241 |
+|  148 |  218 |
+|  144 |  211 |
+|  137 |  209 |
+|  469 |  203 |
+|  468 |  200 |
+|  295 |  200 |
+|  176 |  195 |
+|  178 |  195 |
+|  236 |  187 |
+
+Show top 10 customers who pay the most
+
+#+begin_src sql :exports both :engine postgresql :dbhost localhost :database dvdrental
+select customer_id cust, sum(amount)::money
+from payment group by 1 order by 2 desc limit 10
+#+end_src
+
+#+RESULTS:
+| cust | sum     |
+|------+---------|
+|  148 | £211.55 |
+|  526 | £208.58 |
+|  178 | £194.61 |
+|  137 | £191.62 |
+|  144 | £189.60 |
+|  459 | £183.63 |
+|  181 | £167.67 |
+|  410 | £167.62 |
+|  236 | £166.61 |
+|  403 | £162.67 |
+
+The longer the rent the higher  the cost - there is strong correlation
+there. And a subtle detail: let's  see if customer 469 uses discounted
+price
+
+#+begin_src sql :exports both :engine postgresql :dbhost localhost :database dvdrental
+select t1.customer_id cust, round(sum(t2.amount)/sum(extract(day from t3.return_date - t3.rental_date)), 2) as cost
+from customer t1 join payment t2 using (customer_id) join rental t3 using (customer_id)
+where t1.customer_id=469 group by 1
+#+end_src
+
+#+RESULTS:
+| cust | cost |
+|------+------|
+|  469 | 0.89 |
+
+The 0.89 cost  for customer 469 is  close to that of  customer 526 and
+not far  from cost for customer  148. Let's see what  are average, min
+and max cost of rent
+
+#+begin_src sql :exports both :engine postgresql :dbhost localhost :database dvdrental
+with cost_table as (
+     select t1.customer_id cust, round(sum(t2.amount)/sum(extract(day from t3.return_date - t3.rental_date)), 2) as cost
+     from customer t1 join payment t2 using (customer_id) join rental t3 using (customer_id) group by 1)
+select round(avg(cost), 2) avg, min(cost), max(cost) from cost_table
+#+end_src
+
+#+RESULTS:
+|  avg |  min |  max |
+|------+------+------|
+| 0.95 | 0.66 | 1.37 |
+
+The 469 must  be somewhere in top  20 report, as rent cost  of 0.89 is
+far from being an outlier and close to base rate.
