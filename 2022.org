@@ -1326,18 +1326,20 @@ Consider your map; how many trees are visible from outside the grid?
             lenj (length xi)]
         (for [j 1 lenj]
           (let [xj (. xi j)
-                XI (. M j)]
+                XI (. M j)
+                ltxj (fn [e] (< e xj))]
             (when (or (= 1 i) (= 1 j) (= leni i) (= lenj j)
-                      (lume.all (aoc.table-range xi 1 (- j 1)) #(< $ xj))
-                      (lume.all (aoc.table-range xi (+ 1 j) lenj) #(< $ xj))
-                      (lume.all (aoc.table-range XI 1 (- i 1)) #(< $ xj))
-                      (lume.all (aoc.table-range XI (+ 1 i) leni) #(< $ xj)))
-                (table.insert res (..  i "," j)))))))
+                      (lume.all (aoc.table-range xi 1 (- j 1)) ltxj)
+                      (lume.all (aoc.table-range xi (+ 1 j) lenj) ltxj)
+                      (lume.all (aoc.table-range XI 1 (- i 1)) ltxj)
+                      (lume.all (aoc.table-range XI (+ 1 i) leni) ltxj))
+              (table.insert res (..  i "," j)))))))
     res))
 
 (fn test [expected input]
-  (let [len (length (solve input))]
-    (assert (= expected len) len)))
+  (let [matrix (aoc.read-matrix input true)
+        res (solve matrix)]
+    (assert (= expected (length res)))))
 
 (local test-input
        ["30373"
@@ -1346,12 +1348,14 @@ Consider your map; how many trees are visible from outside the grid?
         "33549"
         "35390"])
 
-(test 21 (aoc.read-matrix test-input true))
+(test 21 test-input)
 
 (fn real [input]
-  (length (solve input)))
+  (let [matrix (aoc.read-matrix input true)
+        res (solve matrix)]
+    (length res)))
 
-(real (aoc.read-matrix (aoc.string-from "2022/08.inp") true))
+(real (aoc.string-from "2022/08.inp"))
 #+end_src
 
 #+RESULTS:
