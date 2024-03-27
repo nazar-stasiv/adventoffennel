@@ -84,9 +84,8 @@ that Elf carrying?
 
 (fn solve [input]
   (let [xs (read-input input)]
-    (math.max
-     (table.unpack
-      (lume.map xs aoc.table-sum)))))
+    (aoc.table-max
+     (lume.map xs aoc.table-sum))))
 
 (local input
        ["1000" "2000" "3000" ""
@@ -378,8 +377,8 @@ rucksack. What is the sum of the priorities of those item types?
 (fn solve-p1 [line]
   (let [in2 (items-to-codes line)
         len (length in2)
-        in3 (aoc.table-range in2 1 (// len 2))
-        in4 (aoc.table-range in2 (+ 1 (// len 2)) len)]
+        in3 (aoc.table-range in2 1 (aoc.int/ len 2))
+        in4 (aoc.table-range in2 (+ 1 (aoc.int/ len 2)) len)]
     (lume.unique (lume.filter in3 (fn [e] (aoc.table-contains? in4 e))))))
 
 (local input
@@ -466,14 +465,14 @@ group. What is the sum of the priorities of those item types?
 (fn test-input-p2 [in]
   (assert (= 70 (aoc.table-sum
                  (lume.map (aoc.table-group-by input 3)
-                           #(solve-p2 (table.unpack $)))))))
+                           #(solve-p2 (aoc.table-unpack $)))))))
 
 (test-input-p2 input)
 
 (fn real-input-p2 [in]
   (aoc.table-sum
    (lume.map (aoc.table-group-by in 3)
-             #(solve-p2 (table.unpack $)))))
+             #(solve-p2 (aoc.table-unpack $)))))
 
 (real-input-p2 (aoc.string-from "2022/03.inp"))
 #+end_src
@@ -968,7 +967,7 @@ the above examples:
 - nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg: first marker after character 29
 - zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw: first marker after character 26
 
-How many characters need to be processed before the first
+How  many   characters  need   to  be   processed  before   the  first
 start-of-message marker is detected?
 
 #+begin_src fennel :session day06
@@ -1241,13 +1240,12 @@ that directory?
         total 70000000
         available (- total (. fs "/"))
         minimum (- required available)]
-    (math.min
-     (table.unpack
-      (lume.map
-       (lume.filter
-        (lume.keys fs)
-        (fn [x] (>= (. fs x) minimum)))
-       (fn [x] (. fs x)))))))
+    (aoc.table-min
+     (lume.map
+      (lume.filter
+       (lume.keys fs)
+       (fn [x] (>= (. fs x) minimum)))
+      (fn [x] (. fs x))))))
 
 (fn test-input-2 [input]
   (assert (= 24933642 (make-enough-space input))))

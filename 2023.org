@@ -307,22 +307,19 @@ present. What is the sum of the power of these sets?
 (local aoc (require :lib.aoc))
 
 (fn find-max-red-take [game]
-  (math.max
-   (table.unpack
-    (lume.map (. game :takes)
-              (fn [take] (or (. take :r) 0))))))
+  (aoc.table-max
+   (lume.map (. game :takes)
+             (fn [take] (or (. take :r) 0)))))
 
 (fn find-max-green-take [game]
-  (math.max
-   (table.unpack 
-    (lume.map (. game :takes)
-              (fn [take] (or (. take :g) 0))))))
+  (aoc.table-max
+   (lume.map (. game :takes)
+             (fn [take] (or (. take :g) 0)))))
 
 (fn find-max-blue-take [game]
-  (math.max
-   (table.unpack
-    (lume.map (. game :takes)
-              (fn [take] (or (. take :b) 0))))))
+  (aoc.table-max
+   (lume.map (. game :takes)
+             (fn [take] (or (. take :b) 0)))))
 
 (fn find-game-power-cube [game]
   (*
@@ -822,13 +819,13 @@ initial seed numbers?
     (each [_ seed (ipairs xs)]
       (let [location (seed2soil2fert2water2light2temp2hum2loc seed t1 t2 t3 t4 t5 t6 t7)]
         (table.insert locations location)))
-    (assert (= 35 (math.min (table.unpack locations))))))
+    (assert (= 35 (aoc.table-min locations)))))
 
 (test-input test-seeds seed2soil soil2fertilizer fertilizer2water water2light light2temperature temperature2humidity humidity2location)
 
 (fn real-input [xs]
   (let [locations []
-        seeds (table.unpack (lume.map (aoc.table-range xs 1 1) #(aoc.string-tonumarray $)))
+        seeds (aoc.table-unpack (lume.map (aoc.table-range xs 1 1) #(aoc.string-tonumarray $)))
         t1 (vec2tree2 {} (lume.map (aoc.table-range xs 4 27) #(aoc.string-tonumarray $))  comp)
         t2 (vec2tree2 {} (lume.map (aoc.table-range xs 30 60) #(aoc.string-tonumarray $)) comp)
         t3 (vec2tree2 {} (lume.map (aoc.table-range xs 63 72) #(aoc.string-tonumarray $)) comp)
@@ -838,7 +835,7 @@ initial seed numbers?
         t7 (vec2tree2 {} (lume.map (aoc.table-range xs 132 139) #(aoc.string-tonumarray $)) comp)]
     (each [_ seed (ipairs seeds)]
       (table.insert locations (seed2soil2fert2water2light2temp2hum2loc seed t1 t2 t3 t4 t5 t6 t7)))
-    (math.min (table.unpack locations))))
+    (aoc.table-min locations)))
 
 (real-input (aoc.string-from "2023/05.inp"))
 #+end_src
@@ -1921,12 +1918,6 @@ farthest from the starting position?
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
-(fn read-matrix [lines]
-  (let [matrix []]
-    (each [_ line (ipairs lines)]
-      (table.insert matrix (aoc.string-toarray line)))
-    matrix))
-
 (local S2N ["|" "F" "7" "S"])
 (local N2S ["|" "L" "J" "S"])
 (local E2W ["-" "L" "F" "S"])
@@ -1987,7 +1978,7 @@ farthest from the starting position?
             3 1)
 
 (fn real-input [lines]
-  (let [input (read-matrix lines)]
+  (let [input (aoc.read-matrix lines)]
     (move input 64 63 0 :start)))
 
 (real-input (aoc.string-from "2023/10.inp"))
@@ -2128,12 +2119,6 @@ every pair of galaxies. What is the sum of these lengths?
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
-(fn read-matrix [lines]
-  (let [matrix []]
-    (each [_ line (ipairs lines)]
-      (table.insert matrix (aoc.string-toarray line)))
-    matrix))
-
 (fn distance [a b]
   (let [[x1 y1] a [x2 y2] b]
     (+ (math.abs (- x1 x2)) (math.abs (- y1 y2)))))
@@ -2181,7 +2166,7 @@ every pair of galaxies. What is the sum of these lengths?
 
 (test-input
  (expand-empty-space
-  (read-matrix
+  (aoc.read-matrix
    ["...#......"
     ".......#.."
     "#........."
@@ -2198,7 +2183,7 @@ every pair of galaxies. What is the sum of these lengths?
         dist (calculate-distances coords)]
     (aoc.table-sum dist)))
 
-(real-input (expand-empty-space (read-matrix (aoc.string-from "2023/11.inp"))))
+(real-input (expand-empty-space (aoc.read-matrix (aoc.string-from "2023/11.inp"))))
 #+end_src
 
 #+RESULTS:

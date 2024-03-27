@@ -270,6 +270,42 @@
   "return 1 increment of x"
   (+ x 1))
 
+(fn read-matrix [xs]
+  "return 2d array or characters"
+  (let [res []]
+    (each [_ x (ipairs xs)]
+      (table.insert res (string-toarray x)))
+    res))
+
+(fn table-tonumber [xs]
+  "returns elements of table converting to numbers"
+  (lume.map xs #(tonumber $)))
+
+(fn table-unpack [xs]
+  "returns elements of table"
+  (let [u (or table.unpack unpack)]
+    (u xs)))
+
+(fn table-min [xs]
+  "return minimum entry of xs"
+  (math.min (table-unpack (table-tonumber xs))))
+
+(fn table-max [xs]
+  "return maximum entry of xs"
+  (math.max (table-unpack (table-tonumber xs))))
+
+(fn runtime []
+  "returns lua runtime version"
+  (case _G._VERSION
+    "Lua 5.1" 5.1
+    "Lua 5.2" 5.2
+    "Lua 5.3" 5.3
+    "Lua 5.4" 5.4))
+
+(fn int/ [x y]
+  "returns integer division like // operator"
+  (math.floor (/ x y)))
+
 {: string-from
  : string-last-index-of
  : string-pushback
@@ -314,4 +350,11 @@
  : range-to
  : dec
  : inc
+ : read-matrix
+ : table-unpack
+ : table-tonumber
+ : table-min
+ : table-max
+ : runtime
+ : int/
  : int}
