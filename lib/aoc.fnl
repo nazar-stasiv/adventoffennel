@@ -270,11 +270,13 @@
   "return 1 increment of x"
   (+ x 1))
 
-(fn read-matrix [xs]
+(fn read-matrix [xs ?n]
   "return 2d array or characters"
   (let [res []]
     (each [_ x (ipairs xs)]
-      (table.insert res (string-toarray x)))
+      (let [el (string-toarray x)]
+        (if ?n (table.insert res (lume.map el #(tonumber $)))
+            (table.insert res el))))
     res))
 
 (fn table-tonumber [xs]
@@ -293,6 +295,10 @@
 (fn table-max [xs]
   "return maximum entry of xs"
   (math.max (table-unpack (table-tonumber xs))))
+
+(fn table-exclude [xs j]
+  "returns all xs elements but at pos j"
+  (lume.filter xs (fn [i v] (not= j i))))
 
 (fn runtime []
   "returns lua runtime version"
@@ -355,6 +361,7 @@
  : table-tonumber
  : table-min
  : table-max
+ : table-exclude
  : runtime
  : int/
  : int}
