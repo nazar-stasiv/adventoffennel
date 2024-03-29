@@ -294,7 +294,11 @@
 
 (fn table-max [xs]
   "return maximum entry of xs"
-  (math.max (table-unpack (table-tonumber xs))))
+  (let [xn (table-tonumber xs)]
+    (if (< 8000 (length xn))
+        (do (table.sort xn)
+            (. xn (length xn)))
+        (math.max (table-unpack xn)))))
 
 (fn table-exclude [xs j]
   "returns all xs elements but at pos j"

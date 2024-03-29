@@ -145,6 +145,27 @@ from payment p group by 1 order by 1
 
 * Customer
 
+Show customer's first order date
+
+#+begin_src sql :exports both :engine postgresql :dbhost localhost :database dvdrental
+select min(payment_date::date), customer_id
+from payment group by 2 order by 2 limit 10;
+#+end_src
+
+#+RESULTS:
+|        min | customer_id |
+|------------+-------------|
+| 2007-02-14 |           1 |
+| 2007-02-17 |           2 |
+| 2007-02-16 |           3 |
+| 2007-02-15 |           4 |
+| 2007-02-15 |           5 |
+| 2007-02-16 |           6 |
+| 2007-02-16 |           7 |
+| 2007-02-15 |           8 |
+| 2007-02-20 |           9 |
+| 2007-02-16 |          10 |
+
 Show top 10 customers who rent the longest
 
 #+begin_src sql :exports both :engine postgresql :dbhost localhost :database dvdrental 
