@@ -232,6 +232,19 @@
       (table.concat xs "")
       ""))
 
+(fn table-unique [t]
+  "returns unique set of [x y] elements of t"
+  (let [res []]
+    (each [_ e (ipairs t)]
+      (let [exists (lume.filter res
+                                (fn [[x y]]
+                                  (and (= x (. e 1))
+                                       (= y (. e 2)))))]
+        (when (or (= exists nil)
+                  (= 0 (length exists)))
+          (table.insert res e))))
+    res))
+
 (fn first [xs]
   "return element from collection xs at index of one"
   (. xs 1))
@@ -316,6 +329,10 @@
   "returns integer division like // operator"
   (math.floor (/ x y)))
 
+(fn dist2rd [[Hx Hy] {:x Tx :y Ty}]
+  "x₁y₁ distance² to x₂y₂ on plane <=2 for any adjacent points"
+  (lume.distance Hx Hy Tx Ty true))
+
 {: string-from
  : string-last-index-of
  : string-pushback
@@ -349,6 +366,7 @@
  : table-replace
  : table-move
  : table-tostring
+ : table-unique
  : first
  : last
  : take
@@ -368,4 +386,5 @@
  : table-exclude
  : runtime
  : int/
+ : dist2rd
  : int}
