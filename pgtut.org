@@ -1,8 +1,8 @@
-#+TITLE: postgresqltutorial.com
-#+AUTHOR: postgresqltutorial.com
+#+TITLE: PostgreSQL Tutorial
+#+AUTHOR: https://postgresqltutorial.com
 #+EMAIL: nazar@autistici.org
 #+LANGUAGE: en
-#+OPTIONS: title:t author:t email:nil toc:nil num:nil timestamp:nil
+#+OPTIONS: toc:nil
 
 * CLI
 

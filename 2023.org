@@ -2,7 +2,7 @@
 #+AUTHOR: Advent of code
 #+EMAIL: nazar@autistici.org
 #+LANGUAGE: en
-#+OPTIONS: title:t author:t email:nil toc:nil num:nil timestamp:nil
+#+OPTIONS: toc:nil
 
 * DONE Day 1.1
 You  try to  ask  why they  can't  just use  a  weather machine  ("not
@@ -38,7 +38,7 @@ In this example, the calibration values of these four lines are 12,
 Consider your entire calibration document. What is the sum of all of
 the calibration values?
 
-#+begin_src fennel :session day01
+#+begin_src fennel :session day01 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -87,7 +87,7 @@ In this  example, the calibration values  are 29, 83, 13,  24, 42, 14,
 and 76. Adding these together produces 281.
 
 What is the sum of all of the calibration values?
-#+begin_src fennel :session day01
+#+begin_src fennel :session day01 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -208,7 +208,7 @@ Determine which  games would have  been possible  if the bag  had been
 loaded with only 12 red cubes, 13 green cubes, and 14 blue cubes. What
 is the sum of the IDs of those games?
 
-#+begin_src fennel :session day02
+#+begin_src fennel :session day02 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -302,7 +302,7 @@ respectively. Adding up these five powers produces the sum 2286.
 For each game, find the minimum set of cubes that must have been
 present. What is the sum of the power of these sets?
 
-#+begin_src fennel :session day02
+#+begin_src fennel :session day02 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -409,7 +409,7 @@ So,  in this  example,  the Elf's  pile of  scratchcards  is worth  13
 points. Take  a seat  in the  large pile of  colorful cards.  How many
 points are they worth in total?
 
-#+begin_src fennel :session day04
+#+begin_src fennel :session day04 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -528,7 +528,7 @@ Process  all of  the original  and copied  scratchcards until  no more
 scratchcards are won. Including the  original set of scratchcards, how
 many total scratchcards do you end up with?
 
-#+begin_src fennel :session day04
+#+begin_src fennel :session day04 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -724,7 +724,7 @@ So, the lowest location number in this example is 35.
 What is  the lowest  location number  that corresponds  to any  of the
 initial seed numbers?
 
-#+begin_src fennel :session day05
+#+begin_src fennel :session day05 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -938,7 +938,7 @@ these values together, you get 288 (4 * 8 * 9).
 Determine  the number  of  ways  you could  beat  the  record in  each
 race. What do you get if you multiply these numbers together?
 
-#+begin_src fennel :session day06
+#+begin_src fennel :session day06 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -1010,7 +1010,7 @@ a total of 71503 ways!
 
 How many ways can you beat the record in this one much longer race?
 
-#+begin_src fennel :session day06
+#+begin_src fennel :session day06 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -1138,7 +1138,7 @@ winnings in this example are 6440.
 
 Find the rank of every hand in your set. What are the total winnings?
 
-#+begin_src fennel :session day07
+#+begin_src fennel :session day07 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -1379,7 +1379,7 @@ ZZZ = (ZZZ, ZZZ)
 Starting at AAA, follow the left/right instructions. How many steps
 are required to reach ZZZ?
 
-#+begin_src fennel :session day08
+#+begin_src fennel :session day08 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -1485,7 +1485,7 @@ So, in this example, you end up  entirely on nodes that end in Z after
 Simultaneously start  on every node that  ends with A. How  many steps
 does it take before you're only on nodes that end with Z?
 
-#+begin_src fennel :session day08
+#+begin_src fennel :session day08 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -1658,7 +1658,7 @@ them together, you get 114.
 Analyze your OASIS report and extrapolate the next value for each
 history. What is the sum of these extrapolated values?
 
-#+begin_src fennel :session day09
+#+begin_src fennel :session day09 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -1747,7 +1747,7 @@ history. Adding all three new values together produces 2.
 Analyze your OASIS report again,  this time extrapolating the previous
 value for each history. What is the sum of these extrapolated values?
 
-#+begin_src fennel :session day09
+#+begin_src fennel :session day09 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -1914,7 +1914,7 @@ Find the  single giant loop  starting at S.  How many steps  along the
 loop  does it  take to  get from  the starting  position to  the point
 farthest from the starting position?
 
-#+begin_src fennel :session day10
+#+begin_src fennel :session day10 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -2115,7 +2115,7 @@ path between all 36 pairs of galaxies is 374.
 Expand the universe, then find the length of the shortest path between
 every pair of galaxies. What is the sum of these lengths?
 
-#+begin_src fennel :session day11
+#+begin_src fennel :session day11 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -2276,7 +2276,7 @@ rocks. In this example, the total load is 136.
 Tilt the platform so that the rounded rocks all roll north. Afterward,
 what is the total load on the north support beams?
 
-#+begin_src fennel :session day14
+#+begin_src fennel :session day14 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -2471,7 +2471,7 @@ Run  the   HASH  algorithm   on  each   step  in   the  initialization
 sequence. What is the sum of the results? (The initialization sequence
 is one long line; be careful when copy-pasting it.)
 
-#+begin_src fennel :session day15
+#+begin_src fennel :session day15 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 

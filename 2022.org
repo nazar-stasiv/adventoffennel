@@ -2,7 +2,7 @@
 #+AUTHOR: Advent of code
 #+EMAIL: nazar@autistici.org
 #+LANGUAGE: en
-#+OPTIONS: title:t author:t email:nil toc:nil num:nil timestamp:nil
+#+OPTIONS: toc:nil
 
 * DONE Day 1.1
 Santa's reindeer typically eat regular  reindeer food, but they need a
@@ -69,7 +69,7 @@ this is 24000 (carried by the fourth Elf).
 Find the  Elf carrying the most  Calories. How many total  Calories is
 that Elf carrying?
 
-#+begin_src fennel :session day01
+#+begin_src fennel :session day01 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -123,7 +123,7 @@ these three elves is 45000.
 Find the top three Elves carrying the most Calories. How many Calories
 are those Elves carrying in total?
 
-#+begin_src fennel :session day01
+#+begin_src fennel :session day01 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -202,7 +202,7 @@ get a total score of 15 (8 + 1 + 6).
 What would your total score be if everything goes exactly according to
 your strategy guide?
 
-#+begin_src fennel :session day02
+#+begin_src fennel :session day02 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -267,7 +267,7 @@ Following the  Elf's instructions  for the  second column,  what would
 your  total score  be if  everything  goes exactly  according to  your
 strategy guide?
 
-#+begin_src fennel :session day02
+#+begin_src fennel :session day02 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -360,7 +360,7 @@ both compartments of each rucksack is 16  (p), 38 (L), 42 (P), 22 (v),
 Find  the  item  type  that  appears  in  both  compartments  of  each
 rucksack. What is the sum of the priorities of those item types?
 
-#+begin_src fennel :session day03
+#+begin_src fennel :session day03 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -451,7 +451,7 @@ attachment efforts: here,  they are 18 (r) for the  first group and 52
 Find the  item type that corresponds  to the badges of  each three-Elf
 group. What is the sum of the priorities of those item types?
 
-#+begin_src fennel :session day03
+#+begin_src fennel :session day03 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -542,7 +542,7 @@ need of reconsideration. In this example, there are 2 such pairs.
 
 In how many assignment pairs does one range fully contain the other?
 
-#+begin_src fennel :session day04
+#+begin_src fennel :session day04 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -598,7 +598,7 @@ and 2-6,4-8) do overlap:
 So,  in  this example,  the  number  of overlapping  assignment  pairs
 is 4. In how many assignment pairs do the ranges overlap?
 
-#+begin_src fennel :session day04
+#+begin_src fennel :session day04 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -719,7 +719,7 @@ Elves the message CMZ.
 After the rearrangement procedure completes, what crate ends up on top
 of each stack?
 
-#+begin_src fennel :session day05
+#+begin_src fennel :session day05 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -836,7 +836,7 @@ that the Elves know where they should  stand to be ready to unload the
 final  supplies. After  the  rearrangement  procedure completes,  what
 crate ends up on top of each stack?
 
-#+begin_src fennel :session day05
+#+begin_src fennel :session day05 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -924,7 +924,7 @@ Here are a few more examples:
 How  many   characters  need   to  be   processed  before   the  first
 start-of-packet marker is detected?
 
-#+begin_src fennel :session day06
+#+begin_src fennel :session day06 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -970,7 +970,7 @@ the above examples:
 How  many   characters  need   to  be   processed  before   the  first
 start-of-message marker is detected?
 
-#+begin_src fennel :session day06
+#+begin_src fennel :session day06 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -1114,7 +1114,7 @@ more than once!)
 Find all of the directories with a total size of at most 100000. What
 is the sum of the total sizes of those directories?
 
-#+begin_src fennel :session day07
+#+begin_src fennel :session day07 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -1230,7 +1230,7 @@ Find the  smallest directory  that, if deleted,  would free  up enough
 space on the filesystem  to run the update. What is  the total size of
 that directory?
 
-#+begin_src fennel :session day07
+#+begin_src fennel :session day07 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -1313,7 +1313,7 @@ interior, a total of 21 trees are visible in this arrangement.
 
 Consider your map; how many trees are visible from outside the grid?
 
-#+begin_src fennel :session day08
+#+begin_src fennel :session day08 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -1422,7 +1422,7 @@ for the tree house.
 Consider  each tree  on your  map. What  is the  highest scenic  score
 possible for any tree?
 
-#+begin_src fennel :session day08
+#+begin_src fennel :session day08 :exports both
 (fn count-trees [xs e]
   (var res 0)
   (for [i 1 (length xs) &until (<= e (. xs i))]
@@ -1754,7 +1754,7 @@ So, there are 13 positions the tail visited at least once.
 Simulate  your  complete hypothetical  series  of  motions.  How  many
 positions does the tail of the rope visit at least once?
 
-#+begin_src fennel :session day09
+#+begin_src fennel :session day09 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -2290,7 +2290,7 @@ Simulate your complete series of motions on a larger rope with ten
 knots. How many positions does the tail of the rope visit at least
 once?
 
-#+begin_src fennel :session day09
+#+begin_src fennel :session day09 :exports both
 (fn solve2 [input]
   (let [moves (read-input input)
         head (make-move moves)

@@ -2,7 +2,7 @@
 #+AUTHOR: Advent of code
 #+EMAIL: nazar@autistici.org
 #+LANGUAGE: en
-#+OPTIONS: title:t author:t email:nil toc:nil num:nil timestamp:nil
+#+OPTIONS: toc:nil
 * DONE Day 1.1
 
 You're minding your  own business on a ship at  sea when the overboard
@@ -74,7 +74,7 @@ previous measurement.
 
 How many measurements are larger than the previous measurement?
 
-#+begin_src fennel :session day01
+#+begin_src fennel :session day01 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -163,7 +163,7 @@ sum.
 Consider sums of a three-measurement sliding window. How many sums are
 larger than the previous sum?
 
-#+begin_src fennel :session day01
+#+begin_src fennel :session day01 :exports both
 (fn solve2 [lines]
   (let [res []]
     (for [i 3 (length lines)]
@@ -229,7 +229,7 @@ Calculate  the horizontal  position  and depth  you  would have  after
 following the  planned course. What  do you  get if you  multiply your
 final horizontal position by your final depth?
 
-#+begin_src fennel :session day02
+#+begin_src fennel :session day02 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -302,7 +302,7 @@ horizontal  position and  depth  you would  have  after following  the
 planned course. What do you get  if you multiply your final horizontal
 position by your final depth?
 
-#+begin_src fennel :session day02
+#+begin_src fennel :session day02 :exports both
 (fn solve2 [lines]
   (let [s {:x 0 :y 0 :z 0}]
     (each [_ line (ipairs lines)]
