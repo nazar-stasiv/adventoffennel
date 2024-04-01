@@ -111,9 +111,13 @@
         (+ sum (table-sum x))
         (+ sum x))))
 
+(fn table-filter [xs x]
+  "return array with elements of xs s.t. xsᵢ=x"
+  (lume.filter xs #(= x (tonumber $))))
+
 (fn table-count [xs x]
   "return number of x in xs"
-  (length (lume.filter xs #(= x (tonumber $)))))
+  (length (table-filter xs x)))
 
 (fn table-sort [xs]
   "return table sorted in ascending order"
@@ -217,6 +221,12 @@
   "return collection with i,j element of t replaced with v"
   (let [old (table.remove (. t i) j)]
     (table.insert (. t i) j v)
+    old))
+
+(fn table-replace-row [xs i x]
+  "return ith row of xs replaced in-place with x"
+  (let [old (table.remove xs i)]
+    (table.insert xs i x)
     old))
 
 (lambda table-move [pos xs1 xs2 ?n]
@@ -362,6 +372,7 @@
  : math-min
  : table-print
  : table-sum
+ : table-filter
  : table-count
  : table-sort
  : table-join
@@ -377,6 +388,7 @@
  : table-group-by
  : table-transpose
  : table-replace
+ : table-replace-row
  : table-move
  : table-tostring
  : table-unique
