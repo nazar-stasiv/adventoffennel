@@ -111,6 +111,10 @@
         (+ sum (table-sum x))
         (+ sum x))))
 
+(fn table-count [xs x]
+  "return number of x in xs"
+  (length (lume.filter xs #(= x (tonumber $)))))
+
 (fn table-sort [xs]
   "return table sorted in ascending order"
   (table.sort xs)
@@ -275,6 +279,14 @@
   "return collection of consecutive numbers starting at s ending at e"
   (fcollect [i s e 1] i))
 
+(fn todecimal [t]
+  "returns decimal number of bitarray: [1 1 1 1]->15"
+  (let [res []
+        len  (length t)]
+    (each [i v (ipairs t)]
+      (table.insert res (* v (math-pow 2 (- len i)))))
+    (table-sum res)))
+
 (fn dec [x]
   "return 1 decrement of x"
   (- x 1))
@@ -350,6 +362,7 @@
  : math-min
  : table-print
  : table-sum
+ : table-count
  : table-sort
  : table-join
  : table-identical-2d?
@@ -376,6 +389,7 @@
  : table-contains-2d?
  : range
  : range-to
+ : todecimal
  : dec
  : inc
  : read-matrix
