@@ -19,7 +19,7 @@
 
 (fn string-tonumarray [str]
   "return collection of numbers from string str"
-  (icollect [s (string.gmatch str (.. "[^ ]+"))] (tonumber s)))
+  (icollect [s (string.gmatch str (.. "[^ ,]+"))] (tonumber s)))
 
 (fn string-toarray [s]
   "return collection of characters from string s abc->[a b c]"
@@ -289,6 +289,13 @@
   "return collection of consecutive numbers starting at s ending at e"
   (fcollect [i s e 1] i))
 
+(fn range-of [x n]
+  "return length n collection of x"
+  (let [res []]
+    (for [i 1 n]
+      (table.insert res x))
+    res))
+
 (fn todecimal [t]
   "returns decimal number of bitarray: [1 1 1 1]->15"
   (let [res []
@@ -401,6 +408,7 @@
  : table-contains-2d?
  : range
  : range-to
+ : range-of
  : todecimal
  : dec
  : inc
