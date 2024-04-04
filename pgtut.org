@@ -143,6 +143,23 @@ from payment p group by 1 order by 1
 | 2007-04 | £28,559.46 |
 | 2007-05 | £514.18    |
 
+Show me total rentals per day of the week
+
+#+begin_src sql :exports both :engine postgresql :dbhost localhost :database dvdrental
+select to_char(rental_date, 'day'), count(rental_id) from rental group by 1 order by 2 desc;
+#+end_src
+
+#+RESULTS:
+| to_char   | count |
+|-----------+-------|
+| tuesday   |  2463 |
+| sunday    |  2320 |
+| saturday  |  2311 |
+| friday    |  2272 |
+| monday    |  2247 |
+| wednesday |  2231 |
+| thursday  |  2200 |
+
 * Customer
 
 Show customer's first order date
