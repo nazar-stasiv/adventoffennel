@@ -560,7 +560,7 @@ to represent your answer in decimal, not binary.)
 #+RESULTS:
 : 6940518
 
-* Day 6.1
+* DONE Day 6.1
 
 The sea floor is getting steeper. Maybe the sleigh keys got carried
 this way?
@@ -644,7 +644,7 @@ days, there would be a total of 5934.
 Find a way to simulate lanternfish. How many lanternfish would there
 be after 80 days?
 
-#+begin_src fennel :session day :exports both
+#+begin_src fennel :session day06 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input "3,4,3,1,2")
@@ -678,3 +678,52 @@ be after 80 days?
 
 #+RESULTS:
 : 354564
+
+* DONE Day 6.2
+
+Suppose  the lanternfish  live  forever and  have  unlimited food  and
+space. Would they take over the entire ocean?
+
+After  256 days  in  the example  above,  there would  be  a total  of
+26984457539 lanternfish! How many lanternfish would there be after 256
+days?
+
+#+begin_src fennel  :session day06 :exports both
+(fn read-input [input]
+  (let [population [0 0 0 0 0 0 0 0 0]]
+    (icollect [_ x (ipairs (aoc.string-tonumarray input))]
+      (tset population (+ 1 x) (+ 1 (. population (+ 1 x)))))
+    population))
+
+(fn life-cycle2 [xs]
+  [(. xs 2)
+   (. xs 3)
+   (. xs 4)
+   (. xs 5)
+   (. xs 6)
+   (. xs 7)
+   (+ (. xs 8) (. xs 1))
+   (. xs 9)
+   (. xs 1)])
+
+(fn solve2 [input cycles]
+  (if (= 0 cycles) input
+      (solve2 (life-cycle2 input) (- cycles 1))))
+
+(fn test2 [expected input cycles]
+  (let [population (read-input input)
+        result (aoc.table-sum (solve2 population cycles))]
+    (assert (= expected result) result)))
+
+(test2 5934 test-input 80)
+
+(test2 26984457539 test-input 256)
+
+(fn real2 [input]
+  (aoc.table-sum (solve2 (read-input (. input 1)) 256)))
+
+(real2 (aoc.string-from "2021/06.inp"))
+#+end_src
+
+#+RESULTS:
+: 1609058859115
