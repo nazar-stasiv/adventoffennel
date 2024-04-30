@@ -728,7 +728,7 @@ days?
 #+RESULTS:
 : 1609058859115
 
-* Day 7.1
+* DONE Day 7.1
 A giant  whale has decided your  submarine is its next  meal, and it's
 much faster than you are. There's nowhere to run!
 
@@ -816,3 +816,68 @@ that position?
 
 #+RESULTS:
 : 336131
+
+* DONE Day 7.2
+The crabs don't seem interested in your proposed solution. Perhaps you
+misunderstand crab engineering?
+
+As it turns out, crab submarine  engines don't burn fuel at a constant
+rate. Instead,  each change of 1  step in horizontal position  costs 1
+more unit of  fuel than the last:  the first step costs  1, the second
+step costs 2, the third step costs 3, and so on.
+
+As  each  crab moves,  moving  further  becomes more  expensive.  This
+changes the  best horizontal  position to  align them  all on;  in the
+example above, this becomes 5:
+
+- Move from 16 to 5: 66 fuel
+- Move from 1 to 5: 10 fuel
+- Move from 2 to 5: 6 fuel
+- Move from 0 to 5: 15 fuel
+- Move from 4 to 5: 1 fuel
+- Move from 2 to 5: 6 fuel
+- Move from 7 to 5: 3 fuel
+- Move from 1 to 5: 10 fuel
+- Move from 2 to 5: 6 fuel
+- Move from 14 to 5: 45 fuel
+
+This costs  a total  of 170  fuel. This is  the new  cheapest possible
+outcome; the old alignment position (2) now costs 206 fuel instead.
+
+Determine the  horizontal position that  the crabs can align  to using
+the least fuel possible so they can make you an escape route! How much
+fuel must they spend to align to that position?
+
+#+begin_src fennel :session day07 :exports both
+(fn mean [xs]
+  (let [sum (aoc.table-sum xs)
+        cnt (length xs)]
+    (math.floor (/ sum cnt))))
+
+(fn sum [n]
+  (/ (* n (+ 1 n)) 2))
+
+(fn fuel [f t]
+  (sum (math.abs (- f t))))
+
+(fn solve2 [input]
+  (let [in (aoc.string-tonumarray input)
+        med (mean in)]
+    (aoc.table-sum 
+     (icollect [_ v (ipairs in)]
+       (fuel med v)))))
+
+(fn test2 [expected input]
+  (let [res (solve2 input)]
+    (assert (= expected res) res)))
+
+(test2 170 test-input)
+
+(fn real2 [input]
+  (solve2 (. input 1)))
+
+(real2 (aoc.string-from "2021/07.inp"))
+#+end_src
+
+#+RESULTS:
+: 92676646
