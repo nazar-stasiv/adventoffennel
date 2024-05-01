@@ -1022,11 +1022,13 @@ For example, consider the following navigation subsystem:
 
 Some of the lines aren't corrupted, just incomplete; you can ignore
 these lines for now. The remaining five lines are corrupted:
-- {([(<{}[<>[]}>{[]{[(<()> - Expected ], but found } instead.
-- [[<[([]))<([[{}[ [()]]] - Expected ], but found ) instead.
-- [{[{({}]{}}([{[{{{}}([] - Expected ), but found ] instead.
-- [<(<(<(<{}))><([]([]() - Expected >, but found ) instead.
-- <{([([[(<>()){}]>(<<{{ - Expected ], but found > instead.
+#+begin_example
+{([(<{}[<>[]}>{[]{[(<()> - Expected ], but found } instead.
+[[<[([]))<([[{}[ [()]]] - Expected ], but found ) instead.
+[{[{({}]{}}([{[{{{}}([] - Expected ), but found ] instead.
+[<(<(<(<{}))><([]([]() - Expected >, but found ) instead.
+<{([([[(<>()){}]>(<<{{ - Expected ], but found > instead.
+#+end_example
 
 Stop at the first incorrect closing character on each corrupted line.
 
@@ -1118,11 +1120,13 @@ them in the correct order so that  only legal pairs are formed and all
 chunks end up closed.
 
 In the example above, there are five incomplete lines:
-- [({(<(())[]>[[{[]{<()<>> - Complete by adding }}]])})].
-- [(()[<>])]({[<{<<[]>>( - Complete by adding )}>]}).
-- (((({<>}<{<{<>}{[]{[]{} - Complete by adding }}>}>)))).
-- {<[[]]>}<{[{[{[]{()[[[] - Complete by adding ]]}}]}]}>.
-- <{([{{}}[<[[[<>{}]]]>[]] - Complete by adding ])}>.
+#+begin_example
+[({(<(())[]>[[{[]{<()<>> - Complete by adding }}]])})].
+[(()[<>])]({[<{<<[]>>( - Complete by adding )}>]}).
+(((({<>}<{<{<>}{[]{[]{} - Complete by adding }}>}>)))).
+{<[[]]>}<{[{[{[]{()[[[] - Complete by adding ]]}}]}]}>.
+<{([{{}}[<[[[<>{}]]]>[]] - Complete by adding ])}>.
+#+end_example
   
 Did you know  that autocomplete tools also have  contests?  It's true!
 The  score   is  determined  by  considering   the  completion  string
@@ -1148,11 +1152,13 @@ follows:
   (4) to get a new total score of 294.
   
 The five lines' completion strings have total scores as follows:
-- }}]])})] - 288957 total points.
-- )}>]}) - 5566 total points.
-- }}>}>)))) - 1480781 total points.
-- ]]}}]}]}> - 995444 total points.
-- ])}> - 294 total points.
+#+begin_example
+}}]])})] - 288957 total points.
+)}>]}) - 5566 total points.
+}}>}>)))) - 1480781 total points.
+]]}}]}]}> - 995444 total points.
+])}> - 294 total points.
+#+end_example
 
 Autocomplete tools  are an odd bunch:  the winner is found  by sorting
 all of the scores and then taking the middle score. (There will always
