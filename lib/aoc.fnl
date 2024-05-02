@@ -346,6 +346,23 @@
   "returns all xs elements but at pos j"
   (lume.filter xs (fn [i v] (not= j i))))
 
+(fn table-flatten [xs]
+  "returns linear collection of xs rows"  
+  (let [res []]
+    (each [_ x (ipairs xs)]
+      (each [_ y (ipairs x)]
+        (table.insert res y)))
+    res))
+
+(fn table-sum-if [xs pred]
+  "return sum of xs elements if xᵢ satisfies pred condition"
+  (accumulate [sum 0 _ x (ipairs xs)]
+    (if (lume.isarray x)
+        (+ sum (table-sum-if x pred))
+        (if (pred x)
+            (+ sum x)
+            (+ sum 0)))))
+
 (fn runtime []
   "returns lua runtime version"
   (case _G._VERSION
@@ -418,6 +435,8 @@
  : table-min
  : table-max
  : table-exclude
+ : table-flatten
+ : table-sum-if
  : runtime
  : int/
  : dist2rd
