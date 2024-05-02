@@ -708,17 +708,21 @@ board?
    (aoc.table-sum-if winner
                  #(not (aoc.table-contains? deal $)))))
 
-(fn solve [deal boards]
-  (var winner [])
+(fn find-winner [deal boards]
+  (var winner 0)
   (var numbers [])
-  (for [i 1 (length deal) &until (not= 0 (length winner))]
-    (each [_ board (ipairs boards) &until (not= 0 (length winner))]
+  (for [i 1 (length deal) &until (not= 0 winner)]
+    (each [j board (ipairs boards) &until (not= 0 winner)]
       (let [draw (aoc.table-range deal 1 i)
             bingo (scan-board board draw)]
         (when (not= 0 (length bingo))
-          (set winner board)
+          (set winner j)
           (set numbers draw)))))
-  (score numbers winner))
+  [winner numbers])
+
+(fn solve [deal boards]
+  (let [[winner numbers] (find-winner deal boards)]
+    (score numbers (. boards winner))))
 
 (fn test [expected input]
   (let [[deals boards] (read-input input)
@@ -736,6 +740,51 @@ board?
 
 #+RESULTS:
 : 82440
+
+* DONE Day 4.2
+On the other hand,  it might be wise to try  a different strategy: let
+the giant squid win.
+
+You aren't  sure how  many bingo  boards a giant  squid could  play at
+once, so rather  than waste time counting its arms,  the safe thing to
+do  is  to figure  out  which  board will  win  last  and choose  that
+one. That way, no matter which boards it picks, it will win for sure.
+
+In  the above  example, the  second board  is the  last to  win, which
+happens  after  13 is  eventually  called  and  its middle  column  is
+completely marked. If  you were to keep playing until  this point, the
+second board would have  a sum of unmarked numbers equal  to 148 for a
+final score of 148 * 13 = 1924.
+
+Figure out  which board will  win last. Once  it wins, what  would its
+final score be?
+
+#+begin_src fennel :session day04 :exports both
+(fn solve2 [deal boards]
+  (let [[winner numbers] (find-winner deal boards)]
+    (if (= 1 (length boards))
+      (score numbers (. boards 1))
+      (do
+        (table.remove boards winner)
+        (solve2 deal boards)))))
+
+(fn test2 [expected input]
+  (let [[deals boards] (read-input input)
+        res (solve2 deals boards)]
+    (assert (= expected res) res)))
+
+(test2 1924 test-input)
+
+(fn real2 [input]
+  (let [[deals boards] (read-input input)]
+    (solve2 deals boards)))
+
+(real2 (aoc.string-from "2021/04.inp"))
+#+end_src
+
+#+RESULTS:
+: 20774
+
 * DONE Day 6.1
 
 The sea floor is getting steeper. Maybe the sleigh keys got carried
