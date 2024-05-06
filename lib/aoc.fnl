@@ -287,7 +287,7 @@
 
 (fn range-to [s e]
   "return collection of consecutive numbers starting at s ending at e"
-  (fcollect [i s e 1] i))
+  (fcollect [i (math.min s e) (math.max s e) 1] i))
 
 (fn range-of [x n]
   "return length n collection of x"

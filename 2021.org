@@ -903,6 +903,85 @@ least two lines overlap?
 #+RESULTS:
 : 8622
 
+* DONE Day 5.2
+Unfortunately, considering only horizontal  and vertical lines doesn't
+give you the full picture; you need to also consider diagonal lines.
+
+Because of  the limits  of the hydrothermal  vent mapping  system, the
+lines  in your  list  will only  ever be  horizontal,  vertical, or  a
+diagonal line at exactly 45 degrees. In other words:
+- An entry like 1,1 -> 3,3 covers points 1,1, 2,2, and 3,3.
+- An entry like 9,7 -> 7,9 covers points 9,7, 8,8, and 7,9.
+
+Considering all  lines from  the above example  would now  produce the
+following diagram:
+
+#+begin_example
+1.1....11.
+.111...2..
+..2.1.111.
+...1.2.2..
+.112313211
+...1.2....
+..1...1...
+.1.....1..
+1.......1.
+222111....
+#+end_example
+
+You still  need to determine the  number of points where  at least two
+lines overlap.  In the above  example, this  is still anywhere  in the
+diagram with a 2 or larger - now a total of 12 points.
+
+Consider all of  the lines. At how  many points do at  least two lines
+overlap?
+
+#+begin_src fennel :session day05 :exports both
+(fn read-lines2 [lines]
+  (let [res (create-matrix 1000)]
+    (each [_ line (ipairs lines)]
+      (let [[x1 y1 x2 y2] (table-inc (aoc.string-tonumarray line))]
+        (if (= x1 x2)
+            (for [y (math.min y1 y2) (math.max y1 y2)]
+              (let [v (+ 1 (. (. res y) x1))]
+                (aoc.table-replace res y x1 v)))
+            (= y1 y2)
+            (for [x (math.min x1 x2) (math.max x1 x2)]
+              (let [v (+ 1 (. (. res y1) x))] 
+                (aoc.table-replace res y1 x v)))
+            (let [xs (aoc.range-to x1 x2)
+                  ys (aoc.range-to y1 y2)
+                  xy (aoc.table-zip 
+                      (if (> x1 x2)
+                          (aoc.table-reverse xs)
+                          xs)
+                      (if (> y1 y2)
+                          (aoc.table-reverse ys)
+                          ys))]
+              (each [_ [x y] (ipairs xy)]
+                (aoc.table-replace res y x (+ 1 (. (. res y) x))))))))
+    res))
+
+(fn solve2 [lines]
+  (let [xs (read-lines2 lines)]
+    (accumulate [sum 0 _ x (ipairs xs)]
+      (+ sum (length (lume.filter x #(< 1 $)))))))
+
+(fn test2 [expected input]
+  (let [res (solve2 input)]
+    (assert (= expected res) res)))
+
+(test2 12 test-input)
+
+(fn real2 [input]
+  (solve2 input))
+
+(real2 (aoc.string-from "2021/05.inp"))
+#+end_src
+
+#+RESULTS:
+: 22037
+
 * DONE Day 6.1
 
 The sea floor is getting steeper. Maybe the sleigh keys got carried
