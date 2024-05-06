@@ -869,7 +869,18 @@ least two lines overlap?
 (fn table-inc [xs]
   (lume.map xs #(+ 1 $)))
 
-(fn read-lines [lines]
+(fn diagonal [x1 y1 x2 y2]
+  (let [xs (aoc.range-to x1 x2)
+        ys (aoc.range-to y1 y2)]
+    (aoc.table-zip 
+     (if (> x1 x2)
+         (aoc.table-reverse xs)
+         xs)
+     (if (> y1 y2)
+         (aoc.table-reverse ys)
+         ys))))
+
+(fn read-lines [lines diagonals]
   (let [res (create-matrix 1000)]
     (each [_ line (ipairs lines)]
       (let [[x1 y1 x2 y2] (table-inc (aoc.string-tonumarray line))]
@@ -880,11 +891,14 @@ least two lines overlap?
             (= y1 y2)
             (for [x (math.min x1 x2) (math.max x1 x2)]
               (let [v (+ 1 (. (. res y1) x))] 
-                (aoc.table-replace res y1 x v))))))
+                (aoc.table-replace res y1 x v)))
+            (when diagonals
+              (each [_ [x y] (ipairs (diagonal x1 y1 x2 y2))]
+                (aoc.table-replace res y x (+ 1 (. (. res y) x))))))))
     res))
 
 (fn solve [lines]
-  (let [xs (read-lines lines)]
+  (let [xs (read-lines lines false)]
     (accumulate [sum 0 _ x (ipairs xs)]
       (+ sum (length (lume.filter x #(< 1 $)))))))
 
@@ -937,39 +951,13 @@ Consider all of  the lines. At how  many points do at  least two lines
 overlap?
 
 #+begin_src fennel :session day05 :exports both
-(fn read-lines2 [lines]
-  (let [res (create-matrix 1000)]
-    (each [_ line (ipairs lines)]
-      (let [[x1 y1 x2 y2] (table-inc (aoc.string-tonumarray line))]
-        (if (= x1 x2)
-            (for [y (math.min y1 y2) (math.max y1 y2)]
-              (let [v (+ 1 (. (. res y) x1))]
-                (aoc.table-replace res y x1 v)))
-            (= y1 y2)
-            (for [x (math.min x1 x2) (math.max x1 x2)]
-              (let [v (+ 1 (. (. res y1) x))] 
-                (aoc.table-replace res y1 x v)))
-            (let [xs (aoc.range-to x1 x2)
-                  ys (aoc.range-to y1 y2)
-                  xy (aoc.table-zip 
-                      (if (> x1 x2)
-                          (aoc.table-reverse xs)
-                          xs)
-                      (if (> y1 y2)
-                          (aoc.table-reverse ys)
-                          ys))]
-              (each [_ [x y] (ipairs xy)]
-                (aoc.table-replace res y x (+ 1 (. (. res y) x))))))))
-    res))
-
 (fn solve2 [lines]
-  (let [xs (read-lines2 lines)]
+  (let [xs (read-lines lines true)]
     (accumulate [sum 0 _ x (ipairs xs)]
       (+ sum (length (lume.filter x #(< 1 $)))))))
 
 (fn test2 [expected input]
-  (let [res (solve2 input)]
-    (assert (= expected res) res)))
+  (assert (= expected (solve2 input))))
 
 (test2 12 test-input)
 
