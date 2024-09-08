@@ -72,7 +72,7 @@ that sum to 2020; what do you get if you multiply them together?
 #+RESULTS:
 : 63616
 
-* TODO Day 1.2
+* DONE Day 1.2
 
 The Elves in  accounting are thankful for your help;  one of them even
 offers  you  a   starfish  coin  they  had  left  over   from  a  past
@@ -85,3 +85,27 @@ answer, 241861950.
 
 In your expense report, what is  the product of the three entries that
 sum to 2020?
+
+#+begin_src fennel :session day01 :exports both
+(fn solve2 [input]
+  (var res nil)
+  (for [i 1 (length input) &until res]
+    (for [j i (length input) &until res]
+      (for [k j (length input) &until res]
+        (let [ii (tonumber (. input i))
+              jj (tonumber (. input j))
+              kk (tonumber (. input k))]
+          (when (= 2020 (+ ii jj kk))
+            (set res (* ii jj kk)))))))
+  res)
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 241861950 test-input)
+
+(solve2 (aoc.string-from "2020/01.inp"))
+#+end_src
+
+#+RESULTS:
+: 67877784
