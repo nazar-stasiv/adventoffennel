@@ -117,6 +117,11 @@
         (+ sum (table-sum x))
         (+ sum x))))
 
+(fn table-prod [xs]
+  "return product of xs elements"
+  (accumulate [prod 1 _  x (ipairs xs)]
+    (* prod x)))
+
 (fn table-filter [xs x]
   "return array with elements of xs s.t. xsᵢ=x"
   (lume.filter xs #(= x (tonumber $))))
@@ -402,6 +407,7 @@
  : math-min
  : table-print
  : table-sum
+ : table-prod
  : table-filter
  : table-count
  : table-sort

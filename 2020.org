@@ -401,8 +401,7 @@ encountered on each of the listed slopes?
         res []]
     (each [_ [dx dy] (ipairs slopes)]
       (table.insert res (solve dx dy lines)))
-    (accumulate [prod 1 _  r (ipairs res)]
-      (* prod r))))
+    (aoc.table-prod res)))
 
 (fn test2 [expected lines]
   (assert (= expected (solve2 lines))))
