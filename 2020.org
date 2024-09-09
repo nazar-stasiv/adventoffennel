@@ -191,7 +191,7 @@ How many passwords are valid according to their policies?
 #+RESULTS:
 : 600
 
-* TODO Day 2.2
+* DONE Day 2.2
 
 While it  appears you  validated the  passwords correctly,  they don't
 seem to be what the  Official Toboggan Corporate Authentication System
@@ -218,3 +218,31 @@ Given the same example list from above:
 
 How many passwords are valid according to the new interpretation of
 the policies?
+
+#+begin_src fennel :session day02 :exports both
+(fn validate-policy2 [p]
+  (let [val (. p :val)
+        arr (aoc.string-toarray (. p :pass))]
+    (if (aoc.xor
+         (= val (. arr (. p :min)))
+         (= val (. arr (. p :max))))
+        1
+        0)))
+
+(fn solve2 [input]
+  (var count 0)
+  (each [_ line (ipairs input)]
+    (set count (+ count
+                  (validate-policy2 (read-policy line)))))
+  count)
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 1 test-input)
+
+(solve2 (aoc.string-from "2020/02.inp"))
+#+end_src
+
+#+RESULTS:
+: 245

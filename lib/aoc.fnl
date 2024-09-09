@@ -74,6 +74,12 @@
   (or (tonumber x)
       (math.tointeger x)))
 
+(fn xor [b1 b2]
+  "boolean exclusive or either b1 or b2, but not both"
+  (or
+   (and b1 (not b2))
+   (and (not b1) b2)))
+
 (fn math-lcm [a b]
   "return least common multiplier of a and b"
   (int (/ (* a b) (math-gcd a b))))
@@ -440,4 +446,5 @@
  : runtime
  : int/
  : dist2rd
- : int}
+ : int
+ : xor}
