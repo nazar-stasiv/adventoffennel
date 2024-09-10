@@ -539,7 +539,6 @@ The line is moving more quickly now, but you overhear airport security
 talking   about  how   passports   with  invalid   data  are   getting
 through. Better add some data validation, quick!
 
-
 You can  continue to ignore  the cid field,  but each other  field has
 strict rules about what values are valid for automatic validation:
 - byr (Birth Year) - four digits; at least 1920 and at most 2002.
@@ -576,7 +575,6 @@ ecl invalid: wat
 pid valid:   000000001
 pid invalid: 0123456789
 #+end_example
-
 
 Here are some invalid passports:
 
@@ -821,11 +819,14 @@ the highest seat ID on a boarding pass?
         col (find-col input-col cols)]
     (+ (* row 8) col)))
 
-(fn solve [lines]
+(fn find-seat-nums [lines]
   (let [res []]
     (each [_ line (ipairs lines)]
       (table.insert res (find-seat-num line)))
-    (aoc.table-max res)))
+    res))
+
+(fn solve [lines]
+  (aoc.table-max (find-seat-nums lines)))
 
 (fn test [expected input]
   (assert (= expected (solve input))))
@@ -852,3 +853,16 @@ Your seat wasn't at the very front or back, though; the seats with IDs
 +1 and -1 from yours will be in your list.
 
 What is the ID of your seat?
+
+#+begin_src fennel :session day05 :exports both
+(fn solve2 [lines]
+  (let [all-seats (aoc.range-to 85 890)
+        taken-seats (find-seat-nums lines)
+        free-seats (lume.filter all-seats (fn [x] (not (lume.find taken-seats x))))]
+    (. free-seats 1)))
+
+(solve2 (aoc.string-from "2020/05.inp"))
+#+end_src
+
+#+RESULTS:
+: 651
