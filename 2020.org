@@ -839,7 +839,7 @@ the highest seat ID on a boarding pass?
 #+RESULTS:
 : 890
 
-* TODO Day 5.2
+* DONE Day 5.2
 
 Ding! The "fasten seat belt" signs have turned on. Time to find your
 seat.
