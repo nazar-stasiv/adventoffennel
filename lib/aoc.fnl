@@ -178,6 +178,12 @@
       (table.insert result 1 x))
     result))
 
+(fn table-reset [t]
+  "removes in place any elements from table t"
+  (while (< 0 (length t))
+    (table.remove t))
+  t)
+
 (fn table-zero? [t]
   "return bool indicating if all t elements are zeros"
   (and (< 0 (length t))
@@ -250,6 +256,17 @@
         (for [i 1 ?n]
           (table.insert xs2 pos (table.remove tmp 1)))))
   nil)
+
+(fn string-totable [line]
+  "converts space separated key:value string into table"
+  (let [tokens (string-split line " ")
+        res {}]
+    (each [_ token (ipairs tokens)]
+      (let [index (string.find token ":")]
+        (tset res
+              (string.sub token 1 (- index 1))
+              (string.sub token (+ index 1)))))
+    res))
 
 (fn table-tostring [xs]
   "joins elements of xs with empty string"
@@ -416,6 +433,7 @@
  : table-identical?
  : table-zip
  : table-reverse
+ : table-reset
  : table-contains?
  : table-zero?
  : table-range
@@ -426,6 +444,7 @@
  : table-replace
  : table-replace-row
  : table-move
+ : string-totable
  : table-tostring
  : table-unique
  : first
