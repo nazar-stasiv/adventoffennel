@@ -358,6 +358,20 @@
   (let [u (or table.unpack unpack)]
     (u xs)))
 
+(fn table-disjunc [xxs]
+  "return common elements of xxs₁ .. xxsₙ tables elements i.e. disjunction set"
+  (if (= 1 (length xxs))
+      (. xxs 1)
+      (= 0 (length xxs))
+      nil
+      (let [res []
+            t1 (. xxs 1)
+            t2 (. xxs 2)]
+        (each [_ e1 (ipairs t1)]
+          (when (lume.find t2 e1)
+            (table.insert res e1)))
+        (table-disjunc [res (table-unpack (table-range xxs 3 (length xxs)))]))))
+
 (fn table-min [xs]
   "return minimum entry of xs"
   (math.min (table-unpack (table-tonumber xs))))
@@ -381,6 +395,10 @@
       (each [_ y (ipairs x)]
         (table.insert res y)))
     res))
+
+(fn table-union [xs]
+  "return all elements of xs₁ .. xsₙ tables elements i.e. conjunction set"  
+  (lume.unique (table-flatten xs)))
 
 (fn table-sum-if [xs pred]
   "return sum of xs elements if xᵢ satisfies pred condition"
@@ -462,11 +480,13 @@
  : inc
  : read-matrix
  : table-unpack
+ : table-disjunc 
  : table-tonumber
  : table-min
  : table-max
  : table-exclude
  : table-flatten
+ : table-union 
  : table-sum-if
  : runtime
  : int/

@@ -941,22 +941,22 @@ For each group, count the number of questions to which anyone answered
                    "a" "a" "a" "a" ""
                    "b"])
 
-(fn count-group-answers [input]
+(fn any-answers [input]
   (when (not= "" (. input (length input)))
     (table.insert input ""))
   (let [res []
         group []]
     (each [_ line (ipairs input)]
       (if (= "" line)
-          (do (table.insert res (length (lume.unique (aoc.table-flatten group))))
+          (do (table.insert res (length (aoc.table-union group)))
               (aoc.table-reset group))
           (table.insert group (aoc.string-toarray line))))
     res))
 
 (fn solve [input]
-  (let [group (count-group-answers input)]
-    (accumulate [sum 0 _ g (ipairs group)]
-      (+ sum g))))
+  (let [answers (any-answers input)]
+    (accumulate [sum 0 _ answer (ipairs answers)]
+      (+ sum answer))))
 
 (fn test [expected input]
   (assert (= expected (solve input))))
@@ -970,7 +970,7 @@ For each group, count the number of questions to which anyone answered
 : 7120
 
 
-* TODO Day 6.2
+* DONE Day 6.2
 As you  finish the last  group's customs declaration, you  notice that
 you misread one word in the instructions:
 
@@ -1013,3 +1013,32 @@ In this example, the sum of these counts is =3 + 0 + 1 + 1 + 1 = 6=.
 
 For each group, count the number of questions to which everyone
 answered "yes". What is the sum of those counts?
+
+#+begin_src fennel :session day06 :exports both
+(fn every-answers [input]
+  (when (not= "" (. input (length input)))
+    (table.insert input ""))
+  (let [res []
+        group []]
+    (each [_ line (ipairs input)]
+      (if (= "" line)
+          (do (table.insert res (length (aoc.table-disjunc group)))
+              (aoc.table-reset group))
+          (table.insert group (aoc.string-toarray line))))
+    res))
+
+(fn solve2 [input]
+  (let [answers (every-answers input)]
+    (accumulate [sum 0 _ answer (ipairs answers)]
+      (+ sum answer))))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 6 test-input)
+
+(solve2 (aoc.string-from "2020/06.inp"))
+#+end_src
+
+#+RESULTS:
+: 3570
