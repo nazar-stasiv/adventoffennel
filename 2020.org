@@ -1164,7 +1164,7 @@ bag? (The list of rules is quite long; make sure you get all of it.)
 #+RESULTS:
 : 128
 
-* TODO Day 7.2
+* DONE Day 7.2
 
 It's  getting pretty  expensive to  fly these  days -  not because  of
 ticket prices, but  because of the ridiculous number of  bags you need
@@ -1201,3 +1201,41 @@ In this example, a single =shiny gold= bag must contain 126 other bags.
 
 How many  individual bags are  required inside your single  =shiny gold=
 bag?
+
+#+begin_src fennel :session day07 :exports both
+(local test2-input
+       ["shiny gold bags contain 2 dark red bags."
+        "dark red bags contain 2 dark orange bags."
+        "dark orange bags contain 2 dark yellow bags."
+        "dark yellow bags contain 2 dark green bags."
+        "dark green bags contain 2 dark blue bags."
+        "dark blue bags contain 2 dark violet bags."
+        "dark violet bags contain no other bags."])
+
+(macro times [t body1 & rest-body]
+  `(fcollect [i# 1 ,t 1]
+     (do ,body1 ,(unpack rest-body))))
+
+(fn solve2 [lines]
+  (let [tree (read-lines lines)
+        search [:shinygold]
+        found []]
+    (while (< 0 (length search))
+      (let [root (table.remove search 1)]
+        (each [k v (pairs (. tree root))]
+          (times v (table.insert search k))
+          (times v (table.insert found k)))))
+    (length found)))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 32 test-input)
+
+(test2 126 test2-input)
+
+(solve2 (aoc.string-from "2020/07.inp"))
+#+end_src
+
+#+RESULTS:
+: 20189
