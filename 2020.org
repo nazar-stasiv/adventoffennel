@@ -1355,7 +1355,7 @@ executed a second time, what value is in the accumulator?
 #+RESULTS:
 : 1614
 
-* TODO Day 8.2
+* DONE Day 8.2
 
 After some careful analysis, you believe that exactly one instruction
 is corrupted.
@@ -1412,3 +1412,70 @@ contains the value 8 (acc +1, acc +1, acc +6).
 Fix the program so that it terminates normally by changing exactly one
 jmp (to  nop) or nop  (to jmp). What is  the value of  the accumulator
 after the program terminates?
+
+#+begin_src fennel :session day08 :exports both
+(fn run [input]
+  (local len (length input))
+  (var pos 1)
+  (var res 0)
+  (let [torun (aoc.range-to 1 len)]
+    (while (lume.find torun pos)
+      (aoc.table-remove torun pos)
+      (case (aoc.string-split (. input pos) " ")
+        ["nop" a] (set pos (+ pos 1))
+        ["NOP" A] (set pos (+ pos (tonumber A)))
+        ["acc" b] (do
+                    (set pos (+ pos 1))
+                    (set res (+ res (tonumber b))))
+        ["jmp" c] (set pos (+ pos (tonumber c)))
+        ["JMP" C] (set pos (+ pos 1)))))
+  (if (> pos len)
+      res
+      -1))
+
+(fn fix-first [input]
+  (var done false)
+  (each [i v (ipairs input) &until done]
+    (case (string.sub v 1 3)
+      "jmp" (do (set done true)
+                (aoc.table-replace-row input i (.. "JMP" (string.sub v 4))))
+      "nop" (do (set done true)
+                (aoc.table-replace-row input i (.. "NOP" (string.sub v 4))))))
+  input)
+
+(fn fix [input]
+  (var found false)
+  (var replaced false)
+  (each [i v (ipairs input) &until (and found replaced)]
+    (case (string.sub v 1 3)
+      "JMP" (do (set found true)
+                (aoc.table-replace-row input i (.. "jmp" (string.sub v 4))))
+      "NOP" (do (set found true)
+                (aoc.table-replace-row input i (.. "nop" (string.sub v 4))))
+      "jmp" (when found
+              (set replaced true)
+              (aoc.table-replace-row input i (.. "JMP" (string.sub v 4))))
+      "nop" (when found
+              (set replaced true)
+              (aoc.table-replace-row input i (.. "NOP" (string.sub v 4))))))
+  input)
+
+(fn solve2 [input]
+  (var fixed (fix-first input))
+  (var acc (run fixed))
+  (while (< acc 0)
+    (set fixed (fix fixed))
+    (set acc (run fixed)))
+  acc)
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 8 test-input)
+
+(solve2 (aoc.string-from "2020/08.inp"))
+#+end_src
+
+#+RESULTS:
+: 1260
+
