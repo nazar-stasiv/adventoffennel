@@ -184,6 +184,13 @@
     (table.remove t))
   t)
 
+(fn table-remove [t v]
+  "removes in place element v if exists in t"
+  (let [i (lume.find t v)]
+    (when i
+      (table.remove t i)))
+  t)
+
 (fn table-zero? [t]
   "return bool indicating if all t elements are zeros"
   (and (< 0 (length t))
@@ -452,6 +459,7 @@
  : table-zip
  : table-reverse
  : table-reset
+ : table-remove 
  : table-contains?
  : table-zero?
  : table-range
