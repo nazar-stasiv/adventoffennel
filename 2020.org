@@ -1608,7 +1608,7 @@ not have this property?
 #+RESULTS:
 : 18272118
 
-* TODO Day 9.2
+* DONE Day 9.2
 
 The final step  in breaking the XMAS encryption relies  on the invalid
 number you just found: you must find  a contiguous set of at least two
@@ -1649,3 +1649,33 @@ producing 62.
 
 What  is  the  encryption  weakness in  your  XMAS-encrypted  list  of
 numbers?
+
+#+begin_src fennel :session day09 :exports both
+(fn solve2 [input x]
+  (var over false)
+  (var res 0)
+  (let [xs (lume.map input tonumber)]
+    (for [i 1 (- (length xs) 1) &until (< 0 res)]
+      (set over false)
+      (for [j (+ 1 i) (length xs) &until over]
+        (let [sum (aoc.table-sum (aoc.table-range xs i j))]
+          (if (< x sum)
+              (set over true)
+              (= x sum)
+              (do (set over true)
+                  (set res (+
+                            (let [xij (aoc.table-sort (aoc.table-range xs i j))]
+                              (+ (. xij 1) (. xij (length xij))))))))))))
+  res)
+
+(fn test2 [expected input sum]
+  (assert (= expected (solve2 input sum))))
+
+(test2 62 test-input 127)
+
+(solve2 (aoc.string-from "2020/09.inp") 18272118)
+
+#+end_src
+
+#+RESULTS:
+: 2186361
