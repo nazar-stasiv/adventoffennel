@@ -428,6 +428,12 @@
   "returns integer division like // operator"
   (math.floor (/ x y)))
 
+(fn lazy-seq [xs f]
+  "apply f to single element sequence xs until f(x) not 0 and return table of results"
+  (while (< 0 (f (. xs (length xs))))
+    (table.insert xs (f (. xs (length xs)))))
+  xs)
+
 (fn dist2rd [[Hx Hy] {:x Tx :y Ty}]
   "x₁y₁ distance² to x₂y₂ on plane <=2 for any adjacent points"
   (lume.distance Hx Hy Tx Ty true))
@@ -498,6 +504,7 @@
  : table-sum-if
  : runtime
  : int/
+ : lazy-seq
  : dist2rd
  : int
  : xor}

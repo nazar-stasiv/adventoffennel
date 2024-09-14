@@ -65,7 +65,7 @@ your spacecraft?
 #+RESULTS:
 : 3560353
 
-* TODO Day 1.2
+* DONE Day 1.2
 
 During the  second Go / No  Go poll, the  Elf in charge of  the Rocket
 Equation  Double-Checker stops  the launch  sequence. Apparently,  you
@@ -97,3 +97,24 @@ What is  the sum of  the fuel requirements for  all of the  modules on
 your spacecraft  when also taking into  account the mass of  the added
 fuel?  (Calculate the  fuel requirements  for each  module separately,
 then add them all up at the end.)
+
+#+begin_src fennel :session day01 :exports both
+(fn added-fuel [mass]
+  (let [res (aoc.lazy-seq [mass] fuel)]
+    (aoc.table-sum (aoc.table-range res 2 (length res)))))
+
+(fn solve2 [input]
+  (let [xs (lume.map input tonumber)]
+    (accumulate [sum 0 _ x (ipairs xs)]
+      (+ sum (added-fuel x)))))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 (+ 2 2 966 50346) test-input)
+
+(solve2 (aoc.string-from "2019/01.inp"))
+#+end_src
+
+#+RESULTS:
+: 5337642
