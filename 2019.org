@@ -264,7 +264,7 @@ after the program halts?
 #+RESULTS:
 : 7594646
 
-* TODO Day 2.2
+* DONE Day 2.2
 
 "Good, the new computer seems to  be working correctly! Keep it nearby
 during  this mission  - you'll  probably  use it  again. Real  Intcode
@@ -314,3 +314,21 @@ previous attempt.
 Find the  input noun and  verb that cause  the program to  produce the
 output 19690720. =What is 100 *  noun + verb=?  (For example, if noun=12
 and verb=2, the answer would be 1202.)
+
+#+begin_src fennel :session day02 :exports both
+(fn complete-gravity-assist [input]
+  (var done false)
+  (for [i 0 99 &until done]
+    (for [j 0 99 &until done]
+      (let [xs (aoc.string-tonumarray input)]
+        (aoc.table-swap xs 2 i)
+        (aoc.table-swap xs 3 j)
+        (when (= 19690720 (solve xs))
+          (set done (+ (* 100 i) j))))))
+  done)
+
+(complete-gravity-assist (. (aoc.string-from "2019/02.inp") 1))
+#+end_src
+
+#+RESULTS:
+: 3376
