@@ -253,6 +253,12 @@
     (table.insert xs i x)
     old))
 
+(fn table-swap [xs i v]
+  "return xs with ith element replaced by v"
+  (table.remove xs i)
+  (table.insert xs i v)
+  xs)
+
 (lambda table-move [pos xs1 xs2 ?n]
   "moves element(s) at pos from xs1 into same pos at collection xs2"
   (if (not ?n)
@@ -475,6 +481,7 @@
  : table-transpose
  : table-replace
  : table-replace-row
+ : table-swap
  : table-move
  : string-totable
  : table-tostring
