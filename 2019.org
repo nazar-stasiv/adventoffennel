@@ -543,17 +543,11 @@ criteria?
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
-(fn some-adjacent? [xs]
-  "true if there are at least two adjacent equal digits"
-  (var res false)
-  (for [i 2 (length xs) &until res]
-    (when (= (. xs i)
-             (. xs (- i 1)))
-      (set res true)))
-  res)
+(fn adjacent? [xs]
+  (let [bins (aoc.partition-by xs #(= $1 $2))]
+    (lume.any bins #(< 1 (length $)))))
 
 (fn never-decrease? [xs]
-  "true if all digits GE previous adjacent digit"
   (var res true)
   (for [i 2 (length xs) &until (not res)]
     (when (< (. xs i)
@@ -565,7 +559,7 @@ criteria?
   (var res 0)
   (for [i f t]
     (let [xs (aoc.toarray i)]
-      (when (and (some-adjacent? xs)
+      (when (and (adjacent? xs)
                  (never-decrease? xs))
         (set res (+ 1 res)))))
   res)
