@@ -543,8 +543,11 @@ criteria?
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
+(fn identity [a b]
+  (= a b))
+
 (fn adjacent? [xs]
-  (let [bins (aoc.partition-by xs #(= $1 $2))]
+  (let [bins (aoc.partition-by xs identity)]
     (lume.any bins #(< 1 (length $)))))
 
 (fn never-decrease? [xs]
@@ -589,8 +592,7 @@ input meet all of the criteria?
 
 #+begin_src fennel :session day04 :exports both
 (fn two-adjacent? [xs]
-  "true if there is at least one pair of equal digits"
-  (let [bins (aoc.partition-by xs #(= $1 $2))]
+  (let [bins (aoc.partition-by xs identity)]
     (lume.any bins #(= 2 (length $)))))
 
 (fn solve2 [f t]
