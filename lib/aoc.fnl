@@ -475,6 +475,13 @@
           ["R" x] (table.insert res [(+ x0 x) y0]))))
     res))
 
+(fn in-segment? [[x0 y0] [[x1 y1] [x2 y2]]]
+  "true if pt [x0 y0] inside of a [x1 y1][x2 y2] line on a 2d plane"
+  (or (and (<= x1 x0 x2) (<= y1 y0 y2))
+      (and (<= x2 x0 x1) (<= y1 y0 y2))
+      (and (<= x1 x0 x2) (<= y2 y0 y1))
+      (and (<= x2 x0 x1) (<= y2 y0 y1))))
+
 (fn dist2rd [[Hx Hy] {:x Tx :y Ty}]
   "x₁y₁ distance² to x₂y₂ on plane <=2 for any adjacent points"
   (lume.distance Hx Hy Tx Ty true))
@@ -550,6 +557,7 @@
  : intersection
  : manhattan-dist
  : decartian
+ : in-segment?
  : dist2rd
  : int
  : xor}

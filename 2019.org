@@ -439,7 +439,7 @@ intersection?
 #+RESULTS:
 : 209
 
-* TODO Day 3.2
+* DONE Day 3.2
 
 It turns out that this  circuit is very timing-sensitive; you actually
 need to =minimize the signal delay=.
@@ -483,3 +483,37 @@ Here are the best steps for the extra examples from above:
 
 What is  the fewest  combined steps  the wires must  take to  reach an
 intersection?
+
+
+#+begin_src fennel :session day03 :exports both
+(fn linear-dist [p s]
+  (var done false)
+  (let [res []]
+    (for [i 2 (length s) &until done]
+      (let [s0 (. s (- i 1))
+            s1 (. s i)]
+        (set done (aoc.in-segment? p [s0 s1]))
+        (if done
+            (table.insert res (aoc.manhattan-dist s0 p))
+            (table.insert res (aoc.manhattan-dist s0 s1)))))
+    (aoc.table-sum res)))
+
+(fn solve2 [input]
+  (let [line1 (aoc.decartian (. input 1))
+        line2 (aoc.decartian (. input 2))
+        res (find-cross line1 line2)]
+    (aoc.math-min
+     (lume.map res (fn [e] (+ (linear-dist e line1)
+                              (linear-dist e line2)))))))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 30 test1-input)
+(test2 610 test2-input)
+(test2 410 test3-input)
+(solve2 (aoc.string-from "2019/03.inp"))
+#+end_src
+
+#+RESULTS:
+: 43258
