@@ -434,6 +434,15 @@
   "returns integer division like // operator"
   (math.floor (/ x y)))
 
+(fn toarray [n]
+  "return 6-digit number as digit array"
+  [(% (int/ n 100000) 10)
+   (% (int/ n 10000) 10)
+   (% (int/ n 1000) 10)
+   (% (int/ n 100) 10)
+   (% (int/ n 10) 10)
+   (% n 10)])
+
 (fn lazy-seq [xs f]
   "apply f to single element sequence xs until f(x) not 0 and return table of results"
   (while (< 0 (f (. xs (length xs))))
@@ -553,6 +562,7 @@
  : table-sum-if
  : runtime
  : int/
+ : toarray
  : lazy-seq
  : intersection
  : manhattan-dist

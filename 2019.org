@@ -546,23 +546,23 @@ criteria?
 (fn same-adjacent? [xs]
   (var res false)
   (for [i 2 (length xs) &until res]
-    (when (= (tonumber (. xs i))
-             (tonumber (. xs (- i 1))))
+    (when (= (. xs i)
+             (. xs (- i 1)))
       (set res true)))
   res)
 
 (fn never-decrease? [xs]
   (var res true)
   (for [i 2 (length xs) &until (not res)]
-    (when (< (tonumber (. xs i))
-             (tonumber (. xs (- i 1))))
+    (when (< (. xs i)
+             (. xs (- i 1)))
       (set res false)))
   res)
 
 (fn solve [f t]
   (var res 0)
   (for [i f t]
-    (let [xs (aoc.string-toarray (tostring i))]
+    (let [xs (aoc.toarray i)]
       (when (and (same-adjacent? xs)
                  (never-decrease? xs))
         (set res (+ 1 res)))))
