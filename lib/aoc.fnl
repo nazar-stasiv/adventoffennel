@@ -440,6 +440,41 @@
     (table.insert xs (f (. xs (length xs)))))
   xs)
 
+(fn intersection [[[a0 a1] [b0 b1]] [[c0 c1] [d0 d1]]]
+  "find [x y] where segments [a0 a1][b0 b1] and [c0 c1][d0 d1] cross"  
+  (let [td (- (* (- a0 c0) (- c1 d1))
+              (* (- a1 c1) (- c0 d0)))
+        ud (- (* (- a0 c0) (- a1 b1))
+              (* (- a1 c1) (- a0 b0)))
+        d (- (* (- a0 b0) (- c1 d1))
+             (* (- a1 b1) (- c0 d0)))]
+    (if (= 0 d) nil
+        (and (<= 0 (/ td d) 1)
+             (<= 0 (/ ud d) 1))
+        [(+ a0 (* (/ td d) (- b0 a0)))
+         (+ a1 (* (/ td d) (- b1 a1)))]
+        nil)))
+
+(fn manhattan-dist [a b]
+  "return taxicab distance between [x1 y1] and [x2 y2] on a plane"
+  (let [[x1 y1] a [x2 y2] b]
+    (+ 
+     (math.abs (- x1 x2))
+     (math.abs (- y1 y2)))))
+
+(fn decartian [directions]
+  "returns [[0 0] [x1 y1]...[xn yn]] coords for RX,UX,LX,DX directions"
+  (let [xs (string-split directions ",")
+        res [[0 0]]]
+    (each [_ xx (ipairs xs)]
+      (let [[x0 y0] (. res (length res))]
+        (case [(string.sub xx 1 1) (tonumber (string.sub xx 2 (length xx)))]
+          ["U" y] (table.insert res [x0 (+ y0 y)])
+          ["D" Y] (table.insert res [x0 (- y0 Y)])
+          ["L" X] (table.insert res [(- x0 X) y0])
+          ["R" x] (table.insert res [(+ x0 x) y0]))))
+    res))
+
 (fn dist2rd [[Hx Hy] {:x Tx :y Ty}]
   "x₁y₁ distance² to x₂y₂ on plane <=2 for any adjacent points"
   (lume.distance Hx Hy Tx Ty true))
@@ -512,6 +547,9 @@
  : runtime
  : int/
  : lazy-seq
+ : intersection
+ : manhattan-dist
+ : decartian
  : dist2rd
  : int
  : xor}
