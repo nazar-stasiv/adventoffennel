@@ -491,6 +491,32 @@
       (and (<= x1 x0 x2) (<= y2 y0 y1))
       (and (<= x2 x0 x1) (<= y2 y0 y1))))
 
+(fn partition-by [xs f]
+  "groups xs elements by predicate f e.g. identity"
+  (let [res [[(. xs 1)]]]
+    (for [i 2 (length xs)]
+      (if (f (. xs i)
+             (last (. res (length res))))
+          (table.insert (. res (length res)) (. xs i))
+          (table.insert res [(. xs i)])))
+    res))
+
+(fn partition1 [xs]
+  "partitions xs elements into pairs with step one"
+  (let [res []]
+    (for [i 2 (length xs)]
+      (table.insert res [(. xs (- i 1)) (. xs i)]))
+    res))
+
+(fn partition2 [xs]
+  "partitions xs elements into pairs with step two, pads with nil"
+  (let [res []]
+    (for [i 2 (length xs) 2]
+      (table.insert res [(. xs (- i 1)) (. xs i)])
+      (when (= 1 (- (length xs) i))
+        (table.insert res [(. xs (+ i 1)) nil])))
+    res))
+
 (fn dist2rd [[Hx Hy] {:x Tx :y Ty}]
   "x₁y₁ distance² to x₂y₂ on plane <=2 for any adjacent points"
   (lume.distance Hx Hy Tx Ty true))
@@ -568,6 +594,9 @@
  : manhattan-dist
  : decartian
  : in-segment?
+ : partition-by
+ : partition1
+ : partition2
  : dist2rd
  : int
  : xor}

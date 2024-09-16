@@ -574,7 +574,7 @@ criteria?
 #+RESULTS:
 : 1955
 
-* TODO Day 4.2
+* DONE Day 4.2
 
 An Elf  just remembered  one more important  detail: the  two adjacent
 matching digits are not part of a larger group of matching digits.
@@ -590,3 +590,23 @@ the following are now true:
   
 How many  different passwords  within the range  given in  your puzzle
 input meet all of the criteria?
+
+#+begin_src fennel :session day04 :exports both
+(fn double-adjacent? [xs]
+  (< 0 (length (lume.filter (aoc.partition-by xs #(= $1 $2))
+                            (fn [e] (= 2 (length e)))))))
+
+(fn solve2 [f t]
+  (var res 0)
+  (for [i f t]
+    (let [xs (aoc.toarray i)]
+      (when (and (double-adjacent? xs)
+                 (never-decrease? xs))
+        (set res (+ 1 res)))))
+  res)
+
+(solve2 134792 675810)
+#+end_src
+
+#+RESULTS:
+: 1319
