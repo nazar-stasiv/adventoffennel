@@ -746,16 +746,14 @@ tests, what diagnostic code does the program produce?
         [3 re _ _]
         (aoc.table-swap xs (+ 1 re) input)
         [4 re _ _]
-        (do (set output (. xs (+ 1 re))))
+        (set output (. xs (+ 1 re)))
         [104 re _ _]
-        (do (set output re))
+        (set output re)
         _
         (do (set done true)
             (print (.. "W: no match at " pos ": " (. xs pos)))))
       (when (not done)
-        (if (or (= 3 (. code 1))
-                (= 4 (. code 1))
-                (= 104 (. code 1)))
+        (if (lume.any [3 4 104] #(= $ (. code 1)))
             (set pos (+ 2 pos))
             (set pos (+ 4 pos))))))
   output)
