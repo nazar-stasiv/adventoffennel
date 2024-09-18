@@ -222,6 +222,12 @@
   `(fcollect [i# 1 ,t 1]
      (do ,body1 ,(unpack rest-body))))
 
+(macro time [body1 & rest-body]
+  `(let [start# (os.time)]
+     ,body1
+     ,(unpack rest-body)
+     (print (.. "Elapsed, s " (os.difftime (os.time) start#)))))
+
 (fn table-group-by [xs n]
   "return n-ary collection of linear xs"
   (assert (= 0 (% (length xs) n)))
@@ -444,9 +450,11 @@
    (% n 10)])
 
 (fn lazy-seq [xs f]
-  "apply f to single element sequence xs until f(x) not 0 and return table of results"
-  (while (< 0 (f (. xs (length xs))))
-    (table.insert xs (f (. xs (length xs)))))
+  "return applications f to tail of xs until f(xs) converges to 0"
+  (var res (f (. xs (length xs))))
+  (while (< 0 res)
+    (table.insert xs res)
+    (set res (f (. xs (length xs)))))
   xs)
 
 (fn intersection [[[a0 a1] [b0 b1]] [[c0 c1] [d0 d1]]]
