@@ -717,8 +717,7 @@ tests, what diagnostic code does the program produce?
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
-(fn intcode [xs]
-  (local input 1)
+(fn intcode [xs input]
   (var pos 1)
   (var done false)
   (var output nil)
@@ -760,7 +759,7 @@ tests, what diagnostic code does the program produce?
 
 (fn solve [input]
   (let [xs (aoc.string-tonumarray (. input 1))]
-    (intcode xs)))
+    (intcode xs 1)))
 
 (solve (aoc.string-from "2019/05.inp"))
 #+end_src
@@ -768,7 +767,8 @@ tests, what diagnostic code does the program produce?
 #+RESULTS:
 : 6069343
 
-* TODO Day 5.2
+
+* DONE Day 5.2
 
 The air conditioner comes online! Its cold air feels good for a while,
 but then  the TEST alarms start  to go off. Since  the air conditioner
@@ -821,9 +821,7 @@ input was zero or 1 if the input was non-zero:
 Here's a larger example:
 
 #+begin_example
-3,21,1008,21,8,20,1005,20,22,107,8,21,20,1006,20,31,
-1106,0,36,98,0,0,1002,21,125,20,4,20,1105,1,46,104,
-999,1105,1,46,1101,1000,1,20,4,20,1105,1,46,98,99
+3,21,1008,21,8,20,1005,20,22,107,8,21,20,1006,20,31,1106,0,36,98,0,0,1002,21,125,20,4,20,1105,1,46,104,999,1105,1,46,1101,1000,1,20,4,20,1105,1,46,98,99
 #+end_example
 
 The  above example  program uses  an input  instruction to  ask for  a
@@ -837,3 +835,153 @@ ship's thermal  radiator controller.  This diagnostic test  suite only
 outputs one number, the =diagnostic code=.
 
 What is the diagnostic code for system ID 5?
+
+#+begin_src fennel :session day05 :exports both
+(fn intcode-v2 [xs input]
+  (var pos 1)
+  (var done false)
+  (var output nil)
+  (while (not done)
+    (let [code (aoc.table-range xs pos (+ pos 3))]
+      (case code
+        [99]
+        (set done true)
+        [1 la ra re]
+        (aoc.table-swap xs (+ 1 re) (+ (. xs (+ 1 la)) (. xs (+ 1 ra))))
+        [101 la ra re]
+        (aoc.table-swap xs (+ 1 re) (+ la (. xs (+ 1 ra))))
+        [1001 la ra re]
+        (aoc.table-swap xs (+ 1 re) (+ (. xs (+ 1 la)) ra))
+        [1101 la ra re]
+        (aoc.table-swap xs (+ 1 re) (+ la ra))
+        [2 la ra re]
+        (aoc.table-swap xs (+ 1 re) (* (. xs (+ 1 la)) (. xs (+ 1 ra))))
+        [102 la ra re]
+        (aoc.table-swap xs (+ 1 re) (* la (. xs (+ 1 ra))))
+        [1002 la ra re]
+        (aoc.table-swap xs (+ 1 re) (* (. xs (+ 1 la)) ra))
+        [1102 la ra re]
+        (aoc.table-swap xs (+ 1 re) (* la ra))
+        [3 re _ _]
+        (aoc.table-swap xs (+ 1 re) input)
+        [4 re _ _]
+        (set output (. xs (+ 1 re)))
+        [104 re _ _]
+        (set output re)
+        [5 la ra _]
+        (when (not= 0 (. xs (+ 1 la)))
+          (set pos (+ 1 (. xs (+ 1 ra))))
+          (set pos (+ 3 pos)))
+        [105 la ra _]
+        (if (not= 0 la)
+          (set pos (+ 1 (. xs (+ 1 ra))))
+          (set pos (+ 3 pos)))
+        [1005 la ra _]
+        (if (not= 0 (. xs (+ 1 la)))
+          (set pos (+ 1 ra))
+          (set pos (+ 3 pos)))
+        [1105 la ra _]
+        (if (not= 0 la)
+          (set pos (+ 1 ra))
+          (set pos (+ 3 pos)))
+        [6 la ra _]
+        (if (= 0 (. xs (+ 1 la)))
+          (set pos (+ 1 (. xs (+ 1 ra))))
+          (set pos (+ 3 pos)))
+        [106 la ra _]
+        (if (= 0 la)
+          (set pos (+ 1 (. xs (+ 1 ra))))
+          (set pos (+ 3 pos)))
+        [1006 la ra _]
+        (if (= 0 (. xs (+ 1 la)))
+            (set pos (+ 1 ra))
+            (set pos (+ 3 pos)))
+        [1106 la ra _]
+        (if (= 0 la)
+            (set pos (+ 1 ra))
+            (set pos (+ 3 pos)))
+        [7 la ra re]
+        (if (< (. xs (+ 1 la)) (. xs (+ 1 ra)))
+            (aoc.table-swap xs (+ 1 re) 1)
+            (aoc.table-swap xs (+ 1 re) 0))
+        [107 la ra re]
+        (if (< la (. xs (+ 1 ra)))
+            (aoc.table-swap xs (+ 1 re) 1)
+            (aoc.table-swap xs (+ 1 re) 0))
+        [1007 la ra re]
+        (if (< (. xs (+ 1 la)) ra)
+            (aoc.table-swap xs (+ 1 re) 1)
+            (aoc.table-swap xs (+ 1 re) 0))
+        [1107 la ra re]
+        (if (< la ra)
+            (aoc.table-swap xs (+ 1 re) 1)
+            (aoc.table-swap xs (+ 1 re) 0))
+        [8 la ra re]
+        (if (= (. xs (+ 1 la)) (. xs (+ 1 ra)))
+            (aoc.table-swap xs (+ 1 re) 1)
+            (aoc.table-swap xs (+ 1 re) 0))
+        [108 la ra re]
+        (if (= la (. xs (+ 1 ra)))
+            (aoc.table-swap xs (+ 1 re) 1)
+            (aoc.table-swap xs (+ 1 re) 0))
+        [1008 la ra re]
+        (if (= (. xs (+ 1 la)) ra)
+            (aoc.table-swap xs (+ 1 re) 1)
+            (aoc.table-swap xs (+ 1 re) 0))
+        [1108 la ra re]
+        (if (= la ra)
+            (aoc.table-swap xs (+ 1 re) 1)
+            (aoc.table-swap xs (+ 1 re) 0))
+        _
+        (do (set done true)
+            (print (.. "W: no match at " pos ": " (. xs pos)))))
+      (when (not done)
+        (if (lume.any [3 4 104] #(= $ (. code 1)))
+            (set pos (+ 2 pos))
+            (lume.any [1005 1105 105 5 1006 1106 106 6]
+                      #(= $ (. code 1)))
+            nil
+            (set pos (+ 4 pos))))))
+  output)
+
+(fn solve2 [lines input]
+  (let [xs (aoc.string-tonumarray (. lines 1))]
+    (intcode-v2 xs input)))
+
+(fn test [expected lines input]
+  (assert (= expected (solve2 lines input))))
+
+(local test-input ["3,21,1008,21,8,20,1005,20,22,107,8,21,20,1006,20,31,1106,0,36,98,0,0,1002,21,125,20,4,20,1105,1,46,104,999,1105,1,46,1101,1000,1,20,4,20,1105,1,46,98,99"])
+(test 999 test-input 7)
+(test 1000 test-input 8)
+(test 1001 test-input 9)
+
+(local test2-input ["3,9,8,9,10,9,4,9,99,-1,8"])
+(test 1 test2-input 8)
+(test 0 test2-input 7)
+
+(local test3-input ["3,9,7,9,10,9,4,9,99,-1,8"])
+(test 0 test3-input 8)
+(test 1 test3-input 7)
+
+(local test4-input ["3,3,1108,-1,8,3,4,3,99"])
+(test 1 test4-input 8)
+(test 0 test4-input 7)
+
+(local test5-input ["3,3,1107,-1,8,3,4,3,99"])
+(test 0 test5-input 8)
+(test 1 test5-input 7)
+
+(local test6-input ["3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9"])
+(test 0 test6-input 0)
+(test 1 test6-input 1)
+
+(local test7-input ["3,3,1105,-1,9,1101,0,0,12,4,12,99,1"])
+(test 0 test7-input 0)
+(test 1 test7-input 1)
+
+(solve2 (aoc.string-from "2019/05.inp") 5)
+#+end_src
+
+#+RESULTS:
+: 3188550
