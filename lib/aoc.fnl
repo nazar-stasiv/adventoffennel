@@ -517,6 +517,16 @@
         (table.insert res [(. xs (+ i 1)) nil])))
     res))
 
+(fn rank [xs k]
+  "returns number of lookups in xs starting from key k"  
+  (if (not (?. xs k))
+      0
+      (+ 1 (rank xs (. xs k)))))
+
+(fn keys [xs]
+  "returns keys of a hash-map xs"
+  (icollect [k v (pairs xs)] k))
+
 (fn dist2rd [[Hx Hy] {:x Tx :y Ty}]
   "x₁y₁ distance² to x₂y₂ on plane <=2 for any adjacent points"
   (lume.distance Hx Hy Tx Ty true))
@@ -597,6 +607,8 @@
  : partition-by
  : partition1
  : partition2
+ : rank
+ : keys
  : dist2rd
  : int
  : xor}
