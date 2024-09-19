@@ -1067,6 +1067,17 @@ data?
 #+begin_src fennel :session day06 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
+(local test-input ["COM)B"
+                   "B)C"
+                   "C)D"
+                   "D)E"
+                   "E)F"
+                   "B)G"
+                   "G)H"
+                   "D)I"
+                   "E)J"
+                   "J)K"
+                   "K)L"])
 
 (fn paths [xs]
   (let [res {}]
@@ -1075,17 +1086,14 @@ data?
     res))
 
 (fn solve [input]
-  (let [xs (lume.map input #(aoc.string-split $ ")"))
-        ys (paths xs)]
-    (lume.reduce
-     (lume.map (aoc.keys ys) (fn [e] (aoc.rank ys e)))
-     (fn [acc x] (+ acc x)))))
+  (let [xs (paths (lume.map input #(aoc.string-split $ ")")))
+        ys (lume.map (aoc.keys xs) #(aoc.rank xs $))]
+    (accumulate [sum 0 _ y (ipairs ys)]
+      (+ sum y))))
 
 (fn test [expected input]
   (assert (= expected (solve input))))
 
-(local test-input
-       ["COM)B" "B)C" "C)D" "D)E" "E)F" "B)G" "G)H" "D)I" "E)J" "J)K" "K)L"])
 (test 42 test-input)
 
 (solve (aoc.string-from "2019/06.inp"))
@@ -1094,7 +1102,7 @@ data?
 #+RESULTS:
 : 151345
 
-* TODO Day 6.2
+* DONE Day 6.2
 
 Now, you just need to figure  out how many orbital transfers you (YOU)
 need to take to get to Santa (SAN).
@@ -1155,3 +1163,46 @@ COM - B - C - D - E - F
 What is the minimum number of  orbital transfers required to move from
 the object  YOU are orbiting to  the object SAN is  orbiting? (Between
 the objects they are orbiting - not between YOU and SAN.)
+
+#+begin_src fennel :session day06 :exports both
+(local test2-input
+       ["COM)B"
+        "B)C"
+        "C)D"
+        "D)E"
+        "E)F"
+        "B)G"
+        "G)H"
+        "D)I"
+        "E)J"
+        "J)K"
+        "K)L"
+        "K)YOU"
+        "I)SAN"])
+
+(fn partial-rank [xs x y]
+  (let [x1 (. xs x)
+        y1 (. xs y)]
+    (if (= x y) x
+        (= x1 y1) x1
+        (<= (aoc.rank xs x1) (aoc.rank xs y1))
+        (partial-rank xs x1 (. xs y1))
+        (partial-rank xs (. xs x1) y1))))
+
+(fn solve2 [input]
+  (let [xs (paths (lume.map input #(aoc.string-split $ ")")))
+        x (partial-rank xs :YOU :SAN)]
+    (- (+ (aoc.rank xs (. xs :SAN))
+          (aoc.rank xs (. xs :YOU)))
+       (* 2 (aoc.rank xs x)))))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 4 test2-input)
+
+(solve2 (aoc.string-from "2019/06.inp"))
+#+end_src
+
+#+RESULTS:
+: 391
