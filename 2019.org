@@ -1180,18 +1180,18 @@ the objects they are orbiting - not between YOU and SAN.)
         "K)YOU"
         "I)SAN"])
 
-(fn partial-rank [xs x y]
+(fn partial-paths [xs x y]
   (let [x1 (. xs x)
         y1 (. xs y)]
     (if (= x y) x
         (= x1 y1) x1
         (<= (aoc.rank xs x1) (aoc.rank xs y1))
-        (partial-rank xs x1 (. xs y1))
-        (partial-rank xs (. xs x1) y1))))
+        (partial-paths xs x1 (. xs y1))
+        (partial-paths xs (. xs x1) y1))))
 
 (fn solve2 [input]
   (let [xs (paths (lume.map input #(aoc.string-split $ ")")))
-        x (partial-rank xs :YOU :SAN)]
+        x (partial-paths xs :YOU :SAN)]
     (- (+ (aoc.rank xs (. xs :SAN))
           (aoc.rank xs (. xs :YOU)))
        (* 2 (aoc.rank xs x)))))
