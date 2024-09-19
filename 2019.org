@@ -1286,7 +1286,8 @@ that layer, what is the number of 1 digits multiplied by the number of
 : 1584
 
 
-* TODO Day 8.2
+
+* DONE Day 8.2
 
 Now  you're ready  to  decode  the image.  The  image  is rendered  by
 stacking the layers and aligning the pixels with the same positions in
@@ -1334,3 +1335,58 @@ So, the final image looks like this:
 #+end_example
 
 What message is produced after decoding your image?
+
+#+begin_src fennel :session day08 :exports both :results output
+(fn color [xs]
+  (var res false)
+  (each [_ col (ipairs xs) &until res]
+    (case col
+      "1" (set res "1")
+      "2" nil
+      "0" (set res "0")))
+  res)
+
+(fn solve2 [input w h]
+  (let [res []
+        layers (aoc.table-group-by
+                (aoc.table-group-by
+                 (aoc.string-toarray input) w) h)
+        rows (lume.map
+              (aoc.table-transpose layers)
+              #(aoc.table-transpose $))]
+    (each [_ columns (ipairs rows)]
+      (each [_ pixels (ipairs columns)]
+        (let [col (color pixels)]
+          (table.insert res col))))
+    (aoc.table-group-by res w)))
+
+(fn test2 [expected input w h]
+  (let [data (. input 1)
+        res (solve2 data w h)
+        str (aoc.table-tostring (lume.map res #(aoc.table-tostring $)))]
+    (assert (= expected str))))
+
+(fn pretty-print [xs]
+  (print (string.format "%s" "\n"))
+  (each [i x (ipairs xs)]
+    (print
+     (string.format
+      "%s" (.. 
+            (aoc.table-tostring
+             (lume.map x #(if (= "1" $) "▬" "  "))))))))
+
+(local test2-input ["0222112222120000"])
+(test2 "0110" test2-input 2 2)
+
+(pretty-print (solve2 (. (aoc.string-from "2019/08.inp") 1) 25 6))
+#+end_src
+
+#+RESULTS:
+: 
+: 
+: ▬    ▬    ▬▬      ▬▬    ▬▬▬▬    ▬▬    
+: ▬  ▬    ▬    ▬  ▬    ▬  ▬        ▬    ▬  
+: ▬▬      ▬        ▬        ▬▬▬    ▬        
+: ▬  ▬    ▬        ▬  ▬▬  ▬        ▬        
+: ▬  ▬    ▬    ▬  ▬    ▬  ▬        ▬    ▬  
+: ▬    ▬    ▬▬      ▬▬▬  ▬▬▬▬    ▬▬    
