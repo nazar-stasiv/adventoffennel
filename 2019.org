@@ -1373,7 +1373,7 @@ What message is produced after decoding your image?
      (string.format
       "%s" (.. 
             (aoc.table-tostring
-             (lume.map x #(if (= "1" $) "▬" "  "))))))))
+             (lume.map x #(if (= "1" $) "▬" "   "))))))))
 
 (local test2-input ["0222112222120000"])
 (test2 "0110" test2-input 2 2)
@@ -1384,9 +1384,9 @@ What message is produced after decoding your image?
 #+RESULTS:
 : 
 : 
-: ▬    ▬    ▬▬      ▬▬    ▬▬▬▬    ▬▬    
-: ▬  ▬    ▬    ▬  ▬    ▬  ▬        ▬    ▬  
-: ▬▬      ▬        ▬        ▬▬▬    ▬        
-: ▬  ▬    ▬        ▬  ▬▬  ▬        ▬        
-: ▬  ▬    ▬    ▬  ▬    ▬  ▬        ▬    ▬  
-: ▬    ▬    ▬▬      ▬▬▬  ▬▬▬▬    ▬▬    
+: ▬      ▬      ▬▬         ▬▬      ▬▬▬▬      ▬▬      
+: ▬   ▬      ▬      ▬   ▬      ▬   ▬            ▬      ▬   
+: ▬▬         ▬            ▬            ▬▬▬      ▬            
+: ▬   ▬      ▬            ▬   ▬▬   ▬            ▬            
+: ▬   ▬      ▬      ▬   ▬      ▬   ▬            ▬      ▬   
+: ▬      ▬      ▬▬         ▬▬▬   ▬▬▬▬      ▬▬      
