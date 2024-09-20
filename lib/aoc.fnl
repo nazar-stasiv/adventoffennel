@@ -383,7 +383,7 @@
 
 (fn table-unpack [xs]
   "returns elements of table"
-  (let [u (or table.unpack unpack)]
+  (let [u (or table.unpack _G.unpack)]
     (u xs)))
 
 (fn table-disjunc [xxs]
