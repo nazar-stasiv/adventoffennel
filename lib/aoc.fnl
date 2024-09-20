@@ -80,6 +80,14 @@
    (and b1 (not b2))
    (and (not b1) b2)))
 
+(fn modulo+ [a b mod]
+  "returns a+b modulo mod"
+  (assert (<= a mod))
+  (assert (<= b mod))
+  (let [res (+ a b)]
+    (if (<= res mod) res
+        (- res mod))))
+
 (fn math-lcm [a b]
   "return least common multiplier of a and b"
   (int (/ (* a b) (math-gcd a b))))
@@ -330,7 +338,8 @@
 
 (fn range [s len]
   "return collection of consecutive numbers starting at s till length len"
-  (fcollect [i s (+ s len) 1] i))
+  (if (< len 1) [] 
+      (fcollect [i s (+ s len) 1] i)))
 
 (fn range-to [s e]
   "return collection of consecutive numbers starting at s ending at e"
@@ -619,4 +628,5 @@
  : keys
  : dist2rd
  : int
- : xor}
+ : xor
+ : modulo+}

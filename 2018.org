@@ -78,7 +78,8 @@ after all of the changes in frequency have been applied?
 #+RESULTS:
 : 574
 
-* TODO Day 1.1
+
+* DONE Day 1.2
 
 You notice that the device repeats the same frequency change list over
 and  over.  To calibrate  the  device,  you  need  to find  the  first
@@ -100,7 +101,6 @@ your device  might need to repeat  its list of frequency  changes many
 times before a duplicate frequency is found, and that duplicates might
 be found while in the middle of processing the list.
 
-
 Here are other examples:
 - +1, -1 first reaches 0 twice.
 - +3, +3, +4, -2, -4 first reaches 10 twice.
@@ -108,3 +108,35 @@ Here are other examples:
 - +7, +7, -2, -7, -4 first reaches 14 twice.
 
 What is the first frequency your device reaches twice?
+
+#+begin_src fennel :session day01 :exports both
+(fn solve2 [input]
+  (let [xs (lume.map input #(tonumber $))]
+    (var pos 2)
+    (var res [(. xs 1)])
+    (var xi (+ (. xs pos) (. res (length res))))
+    (while (= nil (lume.find res xi))
+      (table.insert res xi)
+      (set pos (aoc.modulo+ 1 pos (length xs)))
+      (set xi (+ (. xs pos) (. res (length res)))))
+    xi))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 2 test-input)
+
+(local test2-input ["+3" "+3" "+4" "-2" "-4"])
+(test2 10 test2-input)
+
+(local test3-input ["-6" "+3" "+8" "+5" "-6"])
+(test2 5 test3-input)
+
+(local test4-input ["+7" "+7" "-2" "-7" "-4"])
+(test2 14 test4-input)
+
+(solve2 (aoc.string-from "2018/01.inp"))
+#+end_src
+
+#+RESULTS:
+: 452
