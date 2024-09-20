@@ -488,6 +488,18 @@
      (math.abs (- x1 x2))
      (math.abs (- y1 y2)))))
 
+(fn hamming-dist [s1 s2]
+  "returns number of chars s1 differs from s2"
+  (assert (= (length s1)
+             (length s2)))
+  (var res 0)
+  (let [xs1 (string-toarray s1)
+        xs2 (string-toarray s2)]
+    (each [i xi (ipairs xs1)]
+      (when (not= (. xs2 i) xi)
+        (set res (+ 1 res)))))
+  res)
+
 (fn decartian [directions]
   "returns [[0 0] [x1 y1]...[xn yn]] coords for RX,UX,LX,DX directions"
   (let [xs (string-split directions ",")
@@ -619,6 +631,7 @@
  : lazy-seq
  : intersection
  : manhattan-dist
+ : hamming-dist
  : decartian
  : in-segment?
  : partition-by

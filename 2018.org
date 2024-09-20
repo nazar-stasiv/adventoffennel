@@ -223,7 +223,7 @@ What is the checksum for your list of box IDs?
 #+RESULTS:
 : 3952
 
-* TODO Day 2.2
+* DONE Day 2.2
 
 Confident that your list of box  IDs is complete, you're ready to find
 the boxes full of prototype fabric.
@@ -250,3 +250,36 @@ boxes.
 What  letters are  common between  the two  correct box  IDs? (In  the
 example above, this is found  by removing the differing character from
 either ID, producing fgij.)
+
+#+begin_src fennel :session day02 :exports both
+(local test2-input
+       ["abcde"
+        "fghij"
+        "klmno"
+        "pqrst"
+        "fguij"
+        "axcye"
+        "wvxyz"])
+
+(fn solve2 [input]
+  (var done false)
+  (for [i 1 (length input) &until done]
+    (for [j i (length input) &until done]
+      (when (= 1 (aoc.hamming-dist (. input i) (. input j)))
+        (set done [(. input i) (. input j)]))))
+  (aoc.table-tostring
+   (lume.filter
+    (aoc.string-toarray (. done 1))
+    #(lume.find (aoc.string-toarray (. done 2)) $))))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 "fgij" test2-input)
+
+(solve2 (aoc.string-from "2018/02.inp"))
+#+end_src
+
+#+RESULTS:
+: vtnikorkulbfejvyznqgdxpaw
+
