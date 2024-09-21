@@ -556,6 +556,13 @@
   "returns keys of a hash-map xs"
   (icollect [k v (pairs xs)] k))
 
+(fn collide? [box1 box2]
+  "indicates if rectangle box1 defined as  [x y w h] and box2 overlap"
+  (and (< (* 2 (math.abs (- (. box1 1) (. box2 1))))
+          (+ (. box1 3) (. box2 3)))
+       (< (* 2 (math.abs (- (. box1 2) (. box2 2))))
+          (+ (. box1 4) (. box2 4)))))
+
 (fn dist2rd [[Hx Hy] {:x Tx :y Ty}]
   "x₁y₁ distance² to x₂y₂ on plane <=2 for any adjacent points"
   (lume.distance Hx Hy Tx Ty true))
@@ -639,6 +646,7 @@
  : partition2
  : rank
  : keys
+ : collide?
  : dist2rd
  : int
  : xor
