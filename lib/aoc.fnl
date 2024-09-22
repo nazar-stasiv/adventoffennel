@@ -530,6 +530,18 @@
           (table.insert res [(. xs i)])))
     res))
 
+(fn partition-at [xs delim]
+  "partitions xs into 2d array at each delim occurence"
+  (var cur [])
+  (let [res []]
+    (each [_ x (ipairs xs)]
+      (if (= delim x)
+          (do
+            (table.insert res cur)
+            (set cur []))
+          (table.insert cur x)))
+    res))
+
 (fn partition1 [xs]
   "partitions xs elements into pairs with step one"
   (let [res []]
@@ -545,6 +557,14 @@
       (when (= 1 (- (length xs) i))
         (table.insert res [(. xs (+ i 1)) nil])))
     res))
+
+(fn frequency [xs]
+  "returns xs element with most duplicates as xs subarray"
+  (table.sort xs)
+  (let [ys (partition-by xs #(= $1 $2))
+        pred (fn [a b] (< (# a) (# b)))]
+    (table.sort ys pred)
+    (. ys (length ys))))
 
 (fn rank [xs k]
   "returns number of lookups in xs starting from key k"  
@@ -642,8 +662,10 @@
  : decartian
  : in-segment?
  : partition-by
+ : partition-at 
  : partition1
  : partition2
+ : frequency
  : rank
  : keys
  : collide?
