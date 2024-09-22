@@ -383,11 +383,15 @@ claims?
       (let [z (. (. fabric (+ 1 y)) (+ 1 x))]
         (aoc.table-replace fabric (+ 1 y) (+ 1 x) (+ 1 z))))))
 
-(fn solve [input]
-  (let [fabric (make-fabric 1000)
-        claims (read-lines input)]
+(fn mark-fabric [claims]
+  (let [fabric (make-fabric 1000)]
     (each [_ claim (ipairs claims)]
       (mark fabric claim))
+    fabric))
+
+(fn solve [input]
+  (let [claims (read-lines input)
+        fabric (mark-fabric claims)]
     (length (lume.filter (aoc.table-flatten fabric) #(< 1 $)))))
 
 (fn test [expected input]
@@ -401,7 +405,7 @@ claims?
 #+RESULTS:
 : 104241
 
-* TODO Day 3.2
+* DONE Day 3.2
 
 Amidst the chaos, you notice that exactly one claim doesn't overlap by
 even a single square  inch of fabric with any other  claim. If you can
@@ -413,3 +417,21 @@ claims are made.
 
 What is the ID of the only claim that doesn't overlap?
 
+#+begin_src fennel :session day03 :exports both
+(fn solve2 [input]
+  (var done false)
+  (let [claims (read-lines input)
+        fabric (mark-fabric claims)]
+    (each [i c (ipairs claims) &until done]
+      (set done i)
+      (for [y (. c 2) (. c 4)]
+        (for [x (. c 1) (. c 3)]
+          (when (not= 1 (. (. fabric (+ y 1)) (+ 1 x)))
+            (set done false))))))
+  done)
+
+(solve2 (aoc.string-from "2018/03.inp"))
+#+end_src
+
+#+RESULTS:
+: 806
