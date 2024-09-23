@@ -599,7 +599,8 @@ chose? (In the above example, the answer would be 10 * 24 = 240.)
 #+RESULTS:
 : 84636
 
-* TODO Day 4.2
+
+* DONE Day 4.2
 
 Strategy 2:  Of all guards, which  guard is most frequently  asleep on
 the same minute?
@@ -610,3 +611,32 @@ guard spent any minute asleep at most twice.)
 
 What is  the ID of  the guard you chose  multiplied by the  minute you
 chose? (In the above example, the answer would be 99 * 45 = 4455.)
+
+#+begin_src fennel :session day04 :exports both
+(fn max-frequency2 [xs]
+  (let [ids (aoc.keys xs)
+        res []]
+    (each [_ id (ipairs ids)]
+      (let [ys (aoc.frequency (. xs id))]
+        (table.insert res [id ys])))
+    (table.sort res #(< (# (. $1 2)) (# (. $2 2))))
+    (* (. (. res (# res)) 1)
+       (. (. (. res (# res)) 2) 1))))
+
+(fn solve2 [input]
+  (table.sort input)
+  (-> input
+      (read-log)
+      (process-log)
+      (max-frequency2)))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 4455 test-input)
+
+(solve2 (aoc.string-from "2018/04.inp"))
+#+end_src
+
+#+RESULTS:
+: 91679

@@ -540,6 +540,7 @@
             (table.insert res cur)
             (set cur []))
           (table.insert cur x)))
+    (table.insert res cur)
     res))
 
 (fn partition1 [xs]
