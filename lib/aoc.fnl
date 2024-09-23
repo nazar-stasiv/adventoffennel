@@ -416,6 +416,11 @@
   "returns all xs elements but at pos j"
   (lume.filter xs (fn [i v] (not= j i))))
 
+(fn table-exclude-all [xs js]
+  "returns all xs elements but at indices specified with js"
+  (icollect [i v (ipairs xs)]
+    (if (lume.find js i) nil v)))
+
 (fn table-flatten [xs]
   "returns linear collection of xs rows"  
   (let [res []]
@@ -650,6 +655,7 @@
  : table-min
  : table-max
  : table-exclude
+ : table-exclude-all
  : table-flatten
  : table-union 
  : table-sum-if
