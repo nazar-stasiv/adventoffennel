@@ -44,6 +44,10 @@
   "return strings from str separated at occurrences of sep"
   (icollect [s (string.gmatch str (.. "[^" sep "]+"))] s))
 
+(fn string-trim [s]
+  "returns copy of a string without trailing whitespace"
+  (string.match s "^%s*(%g*)%s*$"))
+
 (fn array-to-number [xs]
   "return integer value represented as collection xs of its digits [1 2 3]->123"
   (var result 0)
@@ -601,6 +605,7 @@
  : string-ends-with
  : string-starts-with
  : string-split
+ : string-trim 
  : array-to-number
  : math-sum
  : math-pow

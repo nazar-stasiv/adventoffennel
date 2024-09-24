@@ -719,7 +719,7 @@ copy/paste your input, make sure you get the whole thing.)
 : 11476
 
 
-* TODO Day 5.2
+* DONE Day 5.2
 
 Time to improve the polymer.
 
@@ -744,3 +744,23 @@ answer 4.
 
 What is the length of the shortest polymer you can produce by removing
 all units of exactly one type and fully reacting the result?
+
+#+begin_src fennel :session day05 :exports both
+(fn solve2 [input]
+  (let [line (. input 1)
+        xs (aoc.string-toarray "abcdefghijklmnopqrstuvwxyz")]
+    (aoc.math-min
+     (icollect [_ x (ipairs xs)]
+       (let [ys (string.gsub (string.gsub line x "") (string.upper x) "")]
+         (length (react (aoc.string-toarray ys) 2)))))))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 4 test-input)
+
+(solve2 (aoc.string-from "2018/05.inp"))
+#+end_src
+
+#+RESULTS:
+: 5446
