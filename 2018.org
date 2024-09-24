@@ -689,26 +689,23 @@ copy/paste your input, make sure you get the whole thing.)
 (local aoc (require :lib.aoc))
 (local test-input ["dabAcCaCBAcCcaDA"])
 
-(fn react [xs]
+(fn react [xs j]
   (var done false)
-  (for [i 2 (# xs) &until done]
-    (when (and (not= (. xs i) (. xs (- i 1)))
-               (or (= (string.upper (. xs i)) (. xs (- i 1)))
-                   (= (string.lower (. xs i)) (. xs (- i 1)))))
-      (set done i)))
-  (if done
-      (aoc.table-exclude-all xs [(- done 1) done])
-      xs))
+  (if (= j (length xs)) xs
+      (do (for [i j (# xs) &until done]
+            (when (and (not= (. xs i) (. xs (- i 1)))
+                       (or (= (string.upper (. xs i)) (. xs (- i 1)))
+                           (= (string.lower (. xs i)) (. xs (- i 1)))))
+              (table.remove xs i)
+              (table.remove xs (- i 1))
+              (set done i)))
+          (react xs (if done (- done 1) (# xs))))))
 
 (fn solve [input]
-  (var res (aoc.string-toarray (. input 1)))
-  (var done false)
-  (while (not done)
-    (let [xs (react res)]
-      (if (= (# res) (# xs))
-          (set done true)
-          (set res xs))))
-  (length res))
+  (-> (. input 1)
+      (aoc.string-toarray)
+      (react 2)
+      (length)))
 
 (fn test [expected input]
   (assert (= expected (solve input))))
@@ -720,6 +717,7 @@ copy/paste your input, make sure you get the whole thing.)
 
 #+RESULTS:
 : 11476
+
 
 * TODO Day 5.2
 
