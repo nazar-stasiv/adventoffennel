@@ -890,7 +890,7 @@ What is the size of the largest area that isn't infinite?
 : 3933
 
 
-* TODO Day 6.2
+* DONE Day 6.2
 
 On the other hand, =if the coordinates are safe=, maybe the best you can
 do is try to find a =region= near as many coordinates as possible.
@@ -939,3 +939,38 @@ than 10000.
 
 What is the  size of the region containing all  locations which have a
 total distance to all given coordinates of less than 10000?
+
+#+begin_src fennel :session day06 :exports both
+(fn populate2 [plane points]
+  (for [y 1 (# plane)]
+    (for [x 1 (# (. plane y))]
+      (let [dist (icollect [i j (ipairs points)]
+                   (aoc.manhattan-dist [x y] j))
+            dist-sum (accumulate [s 0 _ dist (ipairs dist)]
+                       (+ s dist))]
+        (aoc.table-replace plane y x dist-sum))))
+  plane)
+
+(fn area2 [plane max-dist]
+  (var res 0)
+  (for [y 1 (# plane)]
+    (for [x 1 (# (. plane y))]
+      (when (< (. (. plane y) x) max-dist)
+        (set res (+ 1 res)))))
+  res)
+
+(fn solve2 [input max]
+  (let [points (lume.map input #(aoc.string-tonumarray $))
+        plane (populate2 (aoc.new-matrix 399 399 0) points)]
+    (area2 plane max)))
+
+(fn test2 [expected input max]
+  (assert (= expected (solve2 input max))))
+
+(test2 16 test-input 32)
+
+(solve2 (aoc.string-from "2018/06.inp") 10000)
+#+end_src
+
+#+RESULTS:
+: 41145
