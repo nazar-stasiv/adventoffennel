@@ -106,6 +106,21 @@
   (table.sort t)
   (. t 1))
 
+(fn math-max [t]
+  "return largest element from collection t"
+  (table.sort t)
+  (. t (# t)))
+
+(fn min-index [xs]
+  "return index of smallest element from collection xs"
+  (var k 1)
+  (var v (. xs 1))
+  (for [i 2 (# xs)]
+    (when (< (. xs i) v)
+      (set k i)
+      (set v (. xs i))))
+  k)
+
 (fn take [xs n]
   "return first n elements from collection xs"
   (let [result []]
@@ -182,6 +197,12 @@
       (when (. t2 i)
         (table.insert result [(. t1 i) (. t2 i)])))
     result))
+
+(fn table-unzip [xys]
+  "convert tuple array into array of x and array of y elements"
+  (let [xs (icollect [_ v (ipairs xys)] (. v 1))
+        ys (icollect [_ w (ipairs xys)] (. w 2))]
+    [xs ys]))
 
 (fn table-reverse [xs]
   "return collection with xs elements reversed"
@@ -372,8 +393,15 @@
   "return 1 increment of x"
   (+ x 1))
 
+(fn new-matrix [row col x]
+  "return row by col 2d array of x"  
+  (let [res []]
+    (for [i 1 row]
+      (table.insert res (range-of x col)))
+    res))
+
 (fn read-matrix [xs ?n]
-  "return 2d array or characters"
+  "return 2d array of characters"
   (let [res []]
     (each [_ x (ipairs xs)]
       (let [el (string-toarray x)]
@@ -613,6 +641,8 @@
  : math-lcm
  : math-fact
  : math-min
+ : math-max
+ : min-index
  : table-print
  : table-sum
  : table-prod
@@ -623,6 +653,7 @@
  : table-identical-2d?
  : table-identical?
  : table-zip
+ : table-unzip 
  : table-reverse
  : table-reset
  : table-remove 
@@ -653,7 +684,8 @@
  : todecimal
  : dec
  : inc
- : read-matrix
+ : new-matrix
+ : read-matrix 
  : table-unpack
  : table-disjunc 
  : table-tonumber
