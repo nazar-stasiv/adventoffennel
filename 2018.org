@@ -876,11 +876,7 @@ What is the size of the largest area that isn't infinite?
 (fn solve [input]
   (let [points (lume.map input #(aoc.string-tonumarray $))
         plane (populate (aoc.new-matrix 399 399 0) points)]
-    (aoc.math-max
-     (lume.filter
-      (icollect [k v (ipairs points)]
-        (area plane k))
-      #(not= 0 $)))))
+    (aoc.math-max (icollect [k v (ipairs points)] (area plane k)))))
 
 (fn test [expected input]
   (assert (= expected (solve input))))
@@ -892,6 +888,7 @@ What is the size of the largest area that isn't infinite?
 
 #+RESULTS:
 : 3933
+
 
 * TODO Day 6.2
 
