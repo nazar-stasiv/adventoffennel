@@ -164,7 +164,9 @@
 
 (fn table-join [xs ys]
   "return collection with all ys elements appended to all xs elements"
-  (table.move ys 1 (length ys) (+ 1 (length xs)) xs))
+  (if ys
+      (table.move ys 1 (length ys) (+ 1 (length xs)) xs)
+      xs))
 
 (fn table-contains? [t e]
   "return bool indicating if collection t contains element e"
@@ -339,6 +341,18 @@
           (table.insert res e))))
     res))
 
+(fn head [xs]
+  "return element from collection xs at index of one"  
+  (. xs 1))
+
+(fn tail [xs]
+  "return elements from xs from index 2 to index #xs"
+  (table-range xs 2 (# xs)))
+
+(fn not-empty? [xs]
+  "return bool indicating if xs contains any elements"  
+  (and (not= nil xs) (< 0 (# xs))))
+
 (fn first [xs]
   "return element from collection xs at index of one"
   (. xs 1))
@@ -417,6 +431,14 @@
   "returns elements of table"
   (let [u (or table.unpack _G.unpack)]
     (u xs)))
+
+(fn max [xs]
+  "return maximum element of xs"  
+  (math.max (table-unpack xs)))
+
+(fn min [xs]
+  "return minimum element of xs"
+  (math.min (table-unpack xs)))
 
 (fn table-disjunc [xxs]
   "return common elements of xxs₁ .. xxsₙ tables elements i.e. disjunction set"
@@ -610,6 +632,16 @@
       0
       (+ 1 (rank xs (. xs k)))))
 
+(fn adjacency-list [xs]
+  "hashmap representation of a graph {:vert1 [:vert2...] :vert2...}"
+  (let [res {}]
+    (each [i [f t] (ipairs xs)]
+      (if (= 1 i) (tset res f [t])
+          (. res f) (table.insert (. res f) t)
+          (do (tset res f [t])
+              (tset res t []))))
+    res))
+
 (fn keys [xs]
   "returns keys of a hash-map xs"
   (icollect [k v (pairs xs)] k))
@@ -625,6 +657,45 @@
   "x₁y₁ distance² to x₂y₂ on plane <=2 for any adjacent points"
   (lume.distance Hx Hy Tx Ty true))
 
+(fn qpush [xs x]
+  "queue version of push function"
+  (table.insert xs x))
+
+(fn qpop [xs]
+  "queue version of pop function"
+  (table.remove xs 1))
+
+(fn qpeek [xs]
+  "queue version of peek function"
+  (. xs 1))
+
+(fn push [xs x]
+  "stack version of push function"
+  (table.insert xs x))
+
+(fn pop [xs]
+  "stack version of pop function"
+  (table.remove xs))
+
+(fn peek [xs]
+  "stack version of peek function"
+  (. xs (# xs)))
+
+(fn ppush [xs v p]
+  "priority queue version of push function"  
+  (if (. xs p)
+      (table.insert (. xs p) v)
+      (tset xs p [v]))
+  xs)
+
+(fn ppop [xs]
+  "priority queue version of pop function"
+  (let [keys (keys xs)]
+    (table.sort keys)
+    (var key (. keys (# keys)))
+    (var val (. xs key))
+    (tset xs key nil)
+    val))
 {: string-from
  : string-last-index-of
  : string-pushback
@@ -671,6 +742,9 @@
  : string-totable
  : table-tostring
  : table-unique
+ : head
+ : tail
+ : not-empty?
  : first
  : last
  : take
@@ -687,6 +761,8 @@
  : new-matrix
  : read-matrix 
  : table-unpack
+ : max
+ : min
  : table-disjunc 
  : table-tonumber
  : table-min
@@ -711,9 +787,18 @@
  : partition2
  : frequency
  : rank
+ : adjacency-list
  : keys
  : collide?
  : dist2rd
+ : qpush
+ : qpop
+ : qpeek
+ : push
+ : pop
+ : peek
+ : ppush
+ : ppop
  : int
  : xor
  : modulo+}
