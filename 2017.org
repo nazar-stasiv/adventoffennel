@@ -4,7 +4,6 @@
 #+LANGUAGE: en
 #+OPTIONS: toc:nil
 
-
 * DONE Day 1.1
 
 The  night before  Christmas,  one of  Santa's Elves  calls  you in  a
@@ -76,7 +75,7 @@ What is the solution to your captcha?
 #+RESULTS:
 : 995
 
-* TODO Day 1.2
+* DONE Day 1.2
 
 You notice  a progress bar  that jumps to 50%  completion. Apparently,
 the  door   isn't  yet  satisfied,   but  it   did  emit  a   star  as
@@ -98,3 +97,24 @@ For example:
 - 12131415 produces 4.
 
 What is the solution to your new captcha?
+
+#+begin_src fennel :session day01 :exports both
+(fn solve2 [input]
+  (let [xs (lume.map (aoc.string-toarray (. input 1)) #(tonumber $))]
+    (aoc.table-sum
+     (icollect [i v (ipairs xs)]
+        (if (= v (. xs (aoc.modulo+ i (/ (# xs) 2) (# xs)))) v 0)))))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 6 ["1212"])
+(test2 0 ["1221"])
+(test2 4 ["123425"])
+(test2 12 ["123123"])
+(test2 4 ["12131415"])
+(solve2 (aoc.string-from "2017/01.inp"))
+#+end_src
+
+#+RESULTS:
+: 1130
