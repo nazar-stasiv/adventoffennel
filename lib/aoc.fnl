@@ -391,6 +391,12 @@
       (table.insert res x))
     res))
 
+(fn tonum [s]
+  "returns int or ascii code if s represents letter rather than a number"
+  (if s
+      (or (tonumber s) (string.byte s))
+      0))
+
 (fn todecimal [t]
   "returns decimal number of bitarray: [1 1 1 1]->15"
   (let [res []
@@ -627,10 +633,13 @@
     (. ys (length ys))))
 
 (fn rank [xs k]
-  "returns number of lookups in xs starting from key k"  
-  (if (not (?. xs k))
-      0
-      (+ 1 (rank xs (. xs k)))))
+  "returns number of lookups in xs starting from key k"
+  (let [xsk (. xs k)]
+    (if (not xsk) 0
+        (lume.isarray xsk)
+        (max (icollect [k v (ipairs xsk)]
+               (+ 1 (rank xs v))))
+        (+ 1 (rank xs xsk)))))
 
 (fn adjacency-list [xs]
   "hashmap representation of a graph {:vert1 [:vert2...] :vert2...}"
@@ -645,6 +654,13 @@
 (fn keys [xs]
   "returns keys of a hash-map xs"
   (icollect [k v (pairs xs)] k))
+
+(fn adjacency-root [list]
+  "returns key of adjacency list with no input edges"
+  (let [xs (lume.map (keys list)
+                     (fn [e] [e (rank list e)]))]
+    (table.sort xs #(< (. $1 2) (. $2 2)))
+    (. (. xs (# xs)) 1)))
 
 (fn collide? [box1 box2]
   "indicates if rectangle box1 defined as  [x y w h] and box2 overlap"
@@ -755,6 +771,7 @@
  : range
  : range-to
  : range-of
+ : tonum
  : todecimal
  : dec
  : inc
@@ -789,6 +806,7 @@
  : rank
  : adjacency-list
  : keys
+ : adjacency-root
  : collide?
  : dist2rd
  : qpush
