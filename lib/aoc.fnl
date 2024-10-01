@@ -19,7 +19,7 @@
 
 (fn string-tonumarray [str]
   "return collection of numbers from string str"
-  (icollect [s (string.gmatch str (.. "[^ ,]+"))] (tonumber s)))
+  (icollect [s (string.gmatch str (.. "[^ ,\t]+"))] (tonumber s)))
 
 (fn string-toarray [s]
   "return collection of characters from string s abc->[a b c]"
