@@ -300,7 +300,7 @@ input. How many passphrases are valid?
 #+RESULTS:
 : 455
 
-* TODO Day 4.2
+* DONE Day 4.2
 
 For  added  security,  yet  another  system policy  has  been  put  in
 place. Now,  a valid  passphrase must  contain no  two words  that are
