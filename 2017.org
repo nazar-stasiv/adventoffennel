@@ -272,20 +272,11 @@ input. How many passphrases are valid?
         "aa bb cc dd aa"
         "aa bb cc dd aaa"])
 
-(fn string-dup? [line]
-  (table.sort line)
-  (var res true)
-  (let [tokens (aoc.partition1 line)]
-    (each [_ token (ipairs tokens)]
-      (when (= (. token 1) (. token 2))
-        (set res false))))
-  res)
-
 (fn solve [input]
   (var res 0)
   (let [lines (lume.map input #(aoc.string-split $ " "))]
     (each [_ line (ipairs lines)]
-      (when (string-dup? line)
+      (when (aoc.table-no-dups? line)
         (set res (+ 1 res)))))
   res)
 
@@ -299,6 +290,7 @@ input. How many passphrases are valid?
 
 #+RESULTS:
 : 455
+
 
 * DONE Day 4.2
 
@@ -326,7 +318,7 @@ Under this new system policy, how many passphrases are valid?
         "abcde xyz ecdab"
         "a ab abc abd abf abj"
         "iiii oiii ooii oooi oooo"
-        "oiii  ioii iioi  iiio"])
+        "oiii ioii iioi iiio"])
 
 (fn solve2 [input]
   (var res 0)
@@ -338,11 +330,9 @@ Under this new system policy, how many passphrases are valid?
                                                   (table.sort t)
                                                   (table.concat t ""))))))]
     (each [_ line (ipairs lines2)]
-      (when (string-dup? line)
+      (when (aoc.table-no-dups? line)
         (set res (+ 1 res)))))
   res)
-
-(solve2 test2-input)
 
 (fn test2 [expected input]
   (assert (= expected (solve2 input))))

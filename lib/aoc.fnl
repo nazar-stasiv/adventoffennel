@@ -638,6 +638,16 @@
         (table.insert res [(. xs (+ i 1)) nil])))
     res))
 
+(fn table-no-dups? [xs]
+  "returns true if xs has no duplicate elements"
+  (table.sort xs)
+  (var res true)
+  (let [xy (partition1 xs)]
+    (each [_ [x y] (ipairs xy)]
+      (when (= x y)
+        (set res false))))
+  res)
+
 (fn frequency [xs]
   "returns xs element with most duplicates as xs subarray"
   (table.sort xs)
@@ -827,6 +837,7 @@
  : partition-at 
  : partition1
  : partition2
+ : table-no-dups?
  : frequency
  : rank
  : adjacency-list
