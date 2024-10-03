@@ -272,17 +272,21 @@ input. How many passphrases are valid?
         "aa bb cc dd aa"
         "aa bb cc dd aaa"])
 
+(fn string-dup? [line]
+  (table.sort line)
+  (var res true)
+  (let [tokens (aoc.partition1 line)]
+    (each [_ token (ipairs tokens)]
+      (when (= (. token 1) (. token 2))
+        (set res false))))
+  res)
+
 (fn solve [input]
   (var res 0)
   (let [lines (lume.map input #(aoc.string-split $ " "))]
     (each [_ line (ipairs lines)]
-      (table.sort line)
-      (var uniq true)
-      (let [tokens (aoc.partition1 line)]
-        (each [_ token (ipairs tokens)]
-          (when (= (. token 1) (. token 2))
-            (set uniq false))))
-      (when uniq (set res (+ 1 res)))))
+      (when (string-dup? line)
+        (set res (+ 1 res)))))
   res)
 
 (fn test [expected input]
@@ -297,10 +301,11 @@ input. How many passphrases are valid?
 : 455
 
 * TODO Day 4.2
-For added security, yet another system policy has been put in
-place. Now, a valid passphrase must contain no two words that are
-anagrams of each other - that is, a passphrase is invalid if any
-word's letters can be rearranged to form any other word in the
+
+For  added  security,  yet  another  system policy  has  been  put  in
+place. Now,  a valid  passphrase must  contain no  two words  that are
+anagrams  of each  other -  that is,  a passphrase  is invalid  if any
+word's  letters can  be  rearranged  to form  any  other  word in  the
 passphrase.
 
 For example:
@@ -314,3 +319,38 @@ For example:
   rearranged to form any other word.
   
 Under this new system policy, how many passphrases are valid?
+
+#+begin_src fennel :session day04 :exports both
+(local test2-input
+       ["abcde fghij"
+        "abcde xyz ecdab"
+        "a ab abc abd abf abj"
+        "iiii oiii ooii oooi oooo"
+        "oiii  ioii iioi  iiio"])
+
+(fn solve2 [input]
+  (var res 0)
+  (let [lines (lume.map input (fn [line] (aoc.string-split line " ")))
+        lines2 (lume.map lines
+                         (fn [line] (lume.map line
+                                              (fn [word]
+                                                (let [t (aoc.string-toarray word)]
+                                                  (table.sort t)
+                                                  (table.concat t ""))))))]
+    (each [_ line (ipairs lines2)]
+      (when (string-dup? line)
+        (set res (+ 1 res)))))
+  res)
+
+(solve2 test2-input)
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 3 test2-input)
+
+(solve2 (aoc.string-from "2017/04.inp"))
+#+end_src
+
+#+RESULTS:
+: 186
