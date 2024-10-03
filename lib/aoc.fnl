@@ -68,6 +68,12 @@
       (= i 1) x
       (* x (math-pow x (- i 1)))))
 
+(fn pow [mant exp]
+  "return power mant to exp"
+  (if (= 0 exp) 1
+      (= 1 exp) mant
+      (faccumulate [res mant i 2 exp] (* res mant))))
+
 (fn math-gcd [a b]
   "return greatest common denominator of a and b: 12,9->3"
   (if (= 0 b) a
@@ -127,6 +133,10 @@
     (for [i 1 n 1]
       (table.insert result (. xs i)))
     result))
+
+(fn take-n [n xs]
+  "return first n elements from xs"  
+  (fcollect [i 1 n] (. xs i)))
 
 (fn rest [xs]
   "return elements from collection xs starting at index two till end"
@@ -383,6 +393,10 @@
 (fn range-to [s e]
   "return collection of consecutive numbers starting at s ending at e"
   (fcollect [i (math.min s e) (math.max s e) 1] i))
+
+(fn range-step [f l s]
+  "return numbers starting at f ending at l with step s"
+  (fcollect [i (math.min f l) (math.max f l) s] i))
 
 (fn range-of [x n]
   "return length n collection of x"
@@ -712,6 +726,14 @@
     (var val (. xs key))
     (tset xs key nil)
     val))
+
+(fn odd? [x]
+  "returns true if x is odd integer"
+  (= 1 (% x 2)))
+
+(fn even? [x]
+  "returns true if x is even integer"  
+  (not (odd? x)))
 {: string-from
  : string-last-index-of
  : string-pushback
@@ -724,6 +746,7 @@
  : array-to-number
  : math-sum
  : math-pow
+ : pow
  : math-gcd
  : math-lcm
  : math-fact
@@ -764,12 +787,14 @@
  : first
  : last
  : take
+ : take-n
  : rest
  : fold
  : empty?
  : table-contains-2d?
  : range
  : range-to
+ : range-step
  : range-of
  : tonum
  : todecimal
@@ -817,6 +842,8 @@
  : peek
  : ppush
  : ppop
+ : odd?
+ : even?
  : int
  : xor
  : modulo+}
