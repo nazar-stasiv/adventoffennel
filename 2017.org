@@ -389,7 +389,7 @@ found:
 In this example, the  exit is reached in 5 steps.  How many steps does
 it take to reach the exit?
 
-#+begin_src fennel :session day :exports both
+#+begin_src fennel :session day05 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input
@@ -426,7 +426,7 @@ it take to reach the exit?
 : 326618
 
 
-* TODO Day 5.2
+* DONE Day 5.2
 
 Now, the jumps  are even stranger: after each jump,  if the offset was
 three or more,  instead decrease it by 1. Otherwise,  increase it by 1
@@ -435,3 +435,32 @@ as before.
 Using  this rule  with the  above example,  the process  now takes  10
 steps, and the offset values after finding  the exit are left as 2 3 2
 3 -1. How many steps does it now take to reach the exit?
+
+#+begin_src fennel :session day05 :exports both
+(fn table-inc2 [t p]
+  (let [old (. t (+ 1 p))]
+    (if (<= 3 old)
+        (aoc.table-swap t (+ 1 p) (- old 1))
+        (aoc.table-swap t (+ 1 p) (+ old 1)))
+    old))
+
+(fn solve2 [input]
+  (let [xs (lume.map input #(tonumber $))
+        len (# xs)]
+    (var p 0)
+    (var c 0)
+    (while (<= p (- len 1))
+      (set p (+ p (table-inc2 xs p)))
+      (set c (+ 1 c)))
+    c))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 10 test-input)
+
+(solve2 (aoc.string-from "2017/05.inp"))
+#+end_src
+
+#+RESULTS:
+: 21841249
