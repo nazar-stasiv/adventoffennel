@@ -127,6 +127,16 @@
       (set v (. xs i))))
   k)
 
+(fn max-index [xs]
+  "return index of largest element from collection xs"
+  (var k 1)
+  (var v (. xs 1))
+  (for [i 2 (# xs)]
+    (when (> (. xs i) v)
+      (set k i)
+      (set v (. xs i))))
+  k)
+
 (fn take [xs n]
   "return first n elements from collection xs"
   (let [result []]
@@ -384,6 +394,18 @@
   "return bool indicating if collection t contains table e"
   (let [xs (lume.filter t #(table-identical? $ e))]
     (not (empty? xs))))
+
+(fn matrix-contains? [m vec]
+  "returns bool if any of m rows identical with vec"
+  (let [match-vec (fn [v1 v2]
+                    (var res true)
+                    (for [i 1 (# v1)]
+                      (when (not= (. v1 i) (. v2 i))
+                        (set res false)))
+                    res)]
+    (if (lume.match m #(match-vec $ vec))
+        true
+        false)))
 
 (fn range [s len]
   "return collection of consecutive numbers starting at s till length len"
@@ -763,6 +785,7 @@
  : math-min
  : math-max
  : min-index
+ : max-index
  : table-print
  : table-sum
  : table-prod
@@ -802,6 +825,7 @@
  : fold
  : empty?
  : table-contains-2d?
+ : matrix-contains?
  : range
  : range-to
  : range-step
