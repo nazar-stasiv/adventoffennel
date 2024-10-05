@@ -532,26 +532,24 @@ produced that has been seen before?
 (fn solve [input]
   (let [xs (aoc.string-tonumarray (. input 1))
         res [(aoc.table-clone xs)]]
-    (var cycle 1)
     (table-inc xs (aoc.max-index xs))
     (while (not (aoc.matrix-contains? res xs))
       (table.insert res (aoc.table-clone xs))
-      (set cycle (+ 1 cycle))
       (table-inc xs (aoc.max-index xs)))
-    cycle))
+    res))
 
 (fn test [expected input]
-  (assert (= expected (solve input))))
+  (assert (= expected (# (solve input)))))
 
 (test 5 test-input)
 
-(solve (aoc.string-from "2017/06.inp"))
+(# (solve (aoc.string-from "2017/06.inp")))
 #+end_src
 
 #+RESULTS:
 : 4074
 
-* TODO Day 6.2
+* DONE Day 6.2
 
 Out of curiosity, the debugger would also like to know the size of the
 loop: starting from a state that has already been seen, how many block
@@ -564,3 +562,21 @@ the answer in that example would be 4.
 How  many  cycles are  in  the  infinite  loop  that arises  from  the
 configuration in your puzzle input?
 
+#+begin_src fennel :session day06 :exports both
+(fn solve2 [input]
+  (let [res (solve input)
+        xs0 (. res (# res))
+        xs (table-inc xs0 (aoc.max-index xs0))
+        (_ cycle-start) (aoc.matrix-contains? res xs)]
+    (- (+ 1 (# res)) cycle-start)))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 4 test-input)
+
+(solve2 (aoc.string-from "2017/06.inp"))
+#+end_src
+
+#+RESULTS:
+: 2793

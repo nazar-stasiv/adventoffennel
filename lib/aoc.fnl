@@ -403,9 +403,7 @@
                       (when (not= (. v1 i) (. v2 i))
                         (set res false)))
                     res)]
-    (if (lume.match m #(match-vec $ vec))
-        true
-        false)))
+    (lume.match m #(match-vec $ vec))))
 
 (fn range [s len]
   "return collection of consecutive numbers starting at s till length len"
