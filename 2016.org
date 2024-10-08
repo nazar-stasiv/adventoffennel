@@ -75,7 +75,7 @@ How many blocks away is Easter Bunny HQ?
 : 161
 
 
-* TODO Day 1.2
+* DONE Day 1.2
 
 Then,  you  notice  the  instructions  continue on  the  back  of  the
 Recruiting Document. Easter Bunny HQ is actually at the first location
@@ -85,3 +85,48 @@ For  example, if  your  instructions are  R8, R4,  R4,  R8, the  first
 location you visit twice is 4 blocks away, due East.
 
 How many blocks away is the first location you visit twice?
+
+#+begin_src fennel :session day01 :exports both
+(fn solve2 [input]
+  (var dir (/ math.pi 2))
+  (var x 0)
+  (var y 0)
+  (var done false)
+  (let [steps (aoc.string-split (. input 1) ", ")
+        res [[0 0]]]
+    (each [_ step (ipairs steps) &until done]
+      (let [D (string.sub step 1 1)
+            d (string.sub step 2)]
+        (if (= "R" D)
+            (set dir (- dir (/ math.pi 2)))
+            (set dir (+ dir (/ math.pi 2))))
+        (set x (+ x (* d (lume.round (math.cos dir)))))
+        (set y (+ y (* d (lume.round (math.sin dir))))))
+      (let [[fx fy] (table.remove res)
+            [tx ty] [x y]]
+        (if (= fx tx)
+            (for [i fy ty (if (< ty fy) -1 1) &until done]
+              (if (aoc.matrix-contains? res [x i])
+                  (do 
+                    (set done true)
+                    (set y i))
+                  (table.insert res [x i])))
+            (for [i fx tx (if (< tx fx) -1 1) &until done]
+              (if (aoc.matrix-contains? res [i y])
+                  (do 
+                    (set done true)
+                    (set x i))
+                  (table.insert res [i y]))))))
+    (+ (math.abs x) (math.abs y))))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 [input]))))
+
+(test2 4 "R8, R4, R4, R8")
+
+(solve2 (aoc.string-from "2016/01.inp"))
+#+end_src
+
+#+RESULTS:
+: 110
+
