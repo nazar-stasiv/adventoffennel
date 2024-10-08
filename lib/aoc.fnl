@@ -283,6 +283,12 @@
      ,(unpack rest-body)
      (print (.. "Elapsed, s " (os.difftime (os.time) start#)))))
 
+(macro swap [a b & body1]
+  `(let [tmp# ,a]
+     (set ,a ,b)
+     (set ,b tmp#)
+     ,(unpack body1)))
+
 (fn table-group-by [xs n]
   "return n-ary collection of linear xs"
   (assert (= 0 (% (length xs) n)))
