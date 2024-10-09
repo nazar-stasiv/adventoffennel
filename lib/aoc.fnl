@@ -770,6 +770,8 @@
 (fn even? [x]
   "returns true if x is even integer"  
   (not (odd? x)))
+
+
 {: string-from
  : string-last-index-of
  : string-pushback
