@@ -220,7 +220,7 @@ the front desk. What is the bathroom code?
 : 35749
 
 
-* TODO Day 2.2
+* DONE Day 2.2
 
 You finally  arrive at the bathroom  (it's a several minute  walk from
 the lobby so  visitors can behold the many fancy  conference rooms and
@@ -250,3 +250,42 @@ same instructions as above, the outcome is very different:
 So, given the actual keypad layout,  the code would be =5DB3=. Using the
 same instructions in  your puzzle input, what is  the correct bathroom
 code?
+
+#+begin_src fennel :session day02 :exports both
+(fn solve2 [input]
+  (let [pos {:x 1 :y 3}
+        xs (lume.map input #(aoc.string-toarray $))
+        keypad [["0" "0" "1" "0" "0"]
+                ["0" "2" "3" "4" "0"]
+                ["5" "6" "7" "8" "9"]
+                ["0" "A" "B" "C" "0"]
+                ["0" "0" "D" "0" "0"]]
+        res []]
+    (each [_ ys (ipairs xs)]
+      (each [_ x (ipairs ys)]
+        (case x
+          "U" (let [newy (math.max 1 (- (. pos :y) 1))]
+                (when (not= 0 (tonumber (. (. keypad newy) (. pos :x))))
+                    (tset pos :y newy)))
+          "D" (let [newy (math.min 5 (+ 1 (. pos :y)))]
+                (when (not= 0 (tonumber (. (. keypad newy) (. pos :x))))
+                  (tset pos :y newy)))
+          "R" (let [newx (math.min 5 (+ 1 (. pos :x)))]
+                (when (not= 0 (tonumber (. (. keypad (. pos :y)) newx)))
+                  (tset pos :x newx)))
+          "L" (let [newx (math.max 1 (- (. pos :x) 1))]
+                (when (not= 0 (tonumber (. (. keypad (. pos :y)) newx)))
+                  (tset pos :x newx)))))
+      (table.insert res (. (. keypad (. pos :y)) (. pos :x))))
+    (table.concat res "")))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 "5DB3" test-input)
+
+(solve2 (aoc.string-from "2016/02.inp"))
+#+end_src
+
+#+RESULTS:
+: 9365C
