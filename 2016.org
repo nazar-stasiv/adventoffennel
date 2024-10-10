@@ -314,16 +314,23 @@ In your puzzle input, how many of the listed triangles are possible?
 (local aoc (require :lib.aoc))
 (local test-input ["  5  10  25"])
 
+(fn triangle? [a b c]
+  (and
+   (< a (+ b c))
+   (< b (+ a c))
+   (< c (+ a b))))
+
+(fn count-triangles [xs]
+  (var res 0)
+  (each [_ [a b c] (ipairs xs)]
+    (when (triangle? a b c)
+      (set res (+ 1 res))))
+  res)
+
 (fn solve [input]
-  (let [xs (lume.map input #(aoc.string-tonumarray $))]
-    (var res 0)
-    (each [_ [a b c] (ipairs xs)]
-      (when (and
-             (< a (+ b c))
-             (< b (+ a c))
-             (< c (+ a b)))
-        (set res (+ 1 res))))
-    res))
+  (-> input
+      (lume.map #(aoc.string-tonumarray $))
+      (count-triangles)))
 
 (fn test [expected input]
   (assert (= expected (solve input))))
@@ -336,8 +343,7 @@ In your puzzle input, how many of the listed triangles are possible?
 #+RESULTS:
 : 1050
 
-
-* TODO Day 3.2
+* DONE Day 3.2
 
 Now that you've helpfully marked  up their design documents, it occurs
 to   you   that  triangles   are   specified   in  groups   of   three
@@ -358,3 +364,18 @@ hundreds digit would be part of the same triangle:
 
 In your puzzle input, and instead  reading by columns, how many of the
 listed triangles are possible?
+
+#+begin_src fennel :session day03 :exports both
+(fn solve2 [input]
+  (-> input
+      (lume.map #(aoc.string-tonumarray $))
+      (aoc.table-transpose)
+      (lume.map #(aoc.partition3 $))
+      (aoc.table-flatten)
+      (count-triangles)))
+
+(solve2 (aoc.string-from "2016/03.inp"))
+#+end_src
+
+#+RESULTS:
+: 1921

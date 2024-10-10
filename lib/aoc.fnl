@@ -664,6 +664,17 @@
         (table.insert res [(. xs (+ i 1)) nil])))
     res))
 
+(fn partition3 [xs]
+  "partitions xs elements into triads, pads with nil"
+  (let [res []
+        len (# xs)]
+    (for [i 1 len 3]
+      (case (- len i)
+        0 (table.insert res [(. xs i) nil nil])
+        1 (table.insert res [(. xs i) (. xs (+ i 1)) nil])
+        _ (table.insert res [(. xs i) (. xs (+ i 1)) (. xs (+ i 2))])))
+    res))
+
 (fn table-no-dups? [xs]
   "returns true if xs has no duplicate elements"
   (table.sort xs)
@@ -867,6 +878,7 @@
  : partition-at 
  : partition1
  : partition2
+ : partition3
  : table-no-dups?
  : frequency
  : rank
