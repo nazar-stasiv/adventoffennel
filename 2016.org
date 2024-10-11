@@ -379,3 +379,97 @@ listed triangles are possible?
 
 #+RESULTS:
 : 1921
+
+* DONE Day 4.1
+
+Finally, you come across an information kiosk with a list of rooms. Of
+course,  the  list is  encrypted  and  full  of  decoy data,  but  the
+instructions  to decode  the  list are  barely  hidden nearby.  Better
+remove the decoy data first.
+
+Each room consists  of an encrypted name  (lowercase letters separated
+by dashes) followed by  a dash, a sector ID, and  a checksum in square
+brackets.
+
+A room is real  (not a decoy) if the checksum is  the five most common
+letters  in  the  encrypted  name,  in  order,  with  ties  broken  by
+alphabetization. For example:
+- aaaaa-bbb-z-y-x-123[abxyz] is a real room because the most common
+  letters are a (5), b (3), and then a tie between x, y, and z, which
+  are listed alphabetically.
+- a-b-c-d-e-f-g-h-987[abcde] is a real room because although the
+  letters are all tied (1 of each), the first five are listed
+  alphabetically.
+- not-a-real-room-404[oarel] is a real room.
+- totally-real-room-200[decoy] is not.
+
+Of the  real rooms from  the list above, the  sum of their  sector IDs
+is 1514.
+
+What is the sum of the sector IDs of the real rooms?
+
+#+begin_src fennel :session day04 :exports both
+(local lume (require :lib.lume))
+(local aoc (require :lib.aoc))
+(local test-input
+       ["aaaaa-bbb-z-y-x-123[abxyz]"
+        "a-b-c-d-e-f-g-h-987[abcde]"
+        "not-a-real-room-404[oarel]"
+        "totally-real-room-200[decoy]"])
+
+(fn parse-rooms [s]
+  (let [len (string.len s)]
+    [(string.sub s 1 (- len 11))
+     (string.sub s (- len 9) (- len 7))
+     (string.sub s (- len 5) (- len 1))]))
+
+(fn checksum [room]
+  (-> room
+      (string.gsub "%-" "")
+      (aoc.string-toarray)
+      (aoc.table-sort)
+      (aoc.partition-by #(= $1 $2))
+      (aoc.table-sort (fn [x y] (if (= (# x) (# y))
+                                    (< (. x 1) (. y 1))
+                                    (>= (# x) (# y)))))
+      (lume.map #(. $ 1))
+      (table.concat "")
+      (string.sub 1 5)))
+
+(fn solve [input]
+  (-> input
+      (lume.map #(parse-rooms $))
+      (lume.filter #(= (checksum (. $ 1)) (. $ 3)))
+      (lume.map #(tonumber (. $ 2)))
+      (lume.reduce #(+ $1 $2))))
+
+(fn test [expected input]
+  (assert (= expected (solve input))))
+
+(test 1514 test-input)
+
+(solve (aoc.string-from "2016/04.inp"))
+#+end_src
+
+#+RESULTS:
+: 361724
+
+* TODO Day 4.2
+
+With all the decoy data out of the way, it's time to decrypt this list
+and get moving.
+
+The room names are encrypted by a state-of-the-art shift cipher, which
+is  nearly  unbreakable  without  the  right  software.  However,  the
+information kiosk designers  at Easter Bunny HQ were  not expecting to
+deal with a master cryptographer like yourself.
+
+To  decrypt  a room  name,  rotate  each  letter forward  through  the
+alphabet a number of times equal to the room's sector ID. A becomes B,
+B becomes C, Z becomes A, and so on. Dashes become spaces.
+
+For  example,  the  real  name  for  qzmt-zixmtkozy-ivhz-343  is  very
+encrypted name.
+
+What is the sector ID of the room where North Pole objects are stored?
+
