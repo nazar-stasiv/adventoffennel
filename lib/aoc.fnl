@@ -48,6 +48,14 @@
   "returns copy of a string without trailing whitespace"
   (string.match s "^%s*(%g*)%s*$"))
 
+(fn string-shift [s n]
+"return string with chars shifted by n, like in Caesar's cipher"  
+  (let [nn (% n 26)
+        ss (string-toarray s)
+        cc (icollect [_ c (ipairs ss)]
+             (string.char (+ 96 (% (+ nn (- (string.byte c) 96)) 26))))]
+    (table.concat cc "")))
+
 (fn array-to-number [xs]
   "return integer value represented as collection xs of its digits [1 2 3]->123"
   (var result 0)
@@ -791,7 +799,8 @@
  : string-ends-with
  : string-starts-with
  : string-split
- : string-trim 
+ : string-trim
+ : string-shift
  : array-to-number
  : math-sum
  : math-pow

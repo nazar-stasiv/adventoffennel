@@ -420,7 +420,7 @@ What is the sum of the sector IDs of the real rooms?
 (fn parse-rooms [s]
   (let [len (string.len s)]
     [(string.sub s 1 (- len 11))
-     (string.sub s (- len 9) (- len 7))
+     (tonumber (string.sub s (- len 9) (- len 7)))
      (string.sub s (- len 5) (- len 1))]))
 
 (fn checksum [room]
@@ -440,7 +440,7 @@ What is the sum of the sector IDs of the real rooms?
   (-> input
       (lume.map #(parse-rooms $))
       (lume.filter #(= (checksum (. $ 1)) (. $ 3)))
-      (lume.map #(tonumber (. $ 2)))
+      (lume.map #(. $ 2))
       (lume.reduce #(+ $1 $2))))
 
 (fn test [expected input]
@@ -454,7 +454,8 @@ What is the sum of the sector IDs of the real rooms?
 #+RESULTS:
 : 361724
 
-* TODO Day 4.2
+
+* DONE Day 4.2
 
 With all the decoy data out of the way, it's time to decrypt this list
 and get moving.
@@ -468,8 +469,36 @@ To  decrypt  a room  name,  rotate  each  letter forward  through  the
 alphabet a number of times equal to the room's sector ID. A becomes B,
 B becomes C, Z becomes A, and so on. Dashes become spaces.
 
-For  example,  the  real  name  for  qzmt-zixmtkozy-ivhz-343  is  very
-encrypted name.
+For  example,  the  real  name for  =qzmt-zixmtkozy-ivhz-343=  is  =very
+encrypted name=.
 
 What is the sector ID of the room where North Pole objects are stored?
 
+#+begin_src fennel :session day04 :exports both
+(local test2-input
+       ["qzmt-zixmtkozy-ivhz-343[zimth]"])
+
+(fn ceasar-decrypt [[room id sum]]
+  (let [xs (aoc.string-split room "-")]
+    (lume.map xs #(aoc.string-shift $ id))))
+
+(fn solve2 [input target]
+  (. 
+   (-> input
+       (lume.map #(parse-rooms $))
+       (lume.filter #(= (checksum (. $ 1)) (. $ 3)))
+       (lume.map (fn [e] [(table.concat (ceasar-decrypt e) " ")
+                          (. e 2)]))
+       (lume.filter (fn [e] (= target (. e 1))))
+       (aoc.first)) 2))
+
+(fn test2 [expected input target]
+  (assert (= expected (solve2 input target))))
+
+(test2 343 test2-input "very encrypted name")
+
+(solve2 (aoc.string-from "2016/04.inp") "northpole object storage")
+#+end_src
+
+#+RESULTS:
+: 482
