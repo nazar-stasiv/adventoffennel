@@ -1,8 +1,12 @@
+# -*- mode:org; org-export-use-babel:nil; org-export-babel-evaluate:nil -*-
 #+TITLE: Advent of fennel
-#+AUTHOR: \copy 2024 Nazar Stasiv
+#+AUTHOR: Nazar Stasiv
 #+EMAIL: nazar@autistici.org
+#+DATE: 2024
 #+LANGUAGE: en
-#+OPTIONS: toc:nil
+#+OPTIONS: title:t author:t email:t toc:t num:nil timestamp:nil
+#+PANDOC_OPTIONS: standalone:t pdf-engine:xelatex template:~/.pandoc/templates/eisvogel.tex 
+#+PANDOC_VARIABLES: lang:en titlepage:t book:true toc:true toc-own-page:true toc-depth:1
 
 * 2023
 ** DONE Day 1.1
