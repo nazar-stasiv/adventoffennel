@@ -82,6 +82,10 @@
       (= 1 exp) mant
       (faccumulate [res mant i 2 exp] (* res mant))))
 
+(fn pown [x n]
+  "return x to power n"
+  (^ x n))
+
 (fn math-gcd [a b]
   "return greatest common denominator of a and b: 12,9->3"
   (if (= 0 b) a
@@ -105,6 +109,10 @@
   (let [res (+ a b)]
     (if (<= res mod) res
         (- res mod))))
+
+(fn mod [x y]
+  "returns x modulo y"
+  (% x y))
 
 (fn math-lcm [a b]
   "return least common multiplier of a and b"
@@ -805,6 +813,7 @@
  : math-sum
  : math-pow
  : pow
+ : pown
  : math-gcd
  : math-lcm
  : math-fact
@@ -908,4 +917,5 @@
  : even?
  : int
  : xor
- : modulo+}
+ : modulo+
+ : mod}
