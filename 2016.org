@@ -533,22 +533,19 @@ Given the actual Door ID, what is the password?
 
 #+begin_src fennel :session day05 :exports both
 (local md5 (require :lib.md5))
+(local lume (require :lib.lume))
+(local aoc (require :lib.aoc))
 
-(fn solve [seed]
+(fn solve [input]
   (var salt 0)
   (let [res []]
     (while (< (# res) 8)
-      (let [hash (md5.sumhexa (.. seed salt))
+      (let [hash (md5.sumhexa (.. input salt))
             prefix (string.sub hash 1 5)]
         (when (= "00000" prefix)
           (table.insert res (string.sub hash 6 6)))
         (set salt (+ 1 salt))))
     (table.concat res "")))
-
-(fn test [expected input] 
-  (assert (= expected (solve input))))
-
-(test "18f47a30" "abc")
 
 (solve "reyedfim")
 #+end_src
@@ -556,7 +553,7 @@ Given the actual Door ID, what is the password?
 #+RESULTS:
 : f97c354d
 
-* TODO Day 5.2
+* DONE Day 5.2
 
 As the  door slides open,  you are presented  with a second  door that
 uses a slightly more  inspired security mechanism. Clearly unimpressed
@@ -586,6 +583,25 @@ For example, if the Door ID is =abc=:
 You almost  choke on your  popcorn as  the final character  falls into
 place, producing the password 05ace8e3.
 
-Given the actual Door ID and this new method, what is the password? Be
-extra  proud of  your solution  if  it uses  a cinematic  "decrypting"
-animation.
+Given the actual Door ID and this new method, what is the password?
+
+#+begin_src fennel :session day05 :exports both
+(fn solve2 [input]
+  (var salt 0)
+  (let [res ["" "" "" "" "" "" "" ""]]
+    (while (lume.find res "")
+      (let [hash (md5.sumhexa (.. input salt))
+            prefix (string.sub hash 1 5)]
+        (when (= "00000" prefix)
+          (let [pos (tonumber (string.sub hash 6 6))]
+            (when (and pos (<= 0 pos 7) (= "" (. res (+ 1 pos))))
+              (aoc.table-swap res (+ 1 pos) (string.sub hash 7 7)))))
+        (set salt (+ 1 salt))))
+    (table.concat res "")))
+
+(solve2 "reyedfim")
+#+end_src
+
+#+RESULTS:
+: 863dde27
+
