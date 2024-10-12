@@ -1,0 +1,87 @@
+#+TITLE: 2015 challenge
+#+AUTHOR: Advent of code
+#+EMAIL: nazar@autistici.org
+#+LANGUAGE: en
+#+OPTIONS: toc:nil
+
+* DONE Day 1.1
+
+Santa  was hoping  for a  white Christmas,  but his  weather machine's
+"snow"  function is  powered by  stars, and  he's fresh  out! To  save
+Christmas, he needs you to collect fifty stars by December 25th.
+
+Collect stars by helping Santa solve puzzles. Two puzzles will be made
+available on  each day in  the Advent  calendar; the second  puzzle is
+unlocked  when  you  complete  the  first.   Each  puzzle  grants  one
+star. Good luck!
+
+Here's an easy puzzle to warm you up.
+
+Santa is trying to deliver presents in a large apartment building, but
+he can't  find the right  floor - the directions  he got are  a little
+confusing. He  starts on the ground  floor (floor 0) and  then follows
+the instructions one character at a time.
+
+An opening  parenthesis, (,  means he  should go up  one floor,  and a
+closing parenthesis, ), means he should go down one floor.
+
+The apartment building is very tall, and the basement is very deep; he
+will never find the top or bottom floors.
+
+For example:
+- (()) and ()() both result in floor 0.
+- ((( and (()(()( both result in floor 3.
+- ))((((( also results in floor 3.
+- ()) and ))( both result in floor -1 (the first basement level).
+- ))) and )())()) both result in floor -3.
+
+To what floor do the instructions take Santa?
+
+#+begin_src fennel :session day01 :exports both
+(local aoc (require :lib.aoc))
+
+(fn solve [input]
+  (var res 0)
+  (let [xs (aoc.string-toarray (. input 1))]
+    (each [_ x (ipairs xs)]
+      (if (= ")" x)
+          (set res (- res 1))
+          (set res (+ 1 res)))))
+  res)
+
+(solve (aoc.string-from "2015/01.inp"))
+#+end_src
+
+#+RESULTS:
+: 74
+
+* DONE Day 1.2
+
+Now,  given the  same instructions,  find  the position  of the  first
+character that causes him to enter  the basement (floor -1). The first
+character in the instructions has position 1, the second character has
+position 2, and so on.
+
+For example:
+- ) causes him to enter the basement at character position 1.
+- ()()) causes him to enter the basement at character position 5.
+
+What is the position of the character that causes Santa to first enter
+the basement?
+
+#+begin_src fennel :session day01 :exports both
+(fn solve2 [input]
+  (var res 0)
+  (var done false)
+  (let [xs (aoc.string-toarray (. input 1))]
+    (each [i x (ipairs xs) &until done]
+      (set res (+ res (if (= ")" x) -1 1)))
+      (when (< res 0) (set done i))))
+  done)
+
+(solve2 (aoc.string-from "2015/01.inp"))
+#+end_src
+
+#+RESULTS:
+: 1795
+
