@@ -476,6 +476,13 @@
       (table.insert res (range-of x col)))
     res))
 
+(fn matrix [x y v]
+  "return x by y matrix of v"
+  (let [res []]
+    (for [i 1 y]
+      (table.insert res (fcollect [i 1 x 1] v)))
+    res))
+
 (fn read-matrix [xs ?n]
   "return 2d array of characters"
   (let [res []]
@@ -484,6 +491,20 @@
         (if ?n (table.insert res (lume.map el #(tonumber $)))
             (table.insert res el))))
     res))
+
+(fn write-matrix [xs out]
+  "writes pbm portable bitmap, caller closes io.out"
+  (let [M (# (. xs 1))
+        N (# xs)]
+    (out.write out (.. "P1\n" M " " M "\n"))
+    (for [i 1 N]
+      (let [y (/ (- N (* 2 i)) N)]
+        (for [j 1 M]
+          (let [x (/ (- (* j 2) M) M)
+                pt (?. (?. xs y) x)]
+            (out.write out (if pt "1" "0"))))))
+    (out.write out "\n"))
+  out)
 
 (fn table-tonumber [xs]
   "returns elements of table converting to numbers"
@@ -879,7 +900,9 @@
  : dec
  : inc
  : new-matrix
- : read-matrix 
+ : matrix
+ : read-matrix
+ : write-matrix
  : table-unpack
  : max
  : min
