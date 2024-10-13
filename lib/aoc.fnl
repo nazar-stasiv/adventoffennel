@@ -849,6 +849,94 @@
       tag
       ">"))
 
+(fn turtle-new [width height]
+  (let [image
+        {:at {:version "1.1"
+              :width (tostring width)
+              :height (tostring height)
+              :xmlns "http://www.w3.org/2000/svg"}
+         :ch [{:rect {:at {:width "100%" :height "100%" :fill "white"}}}]}]
+    {:width width :height height :image image
+     :drawing true :point [1 1] :angle 0 :color "black"}))
+
+(fn turtle-pen-up? [turtle]
+  (not (. turtle :drawing)))
+
+(fn turtle-pen-up [turtle]
+  (tset turtle :drawing false)
+  turtle)
+
+(fn turtle-pen-down [turtle]
+  (tset turtle :drawing true)
+  turtle)
+
+(fn turtle-pen-color [turtle color]
+  "Set pen color to black, silver, gray, white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, teal, aqua"
+  (tset turtle :color color)
+  turtle)
+
+(fn turtle-right [turtle ?degrees]
+  (let [angle (. turtle :angle)]
+    (tset turtle :angle (% (+ angle (or ?degrees 90)) 360)))
+  turtle)
+
+(fn turtle-left [turtle ?degrees]
+  (turtle-right turtle (- (or ?degrees 90)))
+  turtle)
+
+(fn turtle-draw-line [turtle p1 p2]
+  (let [image (. turtle :image)
+        color (. turtle :color)]
+    (table.insert (. image :ch)
+                  {:line {:at {:x1 (. p1 1)
+                               :x2 (. p2 1)
+                               :y1 (. p1 2)
+                               :y2 (. p2 2)
+                               :stroke "black"
+                               :stroke-width 5}}}))
+  turtle)
+
+(fn turtle-forward [turtle steps]
+  (let [p1 (. turtle :point)
+        angle  (. turtle :angle)
+        p2 [(+ (. p1 1) (* (math.sin (* angle (/ math.pi 180))) steps))
+            (+ (. p1 2) (* (math.cos (* angle (/ math.pi 180))) steps))]]
+    (when (. turtle :drawing)
+      (turtle-draw-line turtle p1 p2))
+    (tset turtle :point p2))
+  turtle)
+
+(fn turtle-back [turtle steps]
+  (turtle-forward turtle (- steps))
+  turtle)
+
+(fn turtle-go [turtle x y]
+  (let [p1 (. turtle :point) p2 [x y]]
+    (when (. turtle :drawing)
+      (turtle-draw-line turtle p1 p2))
+    (tset turtle :point p2))
+  turtle)
+
+(fn turtle-toward [turtle x y]
+  (let [p (. turtle :point)
+        polar (math.atan (- (. p 1) x) (- (. p 2) y))
+        angle (% (/ polar (/ math.pi 180)) 360)]
+    (tset turtle :angle angle))
+  turtle)
+
+(fn turtle-distance [turtle x y]
+  (let [p (. turtle :point)]
+    (math.sqrt
+     (+ (^ (- (. p 1) x) 2)
+        (^ (- (. p 2) y) 2)))))
+
+(fn turtle-write [turtle name]
+  (let [out (io.open name "w")
+        image (. turtle :image)]
+    (out.write out (html :svg image))
+    (out.close out))
+  turtle)
+
 {: string-from
  : string-last-index-of
  : string-pushback
@@ -973,4 +1061,18 @@
  : int
  : xor
  : modulo+
- : mod}
+ : mod
+ : turtle-new
+ : turtle-pen-up?
+ : turtle-pen-up
+ : turtle-pen-down
+ : turtle-pen-color
+ : turtle-right
+ : turtle-left
+ : turtle-draw-line
+ : turtle-forward
+ : turtle-back
+ : turtle-go
+ : turtle-toward
+ : turtle-distance
+ : turtle-write}
