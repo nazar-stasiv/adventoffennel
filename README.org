@@ -43,7 +43,7 @@ In this example, the calibration values of these four lines are 12,
 Consider your entire calibration document. What is the sum of all of
 the calibration values?
 
-#+begin_src fennel :session 2301 :exports both
+#+begin_src fennel :session d2301 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -92,7 +92,7 @@ In this  example, the calibration values  are 29, 83, 13,  24, 42, 14,
 and 76. Adding these together produces 281.
 
 What is the sum of all of the calibration values?
-#+begin_src fennel :session 2301 :exports both
+#+begin_src fennel :session d2301 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -213,7 +213,7 @@ Determine which  games would have  been possible  if the bag  had been
 loaded with only 12 red cubes, 13 green cubes, and 14 blue cubes. What
 is the sum of the IDs of those games?
 
-#+begin_src fennel :session 2302 :exports both
+#+begin_src fennel :session d2302 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -307,7 +307,7 @@ respectively. Adding up these five powers produces the sum 2286.
 For each game, find the minimum set of cubes that must have been
 present. What is the sum of the power of these sets?
 
-#+begin_src fennel :session 2302 :exports both
+#+begin_src fennel :session d2302 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -414,7 +414,7 @@ So,  in this  example,  the Elf's  pile of  scratchcards  is worth  13
 points. Take  a seat  in the  large pile of  colorful cards.  How many
 points are they worth in total?
 
-#+begin_src fennel :session 2304 :exports both
+#+begin_src fennel :session d2304 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -533,7 +533,7 @@ Process  all of  the original  and copied  scratchcards until  no more
 scratchcards are won. Including the  original set of scratchcards, how
 many total scratchcards do you end up with?
 
-#+begin_src fennel :session 2304 :exports both
+#+begin_src fennel :session d2304 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -733,7 +733,7 @@ So, the lowest location number in this example is 35.
 What is  the lowest  location number  that corresponds  to any  of the
 initial seed numbers?
 
-#+begin_src fennel :session 2305 :exports both
+#+begin_src fennel :session d2305 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -947,7 +947,7 @@ these values together, you get 288 (4 * 8 * 9).
 Determine  the number  of  ways  you could  beat  the  record in  each
 race. What do you get if you multiply these numbers together?
 
-#+begin_src fennel :session 2306 :exports both
+#+begin_src fennel :session d2306 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -1019,7 +1019,7 @@ a total of 71503 ways!
 
 How many ways can you beat the record in this one much longer race?
 
-#+begin_src fennel :session 2306 :exports both
+#+begin_src fennel :session d2306 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -1147,7 +1147,7 @@ winnings in this example are 6440.
 
 Find the rank of every hand in your set. What are the total winnings?
 
-#+begin_src fennel :session 2307 :exports both
+#+begin_src fennel :session d2307 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -1388,7 +1388,7 @@ ZZZ = (ZZZ, ZZZ)
 Starting at AAA, follow the left/right instructions. How many steps
 are required to reach ZZZ?
 
-#+begin_src fennel :session 2308 :exports both
+#+begin_src fennel :session d2308 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -1494,7 +1494,7 @@ So, in this example, you end up  entirely on nodes that end in Z after
 Simultaneously start  on every node that  ends with A. How  many steps
 does it take before you're only on nodes that end with Z?
 
-#+begin_src fennel :session 2308 :exports both
+#+begin_src fennel :session d2308 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -1667,7 +1667,7 @@ them together, you get 114.
 Analyze your OASIS report and extrapolate the next value for each
 history. What is the sum of these extrapolated values?
 
-#+begin_src fennel :session 2309 :exports both
+#+begin_src fennel :session d2309 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -1756,7 +1756,7 @@ history. Adding all three new values together produces 2.
 Analyze your OASIS report again,  this time extrapolating the previous
 value for each history. What is the sum of these extrapolated values?
 
-#+begin_src fennel :session 2309 :exports both
+#+begin_src fennel :session d2309 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -1923,7 +1923,7 @@ Find the  single giant loop  starting at S.  How many steps  along the
 loop  does it  take to  get from  the starting  position to  the point
 farthest from the starting position?
 
-#+begin_src fennel :session 2310 :exports both
+#+begin_src fennel :session d2310 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -2124,7 +2124,7 @@ path between all 36 pairs of galaxies is 374.
 Expand the universe, then find the length of the shortest path between
 every pair of galaxies. What is the sum of these lengths?
 
-#+begin_src fennel :session 2311 :exports both
+#+begin_src fennel :session d2311 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -2285,7 +2285,7 @@ rocks. In this example, the total load is 136.
 Tilt the platform so that the rounded rocks all roll north. Afterward,
 what is the total load on the north support beams?
 
-#+begin_src fennel :session 2314 :exports both
+#+begin_src fennel :session d2314 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -2480,7 +2480,7 @@ Run  the   HASH  algorithm   on  each   step  in   the  initialization
 sequence. What is the sum of the results? (The initialization sequence
 is one long line; be careful when copy-pasting it.)
 
-#+begin_src fennel :session 2315 :exports both
+#+begin_src fennel :session d2315 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -2570,7 +2570,7 @@ this is 24000 (carried by the fourth Elf).
 Find the  Elf carrying the most  Calories. How many total  Calories is
 that Elf carrying?
 
-#+begin_src fennel :session 2201 :exports both
+#+begin_src fennel :session d2201 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -2624,7 +2624,7 @@ these three elves is 45000.
 Find the top three Elves carrying the most Calories. How many Calories
 are those Elves carrying in total?
 
-#+begin_src fennel :session 2201 :exports both
+#+begin_src fennel :session d2201 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -2703,7 +2703,7 @@ get a total score of 15 (8 + 1 + 6).
 What would your total score be if everything goes exactly according to
 your strategy guide?
 
-#+begin_src fennel :session 2202 :exports both
+#+begin_src fennel :session d2202 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -2768,7 +2768,7 @@ Following the  Elf's instructions  for the  second column,  what would
 your  total score  be if  everything  goes exactly  according to  your
 strategy guide?
 
-#+begin_src fennel :session 2202 :exports both
+#+begin_src fennel :session d2202 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -2861,7 +2861,7 @@ both compartments of each rucksack is 16  (p), 38 (L), 42 (P), 22 (v),
 Find  the  item  type  that  appears  in  both  compartments  of  each
 rucksack. What is the sum of the priorities of those item types?
 
-#+begin_src fennel :session 2203 :exports both
+#+begin_src fennel :session d2203 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -2952,7 +2952,7 @@ attachment efforts: here,  they are 18 (r) for the  first group and 52
 Find the  item type that corresponds  to the badges of  each three-Elf
 group. What is the sum of the priorities of those item types?
 
-#+begin_src fennel :session 2203 :exports both
+#+begin_src fennel :session d2203 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -3043,7 +3043,7 @@ need of reconsideration. In this example, there are 2 such pairs.
 
 In how many assignment pairs does one range fully contain the other?
 
-#+begin_src fennel :session 2204 :exports both
+#+begin_src fennel :session d2204 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -3099,7 +3099,7 @@ and 2-6,4-8) do overlap:
 So,  in  this example,  the  number  of overlapping  assignment  pairs
 is 4. In how many assignment pairs do the ranges overlap?
 
-#+begin_src fennel :session 2204 :exports both
+#+begin_src fennel :session d2204 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -3220,7 +3220,7 @@ Elves the message CMZ.
 After the rearrangement procedure completes, what crate ends up on top
 of each stack?
 
-#+begin_src fennel :session 2205 :exports both
+#+begin_src fennel :session d2205 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -3337,7 +3337,7 @@ that the Elves know where they should  stand to be ready to unload the
 final  supplies. After  the  rearrangement  procedure completes,  what
 crate ends up on top of each stack?
 
-#+begin_src fennel :session 2205 :exports both
+#+begin_src fennel :session d2205 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -3425,7 +3425,7 @@ Here are a few more examples:
 How  many   characters  need   to  be   processed  before   the  first
 start-of-packet marker is detected?
 
-#+begin_src fennel :session 2206 :exports both
+#+begin_src fennel :session d2206 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -3471,7 +3471,7 @@ the above examples:
 How  many   characters  need   to  be   processed  before   the  first
 start-of-message marker is detected?
 
-#+begin_src fennel :session 2206 :exports both
+#+begin_src fennel :session d2206 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -3615,7 +3615,7 @@ more than once!)
 Find all of the directories with a total size of at most 100000. What
 is the sum of the total sizes of those directories?
 
-#+begin_src fennel :session 2207 :exports both
+#+begin_src fennel :session d2207 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -3731,7 +3731,7 @@ Find the  smallest directory  that, if deleted,  would free  up enough
 space on the filesystem  to run the update. What is  the total size of
 that directory?
 
-#+begin_src fennel :session 2207 :exports both
+#+begin_src fennel :session d2207 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -3814,7 +3814,7 @@ interior, a total of 21 trees are visible in this arrangement.
 
 Consider your map; how many trees are visible from outside the grid?
 
-#+begin_src fennel :session 2208 :exports both
+#+begin_src fennel :session d2208 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -3923,7 +3923,7 @@ for the tree house.
 Consider  each tree  on your  map. What  is the  highest scenic  score
 possible for any tree?
 
-#+begin_src fennel :session 2208 :exports both
+#+begin_src fennel :session d2208 :exports both
 (fn count-trees [xs e]
   (var res 0)
   (for [i 1 (length xs) &until (<= e (. xs i))]
@@ -4255,7 +4255,7 @@ So, there are 13 positions the tail visited at least once.
 Simulate  your  complete hypothetical  series  of  motions.  How  many
 positions does the tail of the rope visit at least once?
 
-#+begin_src fennel :session 2209 :exports both
+#+begin_src fennel :session d2209 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -4791,7 +4791,7 @@ Simulate your complete series of motions on a larger rope with ten
 knots. How many positions does the tail of the rope visit at least
 once?
 
-#+begin_src fennel :session 2209 :exports both
+#+begin_src fennel :session d2209 :exports both
 (fn solve2 [input]
   (let [moves (read-input input)
         head (make-move moves)
@@ -4904,7 +4904,7 @@ previous measurement.
 
 How many measurements are larger than the previous measurement?
 
-#+begin_src fennel :session 2101 :exports both
+#+begin_src fennel :session d2101 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -4993,7 +4993,7 @@ sum.
 Consider sums of a three-measurement sliding window. How many sums are
 larger than the previous sum?
 
-#+begin_src fennel :session 2101 :exports both
+#+begin_src fennel :session d2101 :exports both
 (fn solve2 [lines]
   (let [res []]
     (for [i 3 (length lines)]
@@ -5059,7 +5059,7 @@ Calculate  the horizontal  position  and depth  you  would have  after
 following the  planned course. What  do you  get if you  multiply your
 final horizontal position by your final depth?
 
-#+begin_src fennel :session 2102 :exports both
+#+begin_src fennel :session d2102 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -5132,7 +5132,7 @@ horizontal  position and  depth  you would  have  after following  the
 planned course. What do you get  if you multiply your final horizontal
 position by your final depth?
 
-#+begin_src fennel :session 2102 :exports both
+#+begin_src fennel :session d2102 :exports both
 (fn solve2 [lines]
   (let [s {:x 0 :y 0 :z 0}]
     (each [_ line (ipairs lines)]
@@ -5218,7 +5218,7 @@ power consumption of the submarine?  (Be sure to represent your answer
 in decimal, not binary.)
 
 
-#+begin_src fennel :session 2103 :exports both
+#+begin_src fennel :session d2103 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -5344,7 +5344,7 @@ oxygen generator  rating and CO2  scrubber rating, then  multiply them
 together. What is  the life support rating of the  submarine? (Be sure
 to represent your answer in decimal, not binary.)
 
-#+begin_src fennel :session 2103 :exports both
+#+begin_src fennel :session d2103 :exports both
 (fn rate-generator [xs pos]
   (if (= 1 (length xs)) (aoc.todecimal (. xs 1))
       (let [bits (. (aoc.table-transpose xs) pos)
@@ -5478,7 +5478,7 @@ To guarantee victory  against the giant squid, figure  out which board
 will  win first.  What will  your final  score be  if you  choose that
 board?
 
-#+begin_src fennel :session 2104 :exports both
+#+begin_src fennel :session d2104 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input
@@ -5589,7 +5589,7 @@ final score of 148 * 13 = 1924.
 Figure out  which board will  win last. Once  it wins, what  would its
 final score be?
 
-#+begin_src fennel :session 2104 :exports both
+#+begin_src fennel :session d2104 :exports both
 (fn solve2 [deal boards]
   (let [[winner numbers] (find-winner deal boards)]
     (if (= 1 (length boards))
@@ -5676,7 +5676,7 @@ anywhere in the diagram with a 2 or larger - a total of 5 points.
 Consider only horizontal and vertical lines.  At how many points do at
 least two lines overlap?
 
-#+begin_src fennel :session 2105 :exports both
+#+begin_src fennel :session d2105 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input ["0,9 -> 5,9"
@@ -5780,7 +5780,7 @@ diagram with a 2 or larger - now a total of 12 points.
 Consider all of  the lines. At how  many points do at  least two lines
 overlap?
 
-#+begin_src fennel :session 2105 :exports both
+#+begin_src fennel :session d2105 :exports both
 (fn solve2 [lines]
   (let [xs (read-lines lines true)]
     (accumulate [sum 0 _ x (ipairs xs)]
@@ -5884,7 +5884,7 @@ days, there would be a total of 5934.
 Find a way to simulate lanternfish. How many lanternfish would there
 be after 80 days?
 
-#+begin_src fennel :session 2106 :exports both
+#+begin_src fennel :session d2106 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input "3,4,3,1,2")
@@ -5928,7 +5928,7 @@ After  256 days  in  the example  above,  there would  be  a total  of
 26984457539 lanternfish! How many lanternfish would there be after 256
 days?
 
-#+begin_src fennel :session 2106 :exports both
+#+begin_src fennel :session d2106 :exports both
 (fn read-input [input]
   (let [population [0 0 0 0 0 0 0 0 0]]
     (icollect [_ x (ipairs (aoc.string-tonumarray input))]
@@ -6020,7 +6020,7 @@ Determine the horizontal position that the crabs can align to using
 the least fuel possible. How much fuel must they spend to align to
 that position?
 
-#+begin_src fennel :session 2107 :exports both
+#+begin_src fennel :session d2107 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input "16,1,2,0,4,2,7,1,2,14")
@@ -6088,7 +6088,7 @@ Determine the  horizontal position that  the crabs can align  to using
 the least fuel possible so they can make you an escape route! How much
 fuel must they spend to align to that position?
 
-#+begin_src fennel :session 2107 :exports both
+#+begin_src fennel :session d2107 :exports both
 (fn mean [xs]
   (let [sum (aoc.table-sum xs)
         cnt (length xs)]
@@ -6166,7 +6166,7 @@ of the risk levels of all low points in the heightmap is therefore 15.
 Find all of the low points on your heightmap. What is the sum of the
 risk levels of all low points on your heightmap?
 
-#+begin_src fennel :session 2109 :exports both
+#+begin_src fennel :session d2109 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input ["2199943210"
@@ -6270,7 +6270,7 @@ the above example, this is 9 * 14 * 9 = 1134.
 What  do you  get if  you  multiply together  the sizes  of the  three
 largest basins?
 
-#+begin_src fennel :session 2109 :exports both
+#+begin_src fennel :session d2109 :exports both
 (fn table-contains? [xs e]
   (var contains false)
   (each [i x (ipairs xs) &until contains]
@@ -6407,7 +6407,7 @@ Find  the  first illegal  character  in  each  corrupted line  of  the
 navigation subsystem. What  is the total syntax error  score for those
 errors?
 
-#+begin_src fennel :session 2110 :exports both
+#+begin_src fennel :session d2110 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input ["[({(<(())[]>[[{[]{<()<>>"
@@ -6525,7 +6525,7 @@ and larger than it.
 Find  the  completion  string  for each  incomplete  line,  score  the
 completion strings, and sort the scores. What is the middle score?
 
-#+begin_src fennel :session 2110 :exports both
+#+begin_src fennel :session d2110 :exports both
 (fn complete [xs]
   (var score 0)
   (each [_ v (ipairs xs)]
@@ -6622,7 +6622,7 @@ the correct answer is 514579.
 Of course,  your expense report is  much larger. Find the  two entries
 that sum to 2020; what do you get if you multiply them together?
 
-#+begin_src fennel :session 2001 :exports both
+#+begin_src fennel :session d2001 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -6661,7 +6661,7 @@ answer, 241861950.
 In your expense report, what is  the product of the three entries that
 sum to 2020?
 
-#+begin_src fennel :session 2001 :exports both
+#+begin_src fennel :session d2001 :exports both
 (fn solve2 [input]
   (var res nil)
   (for [i 1 (length input) &until res]
@@ -6723,7 +6723,7 @@ or nine c, both within the limits of their respective policies.
 
 How many passwords are valid according to their policies?
 
-#+begin_src fennel :session 2002 :exports both
+#+begin_src fennel :session d2002 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -6794,7 +6794,7 @@ Given the same example list from above:
 How many passwords are valid according to the new interpretation of
 the policies?
 
-#+begin_src fennel :session 2002 :exports both
+#+begin_src fennel :session d2002 :exports both
 (fn validate-policy2 [p]
   (let [val (. p :val)
         arr (aoc.string-toarray (. p :pass))]
@@ -6900,7 +6900,7 @@ to encounter 7 trees.
 Starting at the  top-left corner of your map and  following a slope of
 right 3 and down 1, how many trees would you encounter?
 
-#+begin_src fennel :session 2003 :exports both
+#+begin_src fennel :session d2003 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -6966,7 +6966,7 @@ answer 336.
 What  do  you  get  if  you multiply  together  the  number  of  trees
 encountered on each of the listed slopes?
 
-#+begin_src fennel :session 2003 :exports both
+#+begin_src fennel :session d2003 :exports both
 (fn solve2 [lines]
   (let [slopes [[1 1]
                 [3 1]
@@ -7054,7 +7054,7 @@ Count the  number of valid  passports -  those that have  all required
 fields. Treat cid as optional. In  your batch file, how many passports
 are valid?
 
-#+begin_src fennel :session 2004 :exports both
+#+begin_src fennel :session d2004 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input
@@ -7190,7 +7190,7 @@ Count the number of valid passports - those that have all required
 fields and valid values. Continue to treat cid as optional. In your
 batch file, how many passports are valid?
 
-#+begin_src fennel :session 2004 :exports both
+#+begin_src fennel :session d2004 :exports both
 (local test-input2
        ["pid:087499704 hgt:74in ecl:grn iyr:2012 eyr:2030 byr:1980"
         "hcl:#623a2f"
@@ -7360,7 +7360,7 @@ Here are some other boarding passes:
 As a sanity check, look through  your list of boarding passes. What is
 the highest seat ID on a boarding pass?
 
-#+begin_src fennel :session 2005 :exports both
+#+begin_src fennel :session d2005 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input ["FBFBBFFRLR"
@@ -7429,7 +7429,7 @@ Your seat wasn't at the very front or back, though; the seats with IDs
 
 What is the ID of your seat?
 
-#+begin_src fennel :session 2005 :exports both
+#+begin_src fennel :session d2005 :exports both
 (fn solve2 [lines]
   (let [all-seats (aoc.range-to 85 890)
         taken-seats (find-seat-nums lines)
@@ -7507,7 +7507,7 @@ In this example, the sum of these counts is 3 + 3 + 3 + 1 + 1 = 11.
 For each group, count the number of questions to which anyone answered
 "yes". What is the sum of those counts?
 
-#+begin_src fennel :session 2006 :exports both
+#+begin_src fennel :session d2006 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input ["abc" ""
@@ -7589,7 +7589,7 @@ In this example, the sum of these counts is =3 + 0 + 1 + 1 + 1 = 6=.
 For each group, count the number of questions to which everyone
 answered "yes". What is the sum of those counts?
 
-#+begin_src fennel :session 2006 :exports both
+#+begin_src fennel :session d2006 :exports both
 (fn every-answers [input]
   (when (not= "" (. input (length input)))
     (table.insert input ""))
@@ -7668,7 +7668,7 @@ contain at least one shiny gold bag is 4.
 How many  bag colors can  eventually contain  at least one  shiny gold
 bag? (The list of rules is quite long; make sure you get all of it.)
 
-#+begin_src fennel :session 2007 :exports both
+#+begin_src fennel :session d2007 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input
@@ -7777,7 +7777,7 @@ In this example, a single =shiny gold= bag must contain 126 other bags.
 How many  individual bags are  required inside your single  =shiny gold=
 bag?
 
-#+begin_src fennel :session 2007 :exports both
+#+begin_src fennel :session d2007 :exports both
 (local test2-input
        ["shiny gold bags contain 2 dark red bags."
         "dark red bags contain 2 dark orange bags."
@@ -7891,7 +7891,7 @@ the value in the accumulator is 5.
 Run your copy of the boot  code. Immediately before any instruction is
 executed a second time, what value is in the accumulator?
 
-#+begin_src fennel :session 2008 :exports both
+#+begin_src fennel :session d2008 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input
@@ -7988,7 +7988,7 @@ Fix the program so that it terminates normally by changing exactly one
 jmp (to  nop) or nop  (to jmp). What is  the value of  the accumulator
 after the program terminates?
 
-#+begin_src fennel :session 2008 :exports both
+#+begin_src fennel :session d2008 :exports both
 (fn run [input]
   (local len (length input))
   (var pos 1)
@@ -8129,7 +8129,7 @@ the first number in the list (after the preamble) which is not the sum
 of two of the 25 numbers before it. What is the first number that does
 not have this property?
 
-#+begin_src fennel :session 2009 :exports both
+#+begin_src fennel :session d2009 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input
@@ -8225,7 +8225,7 @@ producing 62.
 What  is  the  encryption  weakness in  your  XMAS-encrypted  list  of
 numbers?
 
-#+begin_src fennel :session 2009 :exports both
+#+begin_src fennel :session d2009 :exports both
 (fn solve2 [input x]
   (var over false)
   (var res 0)
@@ -8294,7 +8294,7 @@ module (your puzzle input), then add together all the fuel values.
 What is  the sum of  the fuel requirements for  all of the  modules on
 your spacecraft?
 
-#+begin_src fennel :session 1901 :exports both
+#+begin_src fennel :session d1901 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input ["12" "14" "1969" "100756"])
@@ -8351,7 +8351,7 @@ your spacecraft  when also taking into  account the mass of  the added
 fuel?  (Calculate the  fuel requirements  for each  module separately,
 then add them all up at the end.)
 
-#+begin_src fennel :session 1901 :exports both
+#+begin_src fennel :session d1901 :exports both
 (fn added-fuel [mass]
   (let [res (aoc.lazy-seq [mass] fuel)]
     (aoc.table-sum (aoc.table-range res 2 (length res)))))
@@ -8470,7 +8470,7 @@ before running the  program, replace position 1 with the  value 12 and
 replace position 2 with the value 2.  What value is left at position 0
 after the program halts?
 
-#+begin_src fennel :session 1902 :exports both
+#+begin_src fennel :session d1902 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test1-input "1,9,10,3,2,3,11,0,99,30,40,50")
@@ -8568,7 +8568,7 @@ Find the  input noun and  verb that cause  the program to  produce the
 output 19690720. =What is 100 *  noun + verb=?  (For example, if noun=12
 and verb=2, the answer would be 1202.)
 
-#+begin_src fennel :session 1902 :exports both
+#+begin_src fennel :session d1902 :exports both
 (fn complete-gravity-assist [input]
   (var done false)
   (for [i 0 99 &until done]
@@ -8650,7 +8650,7 @@ Here are a few more examples:
 What is  the Manhattan distance from  the central port to  the closest
 intersection?
 
-#+begin_src fennel :session 1903 :exports both
+#+begin_src fennel :session d1903 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test1-input
@@ -8738,7 +8738,7 @@ What is  the fewest  combined steps  the wires must  take to  reach an
 intersection?
 
 
-#+begin_src fennel :session 1903 :exports both
+#+begin_src fennel :session d1903 :exports both
 (fn linear-dist [p s]
   (var done false)
   (let [res []]
@@ -8792,7 +8792,7 @@ Other than the range rule, the following are true:
 How many  different passwords  within 134792-675810 range meet these
 criteria?
 
-#+begin_src fennel :session 1904 :exports both
+#+begin_src fennel :session d1904 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -8843,7 +8843,7 @@ the following are now true:
 How many  different passwords  within the range  given in  your puzzle
 input meet all of the criteria?
 
-#+begin_src fennel :session 1904 :exports both
+#+begin_src fennel :session d1904 :exports both
 (fn two-adjacent? [xs]
   (let [bins (aoc.partition-by xs identity)]
     (lume.any bins #(= 2 (length $)))))
@@ -8966,7 +8966,7 @@ the diagnostic code, the diagnostic program ran successfully.
 After providing  1 to the only  input instruction and passing  all the
 tests, what diagnostic code does the program produce?
 
-#+begin_src fennel :session 1905 :exports both
+#+begin_src fennel :session d1905 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -9089,7 +9089,7 @@ outputs one number, the =diagnostic code=.
 
 What is the diagnostic code for system ID 5?
 
-#+begin_src fennel :session 1905 :exports both
+#+begin_src fennel :session d1905 :exports both
 (fn intcode-v2 [xs input]
   (var pos 1)
   (var done false)
@@ -9317,7 +9317,7 @@ The total number of direct and indirect orbits in this example is 42.
 What is the total number of direct and indirect orbits in your map
 data?
 
-#+begin_src fennel :session 1906 :exports both
+#+begin_src fennel :session d1906 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input ["COM)B"
@@ -9417,7 +9417,7 @@ What is the minimum number of  orbital transfers required to move from
 the object  YOU are orbiting to  the object SAN is  orbiting? (Between
 the objects they are orbiting - not between YOU and SAN.)
 
-#+begin_src fennel :session 1906 :exports both
+#+begin_src fennel :session d1906 :exports both
 (local test2-input
        ["COM)B"
         "B)C"
@@ -9508,7 +9508,7 @@ would like you to find the layer that contains the fewest 0 digits. On
 that layer, what is the number of 1 digits multiplied by the number of
 2 digits?
 
-#+begin_src fennel :session 1908 :exports both
+#+begin_src fennel :session d1908 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -9589,7 +9589,7 @@ So, the final image looks like this:
 
 What message is produced after decoding your image?
 
-#+begin_src fennel :session 1908 :exports both :results output
+#+begin_src fennel :session d1908 :exports both :results output
 (fn color [xs]
   (var res false)
   (each [_ col (ipairs xs) &until res]
@@ -9699,7 +9699,7 @@ Here are other example situations:
 Starting with  a frequency  of zero, what  is the  resulting frequency
 after all of the changes in frequency have been applied?
 
-#+begin_src fennel :session 1801 :exports both
+#+begin_src fennel :session d1801 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input ["+1" "-2" "+3" "+1"])
@@ -9751,7 +9751,7 @@ Here are other examples:
 
 What is the first frequency your device reaches twice?
 
-#+begin_src fennel :session 1801 :exports both
+#+begin_src fennel :session d1801 :exports both
 (fn solve2 [input]
   (let [xs (lume.map input #(tonumber $))]
     (var pos 2)
@@ -9830,7 +9830,7 @@ times. Multiplying these together produces a checksum of 4 * 3 = 12.
 
 What is the checksum for your list of box IDs?
 
-#+begin_src fennel :session 1802 :exports both
+#+begin_src fennel :session d1802 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input
@@ -9893,7 +9893,7 @@ What  letters are  common between  the two  correct box  IDs? (In  the
 example above, this is found  by removing the differing character from
 either ID, producing fgij.)
 
-#+begin_src fennel :session 1802 :exports both
+#+begin_src fennel :session d1802 :exports both
 (local test2-input
        ["abcde"
         "fghij"
@@ -9993,7 +9993,7 @@ If the Elves all proceed with their  own plans, none of them will have
 enough fabric. How many square inches of fabric are within two or more
 claims?
 
-#+begin_src fennel :session 1803 :exports both
+#+begin_src fennel :session d1803 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input
@@ -10059,7 +10059,7 @@ claims are made.
 
 What is the ID of the only claim that doesn't overlap?
 
-#+begin_src fennel :session 1803 :exports both
+#+begin_src fennel :session d1803 :exports both
 (fn solve2 [input]
   (var done false)
   (let [claims (read-lines input)
@@ -10168,7 +10168,7 @@ before they can be analyzed.
 What is  the ID of  the guard you chose  multiplied by the  minute you
 chose? (In the above example, the answer would be 10 * 24 = 240.)
 
-#+begin_src fennel :session 1804 :exports both
+#+begin_src fennel :session d1804 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input
@@ -10254,7 +10254,7 @@ guard spent any minute asleep at most twice.)
 What is  the ID of  the guard you chose  multiplied by the  minute you
 chose? (In the above example, the answer would be 99 * 45 = 4455.)
 
-#+begin_src fennel :session 1804 :exports both
+#+begin_src fennel :session d1804 :exports both
 (fn max-frequency2 [xs]
   (let [ids (aoc.keys xs)
         res []]
@@ -10326,7 +10326,7 @@ How many  units remain after  fully reacting the polymer  you scanned?
 (Note:  in  this  puzzle  and  others, the  input  is  large;  if  you
 copy/paste your input, make sure you get the whole thing.)
 
-#+begin_src fennel :session 1805 :exports both
+#+begin_src fennel :session d1805 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input ["dabAcCaCBAcCcaDA"])
@@ -10387,7 +10387,7 @@ answer 4.
 What is the length of the shortest polymer you can produce by removing
 all units of exactly one type and fully reacting the result?
 
-#+begin_src fennel :session 1805 :exports both
+#+begin_src fennel :session d1805 :exports both
 (fn solve2 [input]
   (let [line (. input 1)
         xs (aoc.string-toarray "abcdefghijklmnopqrstuvwxyz")]
@@ -10485,7 +10485,7 @@ example, the size of the largest area is 17.
 
 What is the size of the largest area that isn't infinite?
 
-#+begin_src fennel :session 1806 :exports both
+#+begin_src fennel :session d1806 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input ["1, 1" "1, 6" "8, 3" "3, 4" "5, 5" "8, 9"])
@@ -10582,7 +10582,7 @@ than 10000.
 What is the  size of the region containing all  locations which have a
 total distance to all given coordinates of less than 10000?
 
-#+begin_src fennel :session 1806 :exports both
+#+begin_src fennel :session d1806 :exports both
 (fn populate2 [plane points]
   (for [y 1 (# plane)]
     (for [x 1 (# (. plane y))]
@@ -10684,7 +10684,7 @@ So, in this example, the correct order is CABDFE.
 
 In what order should the steps in your instructions be completed?
 
-#+begin_src fennel :session 1807 :exports both
+#+begin_src fennel :session d1807 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input
@@ -10791,7 +10791,7 @@ For example:
   
 What is the solution to your captcha?
 
-#+begin_src fennel :session 1701 :exports both
+#+begin_src fennel :session d1701 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (fn solve [input]
@@ -10840,7 +10840,7 @@ For example:
 
 What is the solution to your new captcha?
 
-#+begin_src fennel :session 1701 :exports both
+#+begin_src fennel :session d1701 :exports both
 (fn solve2 [input]
   (let [xs (lume.map (aoc.string-toarray (. input 1)) #(tonumber $))]
     (aoc.table-sum
@@ -10893,7 +10893,7 @@ In this example, the spreadsheet's checksum would be 8 + 4 + 6 = 18.
 What is the checksum for the spreadsheet in your puzzle input?
 
 
-#+begin_src fennel :session 1702 :exports both
+#+begin_src fennel :session d1702 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input
@@ -10954,7 +10954,7 @@ In this example, the sum of the results would be =4 + 3 + 2 = 9=.
 
 What is the sum of each row's result in your puzzle input?
 
-#+begin_src fennel :session 1702 :exports both
+#+begin_src fennel :session d1702 :exports both
 (local test2-input
        ["5\t9\t2\t8"
         "9\t4\t7\t3"
@@ -11006,7 +11006,7 @@ For example:
 The  system's  full  passphrase  list  is  available  as  your  puzzle
 input. How many passphrases are valid?
 
-#+begin_src fennel :session 1704 :exports both
+#+begin_src fennel :session d1704 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input
@@ -11054,7 +11054,7 @@ For example:
   
 Under this new system policy, how many passphrases are valid?
 
-#+begin_src fennel :session 1704 :exports both
+#+begin_src fennel :session d1704 :exports both
 (local test2-input
        ["abcde fghij"
         "abcde xyz ecdab"
@@ -11131,7 +11131,7 @@ found:
 In this example, the  exit is reached in 5 steps.  How many steps does
 it take to reach the exit?
 
-#+begin_src fennel :session 1705 :exports both
+#+begin_src fennel :session d1705 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input
@@ -11178,7 +11178,7 @@ Using  this rule  with the  above example,  the process  now takes  10
 steps, and the offset values after finding  the exit are left as 2 3 2
 3 -1. How many steps does it now take to reach the exit?
 
-#+begin_src fennel :session 1705 :exports both
+#+begin_src fennel :session d1705 :exports both
 (fn table-inc2 [t p]
   (let [old (. t (+ 1 p))]
     (if (<= 3 old)
@@ -11256,7 +11256,7 @@ Given  the  initial  block  counts  in your  puzzle  input,  how  many
 redistribution  cycles must  be  completed before  a configuration  is
 produced that has been seen before?
 
-#+begin_src fennel :session 1706 :exports both
+#+begin_src fennel :session d1706 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input ["0\t2\t7\t0"])
@@ -11304,7 +11304,7 @@ the answer in that example would be 4.
 How  many  cycles are  in  the  infinite  loop  that arises  from  the
 configuration in your puzzle input?
 
-#+begin_src fennel :session 1706 :exports both
+#+begin_src fennel :session d1706 :exports both
 (fn solve2 [input]
   (let [res (solve input)
         xs0 (. res (# res))
@@ -11360,7 +11360,7 @@ For example:
 
 How many blocks away is Easter Bunny HQ?
 
-#+begin_src fennel :session 1601 :exports both
+#+begin_src fennel :session d1601 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -11406,7 +11406,7 @@ location you visit twice is 4 blocks away, due East.
 
 How many blocks away is the first location you visit twice?
 
-#+begin_src fennel :session 1601 :exports both
+#+begin_src fennel :session d1601 :exports both
 (fn solve2 [input]
   (var dir (/ math.pi 2))
   (var x 0)
@@ -11501,7 +11501,7 @@ So, in this example, the bathroom code is 1985.
 Your puzzle input  is the instructions from the document  you found at
 the front desk. What is the bathroom code?
 
-#+begin_src fennel :session 1602 :exports both
+#+begin_src fennel :session d1602 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -11571,7 +11571,7 @@ So, given the actual keypad layout,  the code would be =5DB3=. Using the
 same instructions in  your puzzle input, what is  the correct bathroom
 code?
 
-#+begin_src fennel :session 1602 :exports both
+#+begin_src fennel :session d1602 :exports both
 (fn solve2 [input]
   (let [pos {:x 1 :y 3}
         xs (lume.map input #(aoc.string-toarray $))
@@ -11629,7 +11629,7 @@ because 5 + 10 is not larger than 25.
 
 In your puzzle input, how many of the listed triangles are possible?
 
-#+begin_src fennel :session 1603 :exports both
+#+begin_src fennel :session d1603 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input ["  5  10  25"])
@@ -11685,7 +11685,7 @@ hundreds digit would be part of the same triangle:
 In your puzzle input, and instead  reading by columns, how many of the
 listed triangles are possible?
 
-#+begin_src fennel :session 1603 :exports both
+#+begin_src fennel :session d1603 :exports both
 (fn solve2 [input]
   (-> input
       (lume.map #(aoc.string-tonumarray $))
@@ -11728,7 +11728,7 @@ is 1514.
 
 What is the sum of the sector IDs of the real rooms?
 
-#+begin_src fennel :session 1604 :exports both
+#+begin_src fennel :session d1604 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 (local test-input
@@ -11794,7 +11794,7 @@ encrypted name=.
 
 What is the sector ID of the room where North Pole objects are stored?
 
-#+begin_src fennel :session 1604 :exports both
+#+begin_src fennel :session d1604 :exports both
 (local test2-input
        ["qzmt-zixmtkozy-ivhz-343[zimth]"])
 
@@ -11851,7 +11851,7 @@ the password is 18f47a30.
 
 Given the actual Door ID, what is the password?
 
-#+begin_src fennel :session 1605 :exports both
+#+begin_src fennel :session d1605 :exports both
 (local md5 (require :lib.md5))
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
@@ -11905,7 +11905,7 @@ place, producing the password 05ace8e3.
 
 Given the actual Door ID and this new method, what is the password?
 
-#+begin_src fennel :session 1605 :exports both
+#+begin_src fennel :session d1605 :exports both
 (fn solve2 [input]
   (var salt 0)
   (let [res ["" "" "" "" "" "" "" ""]]
@@ -11960,7 +11960,7 @@ For example:
 
 To what floor do the instructions take Santa?
 
-#+begin_src fennel :session 1501 :exports both
+#+begin_src fennel :session d1501 :exports both
 (local aoc (require :lib.aoc))
 
 (fn solve [input]
@@ -11992,7 +11992,7 @@ For example:
 What is the position of the character that causes Santa to first enter
 the basement?
 
-#+begin_src fennel :session 1501 :exports both
+#+begin_src fennel :session d1501 :exports both
 (fn solve2 [input]
   (var res 0)
   (var done false)
@@ -12032,7 +12032,7 @@ For example:
 All numbers in the elves' list are in feet. How many total square feet
 of wrapping paper should they order?
 
-#+begin_src fennel :session 1502 :exports both
+#+begin_src fennel :session d1502 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
@@ -12086,7 +12086,7 @@ For example:
 
 How many total feet of ribbon should they order?
 
-#+begin_src fennel :session 1502 :exports both
+#+begin_src fennel :session d1502 :exports both
 (fn volume [w h l]
   (* w h l))
 
@@ -12115,3 +12115,105 @@ How many total feet of ribbon should they order?
 
 #+RESULTS:
 : 3783758
+
+** DONE Day 3.1
+
+Santa is  delivering presents to  an infinite two-dimensional  grid of
+houses.
+
+He  begins by  delivering  a  present to  the  house  at his  starting
+location, and then  an elf at the  North Pole calls him  via radio and
+tells him where  to move next.  Moves are always  exactly one house to
+the north (^), south (v), east (>),  or west (<).  After each move, he
+delivers another present to the house at his new location.
+
+However, the  elf back  at the north  pole has had  a little  too much
+eggnog, and  so his  directions are  a little off,  and Santa  ends up
+visiting some houses more than once.  How many houses receive at least
+one present?
+
+For example:
+- > delivers presents to 2 houses: one at the starting location, and
+  one to the east.
+- ^>v< delivers presents to 4 houses in a square, including twice to
+  the house at his starting/ending location.
+- ^v^v^v^v^v delivers a bunch of presents to some very lucky children
+  at only 2 houses.
+  
+#+begin_src fennel :session d1503 :exports both
+(local lume (require :lib.lume))
+(local aoc (require :lib.aoc))
+
+(fn visit-houses [dir res pos]
+  (case dir
+    "^" (tset pos :y (+ (. pos :y) 1))
+    "v" (tset pos :y (+ (. pos :y) -1 ))
+    ">" (tset pos :x (+ (. pos :x) 1 ))
+    "<" (tset pos :x (+ (. pos :x) -1 ))
+    _ (print (.. "Too much eggnog. Instruction unclear: " dir)))
+  (let [cur [(. pos :x) (. pos :y)]]
+    (when (not (aoc.matrix-contains? res cur)) 
+      (table.insert res cur))))
+
+(fn solve [input]
+  (let [pos {:x 0 :y 0}
+        res [[(. pos :x) (. pos :y)]]
+        xs (aoc.string-toarray (. input 1))]
+    (lume.map xs #(visit-houses $ res pos))
+    (length res)))
+
+(fn test [expected input]
+  (assert (= expected (solve [input]))))
+
+(test 2 ">")
+(test 4 "^>v<")
+(test 2 "^v^v^v^v^v")
+
+(solve (aoc.string-from "2015/03.inp"))
+#+end_src
+
+#+RESULTS:
+: 2081
+
+** DONE Day 3.2
+
+The next year, to speed up  the process, Santa creates a robot version
+of himself, Robo-Santa, to deliver presents with him.
+
+Santa  and  Robo-Santa start  at  the  same location  (delivering  two
+presents to the same starting house),  then take turns moving based on
+instructions from  the elf, who  is eggnoggedly reading from  the same
+script as the previous year.
+
+This year, how many houses receive at least one present?
+
+For example:
+- ^v delivers presents to 3 houses, because Santa goes north, and then
+  Robo-Santa goes south.
+- ^>v< now delivers presents to 3 houses, and Santa and Robo-Santa end
+  up back where they started.
+- ^v^v^v^v^v now delivers presents to 11 houses, with Santa going one
+  direction and Robo-Santa going the other.
+
+#+begin_src fennel :session d1503 :exports both
+(fn solve2 [input]
+  (let [pos-odd {:x 0 :y 0}
+        pos-even {:x 0 :y 0}
+        res [[(. pos-odd :x) (. pos-odd :y)]]
+        xs (aoc.string-toarray (. input 1))]
+    (lume.map (aoc.table-odd xs) #(visit-houses $ res pos-odd))
+    (lume.map (aoc.table-even xs) #(visit-houses $ res pos-even))
+    (length res)))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 [input]))))
+
+(test2 3 "^v")
+(test2 3 "^>v<")
+(test2 11 "^v^v^v^v^v")
+
+(solve2 (aoc.string-from "2015/03.inp"))
+#+end_src
+
+#+RESULTS:
+: 2341

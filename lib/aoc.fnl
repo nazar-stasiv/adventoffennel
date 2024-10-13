@@ -798,6 +798,15 @@
   "returns true if x is even integer"  
   (not (odd? x)))
 
+(fn table-odd [xs]
+  "returns xs elements if element index is odd"
+  (icollect [k v (ipairs xs)]
+    (if (= 1 (% k 2)) v nil)))
+
+(fn table-even [xs]
+  "returns xs elements if element index is even"
+  (icollect [k v (ipairs xs)]
+    (if (= 0 (% k 2)) v nil)))
 
 {: string-from
  : string-last-index-of
@@ -915,6 +924,8 @@
  : ppop
  : odd?
  : even?
+ : table-odd
+ : table-even
  : int
  : xor
  : modulo+
