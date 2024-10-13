@@ -829,6 +829,26 @@
   (icollect [k v (ipairs xs)]
     (if (= 0 (% k 2)) v nil)))
 
+(fn html [tag xs]
+  "return tag with attributes (. xs :at) and children (. xs :ch)"
+  (.. "\n<"
+      tag
+      (if (. xs :at)
+          (accumulate [attrs " " k v (pairs (. xs :at))]
+            (.. attrs " " k "=" "\"" v "\"")) "")
+      ">"
+      (if (. xs :ch)
+          (accumulate [ch "" _ c (ipairs (. xs :ch))]
+            (.. ch  (case (type c)
+                      :nil ""
+                      :string c
+                      :table (accumulate [children "" k v (pairs c)]
+                               (.. children (html k v)))
+                      _ (tostring c)))) "")
+      "\n</"
+      tag
+      ">"))
+
 {: string-from
  : string-last-index-of
  : string-pushback
@@ -949,6 +969,7 @@
  : even?
  : table-odd
  : table-even
+ : html
  : int
  : xor
  : modulo+
