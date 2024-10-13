@@ -937,6 +937,51 @@
     (out.close out))
   turtle)
 
+(fn prob-bayes [baserate newevidence]
+  "Given base-rate, how strong is new evidence"
+  (/ newevidence
+     (+ newevidence
+        (* (- 1 newevidence)
+           (/ (- 1 baserate) baserate)))))
+
+(fn prob-mean [xs]
+  "what is mean value for xs elements"
+  (var res 0)
+  (let [n (length xs)]
+    (each [_ v (ipairs xs)]
+      (set res (+ res v)))
+    (/ res n)))
+
+(fn prob-variation [xs]
+  "what is deviation² for xs elements"
+  (var res 0)
+  (let [avg (prob-mean xs)]
+    (each [_ x (ipairs xs)]
+      (set res (+ res (^ (- x avg) 2)))))
+  (/ res (- (length xs) 1)))
+
+(fn prob-dist-binom [p n i]
+  "Given infection rate 20%, chance to shake hands with less than 3 infected people at 40-hands meeting is (prob-dist-binom 0.2 40 3)"
+  (faccumulate [res 0 j 0 (- i 1)]
+    (+ res (* (^ p j) (^ (- 1 p) (- n j))))))
+
+(fn prob-dist-geom [p i]
+  "given 3 dice rolls, chance of 6 is (prob-dist-geom (/ 1 6) 3)"
+  (faccumulate [res p j 1 (- i 1)]
+    (+ res (* p (^ (- 1 p) j)))))
+
+(fn prob-nchoosei [n i]
+  "Number of sets of i out of n elements is (prob-nchoosei n i)"
+  (/ (math-fact n)
+     (* (math-fact i)
+        (math-fact (- n i)))))
+
+(fn prob-binom [n i p]
+  "chance for a couple to have 3 daughters out of 5 children is (prob-binom 5 3 0.5); With 0.05 zombie infection rate, chance to get through 20 people to the shelter door and surviving at most 2 contacts is (+ (prob-binom 20 0 0.05) (prob-binom 20 1 0.05) (prob-binom 20 2 0.05))"
+  (* (prob-nchoosei n i)
+     (^ p i)
+     (^ (- 1 p) (- n i))))
+
 {: string-from
  : string-last-index-of
  : string-pushback
@@ -1075,4 +1120,12 @@
  : turtle-go
  : turtle-toward
  : turtle-distance
- : turtle-write}
+ : turtle-write
+ : prob-bayes
+ : prob-mean
+ : prob-variation
+ : prob-dist-binom
+ : prob-dist-geom
+ : prob-nchoosei
+ : prob-binom
+ }
