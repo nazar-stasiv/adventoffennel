@@ -12530,7 +12530,159 @@ Now find one that starts with six zeroes.
 #+RESULTS:
 : 9962624
 
+
+
+** DONE Day 5.1
+
+Santa  needs help  figuring out  which strings  in his  text file  are
+naughty or nice.
+
+A nice string is one with all of the following properties:
+- It contains at least three vowels (aeiou only), like aei, xazegov,
+  or aeiouaeiouaeiou.
+- It contains at least one letter that appears twice in a row, like
+  xx, abcdde (dd), or aabbccdd (aa, bb, cc, or dd).
+- It does not contain the strings ab, cd, pq, or xy, even if they are
+  part of one of the other requirements.
   
+For example:
+- ugknbfddgicrmopn is nice because it has at least three vowels
+  (u...i...o...), a double letter (...dd...), and none of the
+  disallowed substrings.
+- aaa is nice because it has at least three vowels and a double
+  letter, even though the letters used by different rules overlap.
+- jchzalrnumimnmhp is naughty because it has no double letter.
+- haegwjzuvuyypxyu is naughty because it contains the string xy.
+- dvszwmarrgswjxmb is naughty because it contains only one vowel.
+
+How many strings are nice?
+
+#+begin_src fennel :session d1505 :exports both
+(local lume (require :lib.lume))
+(local aoc (require :lib.aoc))
+(local test-input
+       ["ugknbfddgicrmopn"
+        "aaa"
+        "jchzalrnumimnmhp"
+        "haegwjzuvuyypxyu"
+        "dvszwmarrgswjxmb"])
+
+(fn none-of-ab-p [x]
+  (not (string.find x "ab" 1 true)))
+
+(fn none-of-cd-p [x]
+  (not (string.find x "cd" 1 true)))
+
+(fn none-of-pq-p [x]
+  (not (string.find x "pq" 1 true)))
+
+(fn none-of-xy-p [x]
+  (not (string.find x "xy" 1 true)))
+
+(fn one-double-p [x]
+  (let [ys (aoc.partition1 (aoc.string-toarray x))]
+    (lume.any ys (fn [[c1 c2]] (= c1 c2)))))
+
+(fn three-vowels-p [x]
+  (var count 0)
+  (each [_ c (ipairs (aoc.string-toarray x))]
+    (case c
+      "a" (set count (+ 1 count))
+      "e" (set count (+ 1 count))
+      "i" (set count (+ 1 count))
+      "o" (set count (+ 1 count))
+      "u" (set count (+ 1 count))
+      _ nil))
+  (<= 3 count))
+
+(fn solve [input]
+  (-> input
+      (lume.filter #(none-of-ab-p $))
+      (lume.filter #(none-of-cd-p $))
+      (lume.filter #(none-of-pq-p $))
+      (lume.filter #(none-of-xy-p $))
+      (lume.filter #(one-double-p $))
+      (lume.filter #(three-vowels-p $))
+      (length)))
+
+(fn test [expected input]
+  (assert (= expected (solve input))))
+
+(test 2 test-input)
+
+(solve (aoc.string-from "2015/05.inp"))
+#+end_src
+
+#+RESULTS:
+: 236
+
+** DONE Day 5.2
+
+Realizing the error of his ways,  Santa has switched to a better model
+of determining  whether a string is  naughty or nice. None  of the old
+rules apply, as they are all clearly ridiculous.
+
+Now, a nice string is one with all of the following properties:
+- It contains a pair of any two letters that appears at least twice in
+  the string without  overlapping, like xyxy (xy)  or aabcdefgaa (aa),
+  but not like aaa (aa, but it overlaps).
+- It  contains at  least one  letter  which repeats  with exactly  one
+  letter between them, like xyx, abcdefeghi (efe), or even aaa.
+  
+For example:
+- qjhvhtzxzqqjkmpb is  nice because is  has a pair that  appears twice
+  (qj) and a letter that repeats  with exactly one letter between them
+  (zxz).
+- xxyxx is nice because it has a  pair that appears twice and a letter
+  that repeats with one between, even  though the letters used by each
+  rule overlap.
+- uurcxstgmygtbstg is naughty because it has a pair (tg) but no repeat
+  with a single letter between them.
+- ieodomkazucvgmuy is naughty  because it has a  repeating letter with
+  one between (odo), but no pair that appears twice.
+  
+How many strings are nice under these new rules?
+
+#+begin_src fennel :session d1505 :exports both
+(local test2-input
+       ["qjhvhtzxzqqjkmpb"
+        "xxyxx"
+        "uurcxstgmygtbstg"
+        "ieodomkazucvgmuy"])
+
+(fn two-pairs-p [x]
+  (var done false)
+  (let [xs (aoc.string-toarray x)]
+    (for [i 1 (- (# xs) 1) &until done]
+      (let [token (.. (. xs i) (. xs (+ 1 i)))]
+        (when (string.find x token (+ 2 i) true)
+          (set done true))))) 
+  done)
+
+(fn triple-p [x]
+  (-> x
+      (aoc.string-toarray)
+      (aoc.partition3step1)
+      (lume.any (fn [[a b c]] (= a c)))))
+
+(fn solve2 [input]
+  (-> input
+      (lume.filter #(two-pairs-p $))
+      (lume.filter #(triple-p $))
+      (length)))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 2 test2-input)
+
+(solve2 (aoc.string-from "2015/05.inp"))
+#+end_src
+
+#+RESULTS:
+: 51
+
+
 ** Stats
 
 #+CAPTION: https://adventofcode.com/2015/stats

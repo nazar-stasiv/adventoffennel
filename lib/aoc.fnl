@@ -692,6 +692,13 @@
       (table.insert res [(. xs (- i 1)) (. xs i)]))
     res))
 
+(fn partition3step1 [xs]
+  "partitions xs elements into triads with step one"
+  (let [res []]
+    (for [i 3 (length xs)]
+      (table.insert res [(. xs (- i 2)) (. xs (- i 1)) (. xs i)]))
+    res))
+
 (fn partition2 [xs]
   "partitions xs elements into pairs with step two, pads with nil"
   (let [res []]
@@ -1080,6 +1087,7 @@
  : partition-by
  : partition-at 
  : partition1
+ : partition3step1
  : partition2
  : partition3
  : table-no-dups?
