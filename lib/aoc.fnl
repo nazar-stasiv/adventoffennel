@@ -506,6 +506,32 @@
     (out.write out "\n"))
   out)
 
+(fn matrix-swap [m x y v]
+  "set [x y] element of 2d array m to v"
+  (let [row (. m y)]
+    (table.remove row x)
+    (table.insert row x v)))
+
+(fn matrix-set [m x1 y1 x2 y2 v]
+  "set range [x1 y1] to [x2 y2] of 2d array m to v"  
+  (for [i y1 y2]
+    (for [j x1 x2]
+      (matrix-swap m j i v))))
+
+(fn matrix-toggle [m x1 y1 x2 y2]
+  "toggle range [x1 y1] to [x2 y2] of 2d array m to either 0 or 1"
+  (for [i y1 y2]
+    (for [j x1 x2]
+      (if (= 0 (. (. m i) j))
+          (matrix-swap m j i 1)
+          (matrix-swap m j i 0)))))
+
+(fn matrix-apply [m x1 y1 x2 y2 f]
+  "apply f to range [x1 y1] to [x2 y2] of 2d array m and update"
+  (for [i y1 y2]
+    (for [j x1 x2]
+      (matrix-swap m j i (f (. (. m i) j))))))
+
 (fn table-tonumber [xs]
   "returns elements of table converting to numbers"
   (lume.map xs #(tonumber $)))
@@ -1063,6 +1089,10 @@
  : matrix
  : read-matrix
  : write-matrix
+ : matrix-swap
+ : matrix-set
+ : matrix-toggle
+ : matrix-apply
  : table-unpack
  : max
  : min
