@@ -5,6 +5,8 @@
 #+DATE: 2024
 #+LANGUAGE: en
 #+OPTIONS: title:t author:t email:t toc:t num:nil timestamp:nil
+#+PANDOC_OPTIONS: standalone:t pdf-engine:typst
+#+PANDOC_VARIABLES: lang:en papersize:a4
 
 * 2023
 ** Day 1.1
