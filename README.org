@@ -5,11 +5,9 @@
 #+DATE: 2024
 #+LANGUAGE: en
 #+OPTIONS: title:t author:t email:t toc:t num:nil timestamp:nil
-#+PANDOC_OPTIONS: standalone:t pdf-engine:xelatex template:~/.pandoc/templates/eisvogel.tex 
-#+PANDOC_VARIABLES: lang:en titlepage:t book:true toc:true toc-own-page:true toc-depth:1
 
 * 2023
-** DONE Day 1.1
+** Day 1.1
 You  try to  ask  why they  can't  just use  a  weather machine  ("not
 powerful enough") and  where they're even sending you  ("the sky") and
 why your  map looks mostly blank  ("you sure ask a  lot of questions")
@@ -71,7 +69,7 @@ the calibration values?
 #+RESULTS:
 : 56506
 
-** DONE Day 1.2
+** Day 1.2
 Your calculation isn't  quite right. It looks like some  of the digits
 are actually  spelled out with  letters: one, two, three,  four, five,
 six, seven, eight, and nine also count as valid "digits".
@@ -158,7 +156,7 @@ What is the sum of all of the calibration values?
 #+RESULTS:
 : 56017
 
-** DONE Day 2.1
+** Day 2.1
 You're launched high into the  atmosphere! The apex of your trajectory
 just barely  reaches the  surface of  a large  island floating  in the
 sky. You gently land in a fluffy  pile of leaves. It's quite cold, but
@@ -269,7 +267,7 @@ is the sum of the IDs of those games?
 #+RESULTS:
 : 2449
 
-** DONE Day 2.2
+** Day 2.2
 The  Elf  says they've  stopped  producing  snow because  they  aren't
 getting any  water! He isn't sure  why the water stopped;  however, he
 can  show you  how to  get to  the water  source to  check it  out for
@@ -350,7 +348,7 @@ present. What is the sum of the power of these sets?
 #+RESULTS:
 : 63981
 
-** DONE Day 4.1
+** Day 4.1
 The gondola takes  you up. Strangely, though, the  ground doesn't seem
 to be coming  with you; you're not climbing a  mountain. As the circle
 of  Snow Island  recedes below  you, an  entire new  landmass suddenly
@@ -477,7 +475,7 @@ points are they worth in total?
 #+RESULTS:
 : 18653
 
-** DONE Day 4.2
+** Day 4.2
 Just as you're  about to report your  findings to the Elf,  one of you
 realizes that  the rules  have actually  been printed  on the  back of
 every card this whole time.
@@ -579,7 +577,7 @@ many total scratchcards do you end up with?
 #+RESULTS:
 : 5921508
 
-** DONE Day 5.1
+** Day 5.1
 You take the boat  and find the gardener right where  you were told he
 would be:  managing a  giant "garden"  that looks more  to you  like a
 farm.
@@ -852,7 +850,7 @@ initial seed numbers?
 #+RESULTS:
 : 1181555926
 
-** DONE Day 6.1
+** Day 6.1
 The  ferry  quickly brings  you  across  Island Island.  After  asking
 around, you  discover that there  is indeed  normally a large  pile of
 sand somewhere near  here, but you don't see anything  besides lots of
@@ -993,7 +991,7 @@ race. What do you get if you multiply these numbers together?
 #+RESULTS:
 : 4811940
 
-** DONE Day 6.2
+** Day 6.2
 As the  race is about  to start, you realize  the piece of  paper with
 race times and record distances you got earlier actually just has very
 bad kerning. There's really only one  race - ignore the spaces between
@@ -1045,7 +1043,7 @@ How many ways can you beat the record in this one much longer race?
 #+RESULTS:
 : 30077773
 
-** DONE Day 7.1
+** Day 7.1
 Your all-expenses-paid  trip turns  out to  be a  one-way, five-minute
 ride in an airship.  (At least it's a cool airship!)  It drops you off
 at the edge of a vast desert and descends back to Island Island.
@@ -1334,7 +1332,7 @@ Find the rank of every hand in your set. What are the total winnings?
 #+RESULTS:
 : 251545216
 
-** DONE Day 8.1
+** Day 8.1
 You're  still riding  a camel  across Desert  Island when  you spot  a
 sandstorm  quickly approaching.  When you  turn to  warn the  Elf, she
 disappears before your eyes! To be fair, she had just finished warning
@@ -1444,7 +1442,7 @@ are required to reach ZZZ?
 #+RESULTS:
 : 20093
 
-** DONE Day 8.2
+** Day 8.2
 The sandstorm  is upon you and  you aren't any closer  to escaping the
 wasteland.  You had  the  camel follow  the  instructions, but  you've
 barely left your  starting position. It's going  to take significantly
@@ -1543,7 +1541,7 @@ does it take before you're only on nodes that end with Z?
 #+RESULTS:
 : 22103062509257
 
-** DONE Day 9.1
+** Day 9.1
 You ride  the camel through the  sandstorm and stop where  the ghost's
 maps told  you to stop.  The sandstorm subsequently  subsides, somehow
 seeing you standing at an oasis!
@@ -1724,7 +1722,7 @@ history. What is the sum of these extrapolated values?
 #+RESULTS:
 : 1702218515
 
-** DONE Day 9.2
+** Day 9.2
 Of course, it would be nice to have even more history included in your
 report. Surely it's safe to just extrapolate backwards as well, right?
 
@@ -1776,7 +1774,7 @@ value for each history. What is the sum of these extrapolated values?
 #+RESULTS:
 : 925
 
-** DONE Day 10.1
+** Day 10.1
 You use the hang glider to ride the hot air from Desert Island all the
 way up to the floating metal  island. This island is surprisingly cold
 and there  definitely aren't any  thermals to  glide on, so  you leave
@@ -1996,7 +1994,7 @@ farthest from the starting position?
 #+RESULTS:
 : 7093
 
-** DONE Day 11.1
+** Day 11.1
 You continue  following signs  for "Hot  Springs" and  eventually come
 across an  observatory. The Elf  within turns  out to be  a researcher
 studying cosmic expansion using the giant telescope here.
@@ -2198,7 +2196,7 @@ every pair of galaxies. What is the sum of these lengths?
 #+RESULTS:
 : 9965032
 
-** DONE Day 14.1
+** Day 14.1
 You reach the place where all  of the mirrors were pointing: a massive
 parabolic  reflector  dish  attached  to the  side  of  another  large
 mountain.
@@ -2379,7 +2377,7 @@ what is the total load on the north support beams?
 #+RESULTS:
 : 113456
 
-** DONE Day 15.1
+** Day 15.1
 The  newly-focused parabolic  reflector  dish is  sending  all of  the
 collected light to a  point on the side of yet  another mountain - the
 largest mountain  on Lava  Island. As you  approach the  mountain, you
@@ -2505,7 +2503,7 @@ is one long line; be careful when copy-pasting it.)
 : 514281
 
 
-** Stats
+** Stats                                                          :noexport:
 
 #+CAPTION: https://adventofcode.com/2023/stats
 | 25 |  3 | ▉▉▉                                       |
@@ -2535,7 +2533,7 @@ is one long line; be careful when copy-pasting it.)
 |  1 | 41 | ▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉ |
 #+TBLFM: $3='(orgtbl-uc-draw-grid $2 0 41 41)
 * 2022
-** DONE Day 1.1
+** Day 1.1
 Santa's reindeer typically eat regular  reindeer food, but they need a
 lot  of magical  energy to  deliver presents  on Christmas.  For that,
 their favorite snack  is a special type of star  fruit that only grows
@@ -2636,7 +2634,7 @@ that Elf carrying?
 #+RESULTS:
 : 69310
 
-** DONE Day 1.2
+** Day 1.2
 By the time  you calculate the answer to the  Elves' question, they've
 already realized that the Elf carrying the most Calories of food might
 eventually run out of snacks.
@@ -2676,7 +2674,7 @@ are those Elves carrying in total?
 : 206104
 
 
-** DONE Day 2.1
+** Day 2.1
 The Elves begin to set up camp on the beach. To decide whose tent gets
 to  be closest  to  the snack  storage, a  giant  Rock Paper  Scissors
 tournament is already in progress.
@@ -2774,7 +2772,7 @@ your strategy guide?
 #+RESULTS:
 : 15572
 
-** DONE Day 2.2
+** Day 2.2
 The  Elf finishes  helping  with  the tent  and  sneaks  back over  to
 you. "Anyway,  the second column  says how the  round needs to  end: X
 means you need to  lose, Y means you need to end the  round in a draw,
@@ -2833,7 +2831,7 @@ strategy guide?
 #+RESULTS:
 : 16098
 
-** DONE Day 3.1
+** Day 3.1
 One Elf  has the important  job of loading  all of the  rucksacks with
 supplies for the jungle journey.  Unfortunately, that Elf didn't quite
 follow the  packing instructions, and  so a few  items now need  to be
@@ -2934,7 +2932,7 @@ rucksack. What is the sum of the priorities of those item types?
 #+RESULTS:
 : 8085
 
-** DONE Day 3.2
+** Day 3.2
 As you finish  identifying the misplaced items, the Elves  come to you
 with another issue.
 
@@ -3011,7 +3009,7 @@ group. What is the sum of the priorities of those item types?
 #+RESULTS:
 : 2515
 
-** DONE Day 4.1
+** Day 4.1
 Space needs  to be cleared  before the  last supplies can  be unloaded
 from the  ships, and so  several Elves have  been assigned the  job of
 cleaning  up sections  of the  camp.  Every  section has  a unique  ID
@@ -3113,7 +3111,7 @@ In how many assignment pairs does one range fully contain the other?
 #+RESULTS:
 : 536
 
-** DONE Day 4.2
+** Day 4.2
 It  seems  like  there  is  still   quite  a  bit  of  duplicate  work
 planned. Instead,  the Elves would  like to  know the number  of pairs
 that overlap at all.
@@ -3163,7 +3161,7 @@ is 4. In how many assignment pairs do the ranges overlap?
 #+RESULTS:
 : 845
 
-** DONE Day 5.1
+** Day 5.1
 The expedition  can depart  as soon  as the  final supplies  have been
 unloaded  from the  ships. Supplies  are  stored in  stacks of  marked
 crates, but  because the needed  supplies are buried under  many other
@@ -3298,7 +3296,7 @@ of each stack?
 #+RESULTS:
 : GFTNRBZPF
 
-** DONE Day 5.2
+** Day 5.2
 As you  watch the  crane operator expertly  rearrange the  crates, you
 notice the process isn't following your prediction.
 
@@ -3395,7 +3393,7 @@ crate ends up on top of each stack?
 #+RESULTS:
 : VRQWPDSGP
 
-** DONE Day 6.1
+** Day 6.1
 The preparations are finally complete; you and the Elves leave camp on
 foot and begin to make your way toward the star fruit grove.
 
@@ -3483,7 +3481,7 @@ start-of-packet marker is detected?
 #+RESULTS:
 : 1538
 
-** DONE Day 6.2
+** Day 6.2
 Your device's communication system is correctly detecting packets, but
 still isn't working. It looks like it also needs to look for messages.
 
@@ -3529,7 +3527,7 @@ start-of-message marker is detected?
 #+RESULTS:
 : 2315
 
-** DONE Day 7.1
+** Day 7.1
 You  can hear  birds  chirping  and raindrops  hitting  leaves as  the
 expedition  proceeds.  Occasionally,  you  can even  hear much  louder
 sounds in the distance; how big do the animals get out here, anyway?
@@ -3731,7 +3729,7 @@ is the sum of the total sizes of those directories?
 #+RESULTS:
 : 1501149
 
-** DONE Day 7.2
+** Day 7.2
 Now, you're ready to choose a directory to delete.
 
 The total disk  space available to the filesystem is  70000000. To run
@@ -3792,7 +3790,7 @@ that directory?
 #+RESULTS:
 : 10096985
 
-** DONE Day 8.1
+** Day 8.1
 The expedition comes across a peculiar patch of tall trees all planted
 carefully  in a  grid. The  Elves explain  that a  previous expedition
 planted these trees as a reforestation effort. Now, they're curious if
@@ -3892,7 +3890,7 @@ Consider your map; how many trees are visible from outside the grid?
 #+RESULTS:
 : 1835
 
-** DONE Day 8.2
+** Day 8.2
 Content with the  amount of tree cover available, the  Elves just need
 to know the best spot to build their tree house: they would like to be
 able to see a lot of trees.
@@ -4000,7 +3998,7 @@ possible for any tree?
 #+RESULTS:
 : 263670
 
-** DONE Day 9.1
+** Day 9.1
 
 This rope bridge creaks as you walk  along it. You aren't sure how old
 it is, or whether it can even support your weight.
@@ -4364,7 +4362,7 @@ positions does the tail of the rope visit at least once?
 #+RESULTS:
 : 6367
 
-** DONE Day 9.2
+** Day 9.2
 
 A rope  snaps! Suddenly, the  river is getting  a lot closer  than you
 remember. The bridge is still there,  but some of the ropes that broke
@@ -4861,7 +4859,7 @@ once?
 #+RESULTS:
 : 2536
 
-** Stats
+** Stats                                                          :noexport:
 
 #+CAPTION: https://adventofcode.com/2022/stats
 | 25 |  4 | ▉▉▉▉                                      |
@@ -4895,7 +4893,7 @@ once?
 
 
 * 2021
-** DONE Day 1.1
+** Day 1.1
 
 You're minding your  own business on a ship at  sea when the overboard
 alarm goes off!  You rush to see  if you can help.  Apparently, one of
@@ -5002,7 +5000,7 @@ How many measurements are larger than the previous measurement?
 : 1400
 
 
-** DONE Day 1.2
+** Day 1.2
 
 Considering every single measurement isn't as useful as you expected:
 there's just too much noise in the data.
@@ -5079,7 +5077,7 @@ larger than the previous sum?
 : 1429
 
 
-** DONE Day 2.1
+** Day 2.1
 
 Now, you need to figure out how to pilot this thing.
 
@@ -5156,7 +5154,7 @@ final horizontal position by your final depth?
 : 1561344
 
 
-** DONE Day 2.2
+** Day 2.2
 
 Based on  your calculations, the  planned course doesn't seem  to make
 any sense. You find the submarine manual and discover that the process
@@ -5222,7 +5220,7 @@ position by your final depth?
 : 1848454425
 
 
-** DONE Day 3.1
+** Day 3.1
 
 The submarine has been making some  odd creaking noises, so you ask it
 to produce a diagnostic report just in case.
@@ -5332,7 +5330,7 @@ in decimal, not binary.)
 : 3009600
 
 
-** DONE Day 3.2
+** Day 3.2
 
 Next,  you  should  verify  the  life support  rating,  which  can  be
 determined  by multiplying  the  oxygen generator  rating  by the  CO2
@@ -5452,7 +5450,7 @@ to represent your answer in decimal, not binary.)
 #+RESULTS:
 : 6940518
 
-** DONE Day 4.1
+** Day 4.1
 You're already almost  1.5km (almost a mile) below the  surface of the
 ocean, already so  deep that you can't see any  sunlight. What you can
 see, however, is a giant squid that has attached itself to the outside
@@ -5633,7 +5631,7 @@ board?
 #+RESULTS:
 : 82440
 
-** DONE Day 4.2
+** Day 4.2
 On the other hand,  it might be wise to try  a different strategy: let
 the giant squid win.
 
@@ -5677,7 +5675,7 @@ final score be?
 #+RESULTS:
 : 20774
 
-** DONE Day 5.1
+** Day 5.1
 You come  across a  field of  hydrothermal vents  on the  ocean floor!
 These vents  constantly produce large,  opaque clouds, so it  would be
 best to avoid them if possible.
@@ -5809,7 +5807,7 @@ least two lines overlap?
 #+RESULTS:
 : 8622
 
-** DONE Day 5.2
+** Day 5.2
 Unfortunately, considering only horizontal  and vertical lines doesn't
 give you the full picture; you need to also consider diagonal lines.
 
@@ -5862,7 +5860,7 @@ overlap?
 #+RESULTS:
 : 22037
 
-** DONE Day 6.1
+** Day 6.1
 
 The sea floor is getting steeper. Maybe the sleigh keys got carried
 this way?
@@ -5981,7 +5979,7 @@ be after 80 days?
 #+RESULTS:
 : 354564
 
-** DONE Day 6.2
+** Day 6.2
 
 Suppose  the lanternfish  live  forever and  have  unlimited food  and
 space. Would they take over the entire ocean?
@@ -6030,7 +6028,7 @@ days?
 #+RESULTS:
 : 1609058859115
 
-** DONE Day 7.1
+** Day 7.1
 A giant  whale has decided your  submarine is its next  meal, and it's
 much faster than you are. There's nowhere to run!
 
@@ -6119,7 +6117,7 @@ that position?
 #+RESULTS:
 : 336131
 
-** DONE Day 7.2
+** Day 7.2
 The crabs don't seem interested in your proposed solution. Perhaps you
 misunderstand crab engineering?
 
@@ -6184,7 +6182,7 @@ fuel must they spend to align to that position?
 #+RESULTS:
 : 92676646
 
-** DONE Day 9.1
+** Day 9.1
 
 These caves seem  to be lava tubes. Parts are  even still volcanically
 active; small  hydrothermal vents  release smoke  into the  caves that
@@ -6272,7 +6270,7 @@ risk levels of all low points on your heightmap?
 #+RESULTS:
 : 522
 
-** DONE Day 9.2
+** Day 9.2
 
 Next, you need to  find the largest basins so you  know what areas are
 most important to avoid.
@@ -6388,7 +6386,7 @@ largest basins?
 #+RESULTS:
 : 916688
 
-** DONE Day 10.1
+** Day 10.1
 
 You ask the submarine to determine  the best route out of the deep-sea
 cave, but it only replies:
@@ -6524,7 +6522,7 @@ errors?
 #+RESULTS:
 : 399153
 
-** DONE Day 10.2
+** Day 10.2
 Now, discard the corrupted lines. The remaining lines are incomplete.
 
 Incomplete  lines  don't  have  any incorrect  characters  -  instead,
@@ -6641,7 +6639,7 @@ completion strings, and sort the scores. What is the middle score?
 
 
 
-** Stats
+** Stats                                                          :noexport:
 
 #+CAPTION: https://adventofcode.com/2021/stats
 | 25 |  3 | ▉▉▉                                       |
@@ -6673,7 +6671,7 @@ completion strings, and sort the scores. What is the middle score?
 
 
 * 2020
-** DONE Day 1.1
+** Day 1.1
 
 After saving Christmas  five years in a row, you've  decided to take a
 vacation at a nice resort on a tropical island. Surely, Christmas will
@@ -6742,7 +6740,7 @@ that sum to 2020; what do you get if you multiply them together?
 #+RESULTS:
 : 63616
 
-** DONE Day 1.2
+** Day 1.2
 
 The Elves in  accounting are thankful for your help;  one of them even
 offers  you  a   starfish  coin  they  had  left  over   from  a  past
@@ -6780,7 +6778,7 @@ sum to 2020?
 #+RESULTS:
 : 67877784
 
-** DONE Day 2.1
+** Day 2.1
 
 Your  flight departs  in  a few  days from  the  coastal airport;  the
 easiest way down to the coast from here is via toboggan.
@@ -6861,7 +6859,7 @@ How many passwords are valid according to their policies?
 #+RESULTS:
 : 600
 
-** DONE Day 2.2
+** Day 2.2
 
 While it  appears you  validated the  passwords correctly,  they don't
 seem to be what the  Official Toboggan Corporate Authentication System
@@ -6917,7 +6915,7 @@ the policies?
 #+RESULTS:
 : 245
 
-** DONE Day 3.1
+** Day 3.1
 
 With  the toboggan  login problems  resolved, you  set off  toward the
 airport. While  travel by toboggan  might be easy, it's  certainly not
@@ -7040,7 +7038,7 @@ right 3 and down 1, how many trees would you encounter?
 : 178
 
 
-** DONE Day 3.2
+** Day 3.2
 
 Time  to check  the rest  of the  slopes -  you need  to minimize  the
 probability of a sudden arboreal stop, after all.
@@ -7084,7 +7082,7 @@ encountered on each of the listed slopes?
 #+RESULTS:
 : 3492520200
 
-** DONE Day 4.1
+** Day 4.1
 You arrive at the airport only  to realize that you grabbed your North
 Pole Credentials instead  of your passport. While  these documents are
 extremely similar, North  Pole Credentials aren't issued  by a country
@@ -7203,7 +7201,7 @@ are valid?
 : 202
 
 
-** DONE Day 4.2
+** Day 4.2
 
 The line is moving more quickly now, but you overhear airport security
 talking   about  how   passports   with  invalid   data  are   getting
@@ -7395,7 +7393,7 @@ batch file, how many passports are valid?
 #+RESULTS:
 : 137
 
-** DONE Day 5.1
+** Day 5.1
 
 You board your plane only to  discover a new problem: you dropped your
 boarding pass!  You aren't sure  which seat is  yours, and all  of the
@@ -7509,7 +7507,7 @@ the highest seat ID on a boarding pass?
 #+RESULTS:
 : 890
 
-** DONE Day 5.2
+** Day 5.2
 
 Ding! The "fasten seat belt" signs have turned on. Time to find your
 seat.
@@ -7537,7 +7535,7 @@ What is the ID of your seat?
 #+RESULTS:
 : 651
 
-** DONE Day 6.1
+** Day 6.1
 As your flight approaches the  regional airport where you'll switch to
 a much larger plane, customs  declaration forms are distributed to the
 passengers.
@@ -7640,7 +7638,7 @@ For each group, count the number of questions to which anyone answered
 : 7120
 
 
-** DONE Day 6.2
+** Day 6.2
 As you  finish the last  group's customs declaration, you  notice that
 you misread one word in the instructions:
 
@@ -7713,7 +7711,7 @@ answered "yes". What is the sum of those counts?
 #+RESULTS:
 : 3570
 
-** DONE Day 7.1
+** Day 7.1
 
 You land  at the  regional airport  in time for  your next  flight. In
 fact,  it looks  like you'll  even have  time to  grab some  food: all
@@ -7834,7 +7832,7 @@ bag? (The list of rules is quite long; make sure you get all of it.)
 #+RESULTS:
 : 128
 
-** DONE Day 7.2
+** Day 7.2
 
 It's  getting pretty  expensive to  fly these  days -  not because  of
 ticket prices, but  because of the ridiculous number of  bags you need
@@ -7910,7 +7908,7 @@ bag?
 #+RESULTS:
 : 20189
 
-** DONE Day 8.1
+** Day 8.1
 
 Your flight to the major airline hub reaches cruising altitude without
 incident. While  you consider checking  the in-flight menu for  one of
@@ -8025,7 +8023,7 @@ executed a second time, what value is in the accumulator?
 #+RESULTS:
 : 1614
 
-** DONE Day 8.2
+** Day 8.2
 
 After some careful analysis, you believe that exactly one instruction
 is corrupted.
@@ -8149,7 +8147,7 @@ after the program terminates?
 #+RESULTS:
 : 1260
 
-** DONE Day 9.1
+** Day 9.1
 
 With your  neighbor happily enjoying  their video game, you  turn your
 attention to  an open data  port on the little  screen in the  seat in
@@ -8278,7 +8276,7 @@ not have this property?
 #+RESULTS:
 : 18272118
 
-** DONE Day 9.2
+** Day 9.2
 
 The final step  in breaking the XMAS encryption relies  on the invalid
 number you just found: you must find  a contiguous set of at least two
@@ -8351,7 +8349,7 @@ numbers?
 : 2186361
 
 
-** Stats
+** Stats                                                          :noexport:
 
 #+CAPTION: https://adventofcode.com/2020/stats
 | 25 |  4 | ▉▉▉▉                                      |
@@ -8381,7 +8379,7 @@ numbers?
 |  1 | 41 | ▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉ |
 #+TBLFM: $3='(orgtbl-uc-draw-grid $2 0 41 41)
 * 2019
-** DONE Day 1.1
+** Day 1.1
 
 Santa  has become  stranded  at the  edge of  the  Solar System  while
 delivering  presents to  other  planets! To  accurately calculate  his
@@ -8442,7 +8440,7 @@ your spacecraft?
 #+RESULTS:
 : 3560353
 
-** DONE Day 1.2
+** Day 1.2
 
 During the  second Go / No  Go poll, the  Elf in charge of  the Rocket
 Equation  Double-Checker stops  the launch  sequence. Apparently,  you
@@ -8496,7 +8494,7 @@ then add them all up at the end.)
 #+RESULTS:
 : 5337642
 
-** DONE Day 2.1
+** Day 2.1
 
 On the way to your gravity  assist around the Moon, your ship computer
 beeps angrily  about a "1202 program  alarm". On the radio,  an Elf is
@@ -8641,7 +8639,7 @@ after the program halts?
 #+RESULTS:
 : 7594646
 
-** DONE Day 2.2
+** Day 2.2
 
 "Good, the new computer seems to  be working correctly! Keep it nearby
 during  this mission  - you'll  probably  use it  again. Real  Intcode
@@ -8709,7 +8707,7 @@ and verb=2, the answer would be 1202.)
 
 #+RESULTS:
 : 3376
-** DONE Day 3.1
+** Day 3.1
 
 The gravity assist was successful, and  you're well on your way to the
 Venus  refuelling station.  During the  rush back  on Earth,  the fuel
@@ -8816,7 +8814,7 @@ intersection?
 #+RESULTS:
 : 209
 
-** DONE Day 3.2
+** Day 3.2
 
 It turns out that this  circuit is very timing-sensitive; you actually
 need to =minimize the signal delay=.
@@ -8895,7 +8893,7 @@ intersection?
 #+RESULTS:
 : 43258
 
-** DONE Day 4.1
+** Day 4.1
 
 You arrive at the Venus fuel  depot only to discover it's protected by
 a password. The  Elves had written the password on  a sticky note, but
@@ -8950,7 +8948,7 @@ criteria?
 #+RESULTS:
 : 1955
 
-** DONE Day 4.2
+** Day 4.2
 
 An Elf  just remembered  one more important  detail: the  two adjacent
 matching digits are not part of a larger group of matching digits.
@@ -8988,7 +8986,7 @@ input meet all of the criteria?
 : 1319
 
 
-** DONE Day 5.1
+** Day 5.1
 
 You're starting to sweat as the ship makes its way toward Mercury. The
 Elves suggest  that you get  the air conditioner working  by upgrading
@@ -9145,7 +9143,7 @@ tests, what diagnostic code does the program produce?
 : 6069343
 
 
-** DONE Day 5.2
+** Day 5.2
 
 The air conditioner comes online! Its cold air feels good for a while,
 but then  the TEST alarms start  to go off. Since  the air conditioner
@@ -9363,7 +9361,7 @@ What is the diagnostic code for system ID 5?
 #+RESULTS:
 : 3188550
 
-** DONE Day 6.1
+** Day 6.1
 
 You've landed at the Universal  Orbit Map facility on Mercury. Because
 navigation in  space often  involves transferring between  orbits, the
@@ -9479,7 +9477,7 @@ data?
 #+RESULTS:
 : 151345
 
-** DONE Day 6.2
+** Day 6.2
 
 Now, you just need to figure  out how many orbital transfers you (YOU)
 need to take to get to Santa (SAN).
@@ -9585,7 +9583,7 @@ the objects they are orbiting - not between YOU and SAN.)
 : 391
 
 
-** DONE Day 8.1
+** Day 8.1
 
 The  Elves'  spirits  are  lifted   when  they  realize  you  have  an
 opportunity  to reboot  one  of their  Mars rovers,  and  so they  are
@@ -9664,7 +9662,7 @@ that layer, what is the number of 1 digits multiplied by the number of
 
 
 
-** DONE Day 8.2
+** Day 8.2
 
 Now  you're ready  to  decode  the image.  The  image  is rendered  by
 stacking the layers and aligning the pixels with the same positions in
@@ -9770,7 +9768,7 @@ What message is produced after decoding your image?
 
 
 
-** Stats
+** Stats                                                          :noexport:
 
 #+CAPTION: https://adventofcode.com/2019/stats
 | 25 |  3 | ▉▉▉                                       |
@@ -9802,7 +9800,7 @@ What message is produced after decoding your image?
 
 
 * 2018
-** DONE Day 1.1
+** Day 1.1
 "We've detected some temporal anomalies,"  one of Santa's Elves at the
 Temporal  Anomaly  Research  and Detection  Instrument  Station  tells
 you. She  sounded pretty worried  when she  called you down  here. "At
@@ -9877,7 +9875,7 @@ after all of the changes in frequency have been applied?
 : 574
 
 
-** DONE Day 1.2
+** Day 1.2
 
 You notice that the device repeats the same frequency change list over
 and  over.  To calibrate  the  device,  you  need  to find  the  first
@@ -9940,7 +9938,7 @@ What is the first frequency your device reaches twice?
 : 452
 
 
-** DONE Day 2.1
+** Day 2.1
 
 You stop falling through time, catch your breath, and check the screen
 on  the  device. "Destination  reached.  Current  Year: 1518.  Current
@@ -10021,7 +10019,7 @@ What is the checksum for your list of box IDs?
 #+RESULTS:
 : 3952
 
-** DONE Day 2.2
+** Day 2.2
 
 Confident that your list of box  IDs is complete, you're ready to find
 the boxes full of prototype fabric.
@@ -10081,7 +10079,7 @@ either ID, producing fgij.)
 #+RESULTS:
 : vtnikorkulbfejvyznqgdxpaw
 
-** DONE Day 3.1
+** Day 3.1
 
 The Elves managed  to locate the chimney-squeeze  prototype fabric for
 Santa's suit (thanks to someone who helpfully wrote its box IDs on the
@@ -10203,7 +10201,7 @@ claims?
 #+RESULTS:
 : 104241
 
-** DONE Day 3.2
+** Day 3.2
 
 Amidst the chaos, you notice that exactly one claim doesn't overlap by
 even a single square  inch of fabric with any other  claim. If you can
@@ -10234,7 +10232,7 @@ What is the ID of the only claim that doesn't overlap?
 #+RESULTS:
 : 806
 
-** DONE Day 4.1
+** Day 4.1
 
 You've sneaked  into another  supply closet -  this time,  it's across
 from the  prototype suit manufacturing  lab. You need to  sneak inside
@@ -10398,7 +10396,7 @@ chose? (In the above example, the answer would be 10 * 24 = 240.)
 : 84636
 
 
-** DONE Day 4.2
+** Day 4.2
 
 Strategy 2:  Of all guards, which  guard is most frequently  asleep on
 the same minute?
@@ -10439,7 +10437,7 @@ chose? (In the above example, the answer would be 99 * 45 = 4455.)
 #+RESULTS:
 : 91679
 
-** DONE Day 5.1
+** Day 5.1
 
 You've  managed  to  sneak  in to  the  prototype  suit  manufacturing
 lab. The  Elves are making  decent progress, but are  still struggling
@@ -10517,7 +10515,7 @@ copy/paste your input, make sure you get the whole thing.)
 : 11476
 
 
-** DONE Day 5.2
+** Day 5.2
 
 Time to improve the polymer.
 
@@ -10563,7 +10561,7 @@ all units of exactly one type and fully reacting the result?
 #+RESULTS:
 : 5446
 
-** DONE Day 6.1
+** Day 6.1
 
 The device on your wrist beeps  several times, and once again you feel
 like you're falling.
@@ -10688,7 +10686,7 @@ What is the size of the largest area that isn't infinite?
 : 3933
 
 
-** DONE Day 6.2
+** Day 6.2
 
 On the other hand, =if the coordinates are safe=, maybe the best you can
 do is try to find a =region= near as many coordinates as possible.
@@ -10774,7 +10772,7 @@ total distance to all given coordinates of less than 10000?
 : 41145
 
 
-** DONE Day 7.1
+** Day 7.1
 
 You find  yourself standing  on a snow-covered  coastline; apparently,
 you landed  a little off  course. The region is  too hilly to  see the
@@ -10901,7 +10899,7 @@ In what order should the steps in your instructions be completed?
 : ACHOQRXSEKUGMYIWDZLNBFTJVP
 
 
-** Stats
+** Stats                                                          :noexport:
 
 #+CAPTION: https://adventofcode.com/2018/stats
 | 25 |  3 | ▉▉▉                                       |
@@ -10933,7 +10931,7 @@ In what order should the steps in your instructions be completed?
 
 
 * 2017
-** DONE Day 1.1
+** Day 1.1
 
 The  night before  Christmas,  one of  Santa's Elves  calls  you in  a
 panic.  "The printer's  broken! We  can't  print the  Naughty or  Nice
@@ -11004,7 +11002,7 @@ What is the solution to your captcha?
 #+RESULTS:
 : 995
 
-** DONE Day 1.2
+** Day 1.2
 
 You notice  a progress bar  that jumps to 50%  completion. Apparently,
 the  door   isn't  yet  satisfied,   but  it   did  emit  a   star  as
@@ -11049,7 +11047,7 @@ What is the solution to your new captcha?
 : 1130
 
 
-** DONE Day 2.1
+** Day 2.1
 
 As you walk  through the door, a glowing humanoid  shape yells in your
 direction. "You  there! Your state  appears to  be idle. Come  help us
@@ -11106,7 +11104,7 @@ What is the checksum for the spreadsheet in your puzzle input?
 #+RESULTS:
 : 42299
 
-** DONE Day 2.2
+** Day 2.2
 
 "Great work; looks  like we're on the right track  after all. Here's a
 star  for   your  effort."  However,   the  program  seems   a  little
@@ -11177,7 +11175,7 @@ What is the sum of each row's result in your puzzle input?
 : 277
 
 
-** DONE Day 4.1
+** Day 4.1
 
 A new system  policy has been put in place  that requires all accounts
 to  use  a passphrase  instead  of  simply  a password.  A  passphrase
@@ -11221,7 +11219,7 @@ input. How many passphrases are valid?
 : 455
 
 
-** DONE Day 4.2
+** Day 4.2
 
 For  added  security,  yet  another  system policy  has  been  put  in
 place. Now,  a valid  passphrase must  contain no  two words  that are
@@ -11275,7 +11273,7 @@ Under this new system policy, how many passphrases are valid?
 : 186
 
 
-** DONE Day 5.1
+** Day 5.1
 
 An urgent  interrupt arrives from the  CPU: it's trapped in  a maze of
 jump instructions, and it would like assistance from any programs with
@@ -11355,7 +11353,7 @@ it take to reach the exit?
 : 326618
 
 
-** DONE Day 5.2
+** Day 5.2
 
 Now, the jumps  are even stranger: after each jump,  if the offset was
 three or more,  instead decrease it by 1. Otherwise,  increase it by 1
@@ -11394,7 +11392,7 @@ steps, and the offset values after finding  the exit are left as 2 3 2
 #+RESULTS:
 : 21841249
 
-** DONE Day 6.1
+** Day 6.1
 
 A debugger program here  is having an issue: it is  trying to repair a
 memory reallocation routine, but it keeps getting stuck in an infinite
@@ -11478,7 +11476,7 @@ produced that has been seen before?
 #+RESULTS:
 : 4074
 
-** DONE Day 6.2
+** Day 6.2
 
 Out of curiosity, the debugger would also like to know the size of the
 loop: starting from a state that has already been seen, how many block
@@ -11510,7 +11508,7 @@ configuration in your puzzle input?
 #+RESULTS:
 : 2793
 
-** Stats
+** Stats                                                          :noexport:
 
 #+CAPTION: https://adventofcode.com/2017/stats
 | 25 |  6 | ▉▉▉▉▉▉                                    |
@@ -11542,7 +11540,7 @@ configuration in your puzzle input?
 
 
 * 2016
-** DONE Day 1.1
+** Day 1.1
 
 Santa's  sleigh  uses  a  very   high-precision  clock  to  guide  its
 movements,   and    the   clock's    oscillator   is    regulated   by
@@ -11613,7 +11611,7 @@ How many blocks away is Easter Bunny HQ?
 : 161
 
 
-** DONE Day 1.2
+** Day 1.2
 
 Then,  you  notice  the  instructions  continue on  the  back  of  the
 Recruiting Document. Easter Bunny HQ is actually at the first location
@@ -11668,7 +11666,7 @@ How many blocks away is the first location you visit twice?
 #+RESULTS:
 : 110
 
-** DONE Day 2.1
+** Day 2.1
 
 You   arrive   at   Easter   Bunny   Headquarters   under   cover   of
 darkness. However, you left in such a  rush that you forgot to use the
@@ -11758,7 +11756,7 @@ the front desk. What is the bathroom code?
 : 35749
 
 
-** DONE Day 2.2
+** Day 2.2
 
 You finally  arrive at the bathroom  (it's a several minute  walk from
 the lobby so  visitors can behold the many fancy  conference rooms and
@@ -11828,7 +11826,7 @@ code?
 #+RESULTS:
 : 9365C
 
-** DONE Day 3.1
+** Day 3.1
 
 Now that you can think clearly,  you move deeper into the labyrinth of
 hallways and office furniture that makes  up this part of Easter Bunny
@@ -11881,7 +11879,7 @@ In your puzzle input, how many of the listed triangles are possible?
 #+RESULTS:
 : 1050
 
-** DONE Day 3.2
+** Day 3.2
 
 Now that you've helpfully marked  up their design documents, it occurs
 to   you   that  triangles   are   specified   in  groups   of   three
@@ -11918,7 +11916,7 @@ listed triangles are possible?
 #+RESULTS:
 : 1921
 
-** DONE Day 4.1
+** Day 4.1
 
 Finally, you come across an information kiosk with a list of rooms. Of
 course,  the  list is  encrypted  and  full  of  decoy data,  but  the
@@ -11993,7 +11991,7 @@ What is the sum of the sector IDs of the real rooms?
 : 361724
 
 
-** DONE Day 4.2
+** Day 4.2
 
 With all the decoy data out of the way, it's time to decrypt this list
 and get moving.
@@ -12041,7 +12039,7 @@ What is the sector ID of the room where North Pole objects are stored?
 #+RESULTS:
 : 482
 
-** DONE Day 5.1
+** Day 5.1
 
 You are faced with a security  door designed by Easter Bunny engineers
 that  seem  to have  acquired  most  of  their security  knowledge  by
@@ -12091,7 +12089,7 @@ Given the actual Door ID, what is the password?
 #+RESULTS:
 : f97c354d
 
-** DONE Day 5.2
+** Day 5.2
 
 As the  door slides open,  you are presented  with a second  door that
 uses a slightly more  inspired security mechanism. Clearly unimpressed
@@ -12144,7 +12142,7 @@ Given the actual Door ID and this new method, what is the password?
 : 863dde27
 
 
-** Stats
+** Stats                                                          :noexport:
 
 #+CAPTION: https://adventofcode.com/2016/stats
 | 25 |  7 | ▉▉▉▉▉▉▉                                   |
@@ -12176,7 +12174,7 @@ Given the actual Door ID and this new method, what is the password?
 
 
 * 2015
-** DONE Day 1.1
+** Day 1.1
 
 Santa  was hoping  for a  white Christmas,  but his  weather machine's
 "snow"  function is  powered by  stars, and  he's fresh  out! To  save
@@ -12227,7 +12225,7 @@ To what floor do the instructions take Santa?
 #+RESULTS:
 : 74
 
-** DONE Day 1.2
+** Day 1.2
 
 Now,  given the  same instructions,  find  the position  of the  first
 character that causes him to enter  the basement (floor -1). The first
@@ -12257,7 +12255,7 @@ the basement?
 #+RESULTS:
 : 1795
 
-** DONE Day 2.1
+** Day 2.1
 
 The  elves are  running low  on wrapping  paper, and  so they  need to
 submit an order  for more. They have a list  of the dimensions (length
@@ -12312,7 +12310,7 @@ of wrapping paper should they order?
 #+RESULTS:
 : 1588178
 
-** DONE Day 2.2
+** Day 2.2
 
 The  elves are  also running  low on  ribbon. Ribbon  is all  the same
 width, so they only have to worry about the length they need to order,
@@ -12365,7 +12363,7 @@ How many total feet of ribbon should they order?
 #+RESULTS:
 : 3783758
 
-** DONE Day 3.1
+** Day 3.1
 
 Santa is  delivering presents to  an infinite two-dimensional  grid of
 houses.
@@ -12424,7 +12422,7 @@ For example:
 #+RESULTS:
 : 2081
 
-** DONE Day 3.2
+** Day 3.2
 
 The next year, to speed up  the process, Santa creates a robot version
 of himself, Robo-Santa, to deliver presents with him.
@@ -12468,7 +12466,7 @@ For example:
 : 2341
 
 
-** DONE Day 4.1
+** Day 4.1
 
 Santa needs help mining some AdventCoins (very similar to bitcoins) to
 use as  gifts for all  the economically forward-thinking  little girls
@@ -12508,7 +12506,7 @@ For example:
 #+RESULTS:
 : 282749
   
-** DONE Day 4.2
+** Day 4.2
 
 Now find one that starts with six zeroes.
 
@@ -12532,7 +12530,7 @@ Now find one that starts with six zeroes.
 
 
 
-** DONE Day 5.1
+** Day 5.1
 
 Santa  needs help  figuring out  which strings  in his  text file  are
 naughty or nice.
@@ -12616,7 +12614,7 @@ How many strings are nice?
 #+RESULTS:
 : 236
 
-** DONE Day 5.2
+** Day 5.2
 
 Realizing the error of his ways,  Santa has switched to a better model
 of determining  whether a string is  naughty or nice. None  of the old
@@ -12683,7 +12681,7 @@ How many strings are nice under these new rules?
 : 51
 
 
-** Stats
+** Stats                                                          :noexport:
 
 #+CAPTION: https://adventofcode.com/2015/stats
 | 25 |  4 | ▉▉▉▉                                      |
