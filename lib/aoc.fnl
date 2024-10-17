@@ -48,8 +48,12 @@
   "returns copy of a string without trailing whitespace"
   (string.match s "^%s*(%g*)%s*$"))
 
+(fn string-trim2 [s]
+  "returns copy of a string without trailing whitespace"
+  (string.gsub (string.gsub s "^%s" "") "%s$" ""))
+
 (fn string-shift [s n]
-"return string with chars shifted by n, like in Caesar's cipher"  
+  "return string with chars shifted by n, like in Caesar's cipher"  
   (let [nn (% n 26)
         ss (string-toarray s)
         cc (icollect [_ c (ipairs ss)]
@@ -1024,6 +1028,7 @@
  : string-starts-with
  : string-split
  : string-trim
+ : string-trim2 
  : string-shift
  : array-to-number
  : math-sum
