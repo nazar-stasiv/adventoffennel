@@ -12911,6 +12911,119 @@ is ultimately provided to wire a?
 #+RESULTS:
 : 40149
 
+
+** Day 9.1
+
+Every year, Santa  manages to deliver all of his  presents in a single
+night.
+
+This year, however, he has some new locations to visit; his elves have
+provided him  the distances  between every pair  of locations.  He can
+start and end  at any two (different) locations he  wants, but he must
+visit each location exactly once. What is the shortest distance he can
+travel to achieve this?
+
+For example, given the following distances:
+
+#+begin_example
+London to Dublin = 464
+London to Belfast = 518
+Dublin to Belfast = 141
+#+end_example
+
+The possible routes are therefore:
+
+#+begin_example
+Dublin -> London -> Belfast = 982
+London -> Dublin -> Belfast = 605
+London -> Belfast -> Dublin = 659
+Dublin -> Belfast -> London = 659
+Belfast -> Dublin -> London = 605
+Belfast -> London -> Dublin = 982
+#+end_example
+
+The shortest of these is London -> Dublin -> Belfast = 605, and so the
+answer is 605 in this example.
+
+What is the distance of the shortest route?
+
+#+begin_src fennel :session d1509 :exports both
+(local lume (require :lib.lume))
+(local aoc (require :lib.aoc))
+(local test-input
+       ["London to Dublin = 464"
+        "London to Belfast = 518"
+        "Dublin to Belfast = 141"])
+
+(fn read-lines [lines]
+  (let [res {}]
+    (each [_ line (ipairs lines)]
+      (case (aoc.string-split line " ")
+        [dest1 "to" dest2 "=" dist]
+        (do
+          (aoc.table-update res dest1 dest2 dist)
+          (aoc.table-update res dest2 dest1 dist))
+        _ (print "No match found for line")))
+    res))
+
+(fn distance [itin t]
+  (accumulate [sum 0 _ [b e] (ipairs (aoc.partition1 itin))]
+    (+ sum (tonumber (. (. t b) e)))))
+
+(fn find-distances [input]
+  (let [t (read-lines input)
+        d (aoc.keys t)
+        itiner []]
+    (aoc.permutation d (# d) itiner)
+    (lume.map itiner #(distance $ t))))
+
+(fn solve [input]
+  (-> input
+      (find-distances)
+      (aoc.math-min)))
+
+(fn test [expected input]
+  (assert (= expected (solve input))))
+
+(test 605 test-input)
+
+(solve (aoc.string-from "2015/09.inp"))
+#+end_src
+
+#+RESULTS:
+: 251
+
+** Day 9.2
+
+The next year, just to show off, Santa decides to take the route with
+the longest distance instead.
+
+He can still start and end at any two (different) locations he wants,
+and he still must visit each location exactly once.
+
+For example, given the distances above, the longest route would be 982
+via (for example) Dublin -> London -> Belfast.
+
+What is the distance of the longest route?
+
+#+begin_src fennel :session d1509 :exports both
+(fn solve2 [input]
+  (-> input
+      (find-distances)
+      (aoc.math-max)))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 982 test-input)
+
+(solve2 (aoc.string-from "2015/09.inp"))
+#+end_src
+
+#+RESULTS:
+: 898
+
+
 ** Stats                                                          :noexport:
 
 #+CAPTION: https://adventofcode.com/2015/stats

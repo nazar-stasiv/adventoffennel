@@ -11,6 +11,14 @@
     (if index (- (+ 1 (length s)) index)
         0)))
 
+(fn string-indices [s c r]
+  "returns indices of char c in string s as table r"
+  (let [i (string.find s c 1)]
+    (when i
+      (table.insert r i)
+      (string-indices (string.sub s (+ 1 i)) c r))
+    r))
+
 (fn string-pushback [s]
   "return string with 1st character from s pushed to last position"
   (.. 
@@ -345,6 +353,26 @@
   (table.remove xs i)
   (table.insert xs i v)
   xs)
+
+(fn table-index-swap [t i1 i2]
+  "in-place swap of (. t i1) and (. t i2)"
+  (let [a (. t i1)
+        b (. t i2)]
+    (table.remove t i1)
+    (table.insert t i1 b)
+    (table.remove t i2)
+    (table.insert t i2 a)
+    t))
+
+(fn permutation [xs len res]
+  "returns possible permutations of xs elements as 2d array res"
+  (if (= len 0)
+      (table.insert res (table-clone xs))
+      (for [i 1 len]
+        (table-index-swap xs i len)
+        (permutation xs (- len 1) res)
+        (table-index-swap xs i len)))
+  res)
 
 (lambda table-move [pos xs1 xs2 ?n]
   "moves element(s) at pos from xs1 into same pos at collection xs2"
@@ -866,6 +894,13 @@
   (icollect [k v (ipairs xs)]
     (if (= 0 (% k 2)) v nil)))
 
+(fn table-update [t k1 k2 v]
+  "Updates (. t k1) with {:k2 v} preserving (. t k1) value if exists"
+  (let [st (?. t k1)]
+    (if (= nil st)
+        (tset t k1 {k2 v})
+        (tset st k2 v))))
+
 (fn html [tag xs]
   "return tag with attributes (. xs :at) and children (. xs :ch)"
   (.. "\n<"
@@ -1021,6 +1056,7 @@
 
 {: string-from
  : string-last-index-of
+ : string-indices
  : string-pushback
  : string-tonumarray
  : string-toarray
@@ -1066,6 +1102,8 @@
  : table-replace
  : table-replace-row
  : table-swap
+ : table-index-swap
+ : permutation
  : table-move
  : string-totable
  : table-tostring
@@ -1145,6 +1183,7 @@
  : even?
  : table-odd
  : table-even
+ : table-update
  : html
  : int
  : xor
