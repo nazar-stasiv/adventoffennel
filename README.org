@@ -444,11 +444,14 @@ points are they worth in total?
         (table.insert result points)))
     result))
 
-(fn test-input [lines]
+(fn solve [lines]
   (let [games (read-games lines)]
-    (assert (= 13 (aoc.table-sum (count-points games))))))
+    (aoc.table-sum (count-points games))))
 
-(local test-lines
+(fn test [expected input]
+  (assert (= expected (solve input))))
+
+(local test-input
        ["Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53"
         "Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19"
         "Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1"
@@ -456,13 +459,9 @@ points are they worth in total?
         "Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36"
         "Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11"])
 
-(test-input test-lines)
+(test 13 test-input)
 
-(fn real-input [lines]
-  (let [games (read-games lines)]
-    (aoc.table-sum (count-points games))))
-
-(real-input (aoc.string-from "2023/04.inp"))
+(solve (aoc.string-from "2023/04.inp"))
 #+end_src
 
 #+RESULTS:
@@ -554,17 +553,16 @@ many total scratchcards do you end up with?
         (table.increment result w (. result i))))
     result))
 
-(fn test-input2 [lines]
-  (let [games (read-games lines)]
-    (assert (= 30 (aoc.table-sum (count-cards games))))))
-
-(test-input2 test-lines)
-
-(fn real-input2 [lines]
-  (let [games (read-games lines)]
+(fn solve2 [input]
+  (let [games (read-games input)]
     (aoc.table-sum (count-cards games))))
 
-(real-input2 (aoc.string-from "2023/04.inp"))
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 30 test-input)
+
+(solve2 (aoc.string-from "2023/04.inp"))
 #+end_src
 
 #+RESULTS:
@@ -823,7 +821,7 @@ initial seed numbers?
 
 (test-input test-seeds seed2soil soil2fertilizer fertilizer2water water2light light2temperature temperature2humidity humidity2location)
 
-(fn real-input [xs]
+(fn solve [xs]
   (let [locations []
         seeds (aoc.table-unpack (lume.map (aoc.table-range xs 1 1) #(aoc.string-tonumarray $)))
         t1 (vec2tree2 {} (lume.map (aoc.table-range xs 4 27) #(aoc.string-tonumarray $))  comp)
@@ -837,7 +835,7 @@ initial seed numbers?
       (table.insert locations (seed2soil2fert2water2light2temp2hum2loc seed t1 t2 t3 t4 t5 t6 t7)))
     (aoc.table-min locations)))
 
-(real-input (aoc.string-from "2023/05.inp"))
+(solve (aoc.string-from "2023/05.inp"))
 #+end_src
 
 #+RESULTS:
@@ -973,12 +971,12 @@ race. What do you get if you multiply these numbers together?
   [(lume.map (aoc.string-split (. lines 1) " ") #(tonumber $))
    (lume.map (aoc.string-split (. lines 2) " ") #(tonumber $))])
 
-(fn real-input [lines]
+(fn solve [lines]
   (let [[i1 i2] (lines-to-array lines)
         input (aoc.table-zip i1 i2)]
     (count-wins (find-wins input))))
 
-(real-input (aoc.string-from "2023/06.inp"))
+(solve (aoc.string-from "2023/06.inp"))
 #+end_src
 
 #+RESULTS:
@@ -1026,11 +1024,11 @@ How many ways can you beat the record in this one much longer race?
     [(tonumber time)
      (tonumber distance)]))
 
-(fn real-input [lines]
+(fn solve [lines]
   (let [input [(lines-to-string lines)]]
     (count-wins (find-wins input))))
 
-(real-input (aoc.string-from "2023/06.inp"))
+(solve (aoc.string-from "2023/06.inp"))
 #+end_src
 
 #+RESULTS:
@@ -1425,11 +1423,11 @@ are required to reach ZZZ?
 
 (test-input test-input-2 6 "LLR")
 
-(fn real-input [lines path]
+(fn solve [lines path]
   (let [map (read-nodes lines)]
     (path-find map "AAA" "ZZZ" path 0)))
 
-(real-input (aoc.string-from "2023/08.inp") path)
+(solve (aoc.string-from "2023/08.inp") path)
 #+end_src
 
 #+RESULTS:
@@ -1525,14 +1523,14 @@ does it take before you're only on nodes that end with Z?
         end ["BKZ" "KJZ" "XNZ" "XLZ" "PQZ" "ZZZ"]]
     (lume.map start #(path-to-any map $ end path 0))))
 
-(fn real-input [lines]
+(fn solve [lines]
   (lume.reduce (p2-input lines) aoc.math-lcm))
 
-(real-input (aoc.string-from "2023/08.inp"))
+(solve (aoc.string-from "2023/08.inp"))
 #+end_src
 
 #+RESULTS:
-: 22103062509257
+: 22103062509257.0
 
 ** Day 9.1
 You ride  the camel through the  sandstorm and stop where  the ghost's
@@ -1757,11 +1755,11 @@ value for each history. What is the sum of these extrapolated values?
 
 (test-inputp2 test-input-1 2)
 
-(fn real-input [lines]
+(fn solve2 [lines]
   (let [input (read-input lines)]
     (aoc.table-sum (lume.map input #(solve (derive (aoc.table-reverse $)))))))
 
-(real-input (aoc.string-from "2023/09.inp"))
+(solve2 (aoc.string-from "2023/09.inp"))
 #+end_src
 
 #+RESULTS:
@@ -6501,15 +6499,11 @@ errors?
     (aoc.table-sum result)))
 
 (fn test [expected input]
-  (let [res (solve input)]
-    (assert (= expected res) res)))
+  (assert (= expected (solve input))))
 
 (test 26397 test-input)
 
-(fn real [input]
-  (solve input))
-
-(real (aoc.string-from "2021/10.inp"))
+(solve (aoc.string-from "2021/10.inp"))
 #+end_src
 
 #+RESULTS:
@@ -6616,15 +6610,11 @@ completion strings, and sort the scores. What is the middle score?
       (. result mid))))
 
 (fn test2 [expected input]
-  (let [res (solve2 input)]
-    (assert (= expected res) res)))
+  (assert (= expected (solve2 input))))
 
 (test2 288957 test-input)
 
-(fn real2 [input]
-  (solve2 input))
-
-(real2 (aoc.string-from "2021/10.inp"))
+(solve2 (aoc.string-from "2021/10.inp"))
 #+end_src
 
 #+RESULTS:
