@@ -2902,14 +2902,14 @@ rucksack. What is the sum of the priorities of those item types?
                :X 50 :Y 51 :Z 52}]
     (lume.map (aoc.string-toarray line) #(. score $))))
 
-(fn solve-p1 [line]
+(fn priorities [line]
   (let [in2 (items-to-codes line)
         len (length in2)
         in3 (aoc.table-range in2 1 (aoc.int/ len 2))
         in4 (aoc.table-range in2 (+ 1 (aoc.int/ len 2)) len)]
     (lume.unique (lume.filter in3 (fn [e] (aoc.table-contains? in4 e))))))
 
-(local input
+(local test-input
        ["vJrwpWtwJgWrhcsFMMfFFhFp"
         "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL"
         "PmmdzqPrVvPwwTWBwg"
@@ -2917,15 +2917,15 @@ rucksack. What is the sum of the priorities of those item types?
         "ttgJtRGJQctTZtZT"
         "CrZsJsPPZsGzwwsLwLmpwMDw"])
 
-(fn test-input [in]
-  (assert (= 157 (aoc.table-sum (lume.map in #(solve-p1 $))))))
+(fn solve [input]
+  (aoc.table-sum (lume.map input #(priorities $))))
 
-(test-input input)
+(fn test [expected input]
+  (assert (= expected (solve input))))
 
-(fn real-input [in]
-  (aoc.table-sum (lume.map in #(solve-p1 $))))
+(test 157 test-input)
 
-(real-input (aoc.string-from "2022/03.inp"))
+(solve (aoc.string-from "2022/03.inp"))
 #+end_src
 
 #+RESULTS:
@@ -2983,26 +2983,24 @@ group. What is the sum of the priorities of those item types?
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
-(fn solve-p2 [l1 l2 l3]
+(fn priorities2 [l1 l2 l3]
   (let [c1 (items-to-codes l1)
         c2 (items-to-codes l2)
         c3 (items-to-codes l3)
         common (lume.filter c2 (fn [e] (aoc.table-contains? c3 e)))]
     (lume.unique (lume.filter c1 (fn [e] (aoc.table-contains? common e))))))
 
-(fn test-input-p2 [in]
-  (assert (= 70 (aoc.table-sum
-                 (lume.map (aoc.table-group-by input 3)
-                           #(solve-p2 (aoc.table-unpack $)))))))
-
-(test-input-p2 input)
-
-(fn real-input-p2 [in]
+(fn solve2 [input]
   (aoc.table-sum
-   (lume.map (aoc.table-group-by in 3)
-             #(solve-p2 (aoc.table-unpack $)))))
+   (lume.map (aoc.table-group-by input 3)
+             #(priorities2 (aoc.table-unpack $)))))
 
-(real-input-p2 (aoc.string-from "2022/03.inp"))
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 70 test-input)
+
+(solve2 (aoc.string-from "2022/03.inp"))
 #+end_src
 
 #+RESULTS:
@@ -3074,14 +3072,14 @@ In how many assignment pairs does one range fully contain the other?
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
-(fn solve [line]
+(fn find-subrange [line]
   (let [[elf1 elf2] (aoc.string-split line ",")
         [f1 t1] (aoc.string-split elf1 "-")
         [f2 t2] (aoc.string-split elf2 "-")]
     (or (and (<= (aoc.int f1) (aoc.int f2)) (>= (aoc.int t1) (aoc.int t2)))
         (and (>= (aoc.int f1) (aoc.int f2)) (<= (aoc.int t1) (aoc.int t2))))))
 
-(local input
+(local test-input
        ["2-4,6-8"
         "2-3,4-5"
         "5-7,7-9"
@@ -3089,22 +3087,18 @@ In how many assignment pairs does one range fully contain the other?
         "6-6,4-6"
         "2-6,4-8"])
 
-(fn test-input [in]
-  (assert
-   (= 2 (length
-         (lume.filter
-          (lume.map in #(solve $))
-          #(if $ true false))))))
-
-(test-input input)
-
-(fn real-input [in]
+(fn solve [input]
   (length
    (lume.filter
-    (lume.map in #(solve $))
+    (lume.map input #(find-subrange $))
     #(if $ true false))))
 
-(real-input (aoc.string-from "2022/04.inp"))
+(fn test [expected input]
+  (assert (= expected (solve input))))
+
+(test 2 test-input)
+
+(solve (aoc.string-from "2022/04.inp"))
 #+end_src
 
 #+RESULTS:
@@ -3130,7 +3124,7 @@ is 4. In how many assignment pairs do the ranges overlap?
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
-(fn solve2 [line]
+(fn overlapping-pairs [line]
   (let [[elf1 elf2] (aoc.string-split line ",")
         [f1 t1] (aoc.string-split elf1 "-")
         [f2 t2] (aoc.string-split elf2 "-")]
@@ -3139,22 +3133,18 @@ is 4. In how many assignment pairs do the ranges overlap?
         (and (<= (aoc.int f2) (aoc.int f1)) (>= (aoc.int t2) (aoc.int f1)))
         (and (<= (aoc.int f2) (aoc.int t1)) (>= (aoc.int t2) (aoc.int t1))))))
 
-(fn test-input-2 [in]
-  (assert
-   (= 4 (length
-         (lume.filter
-          (lume.map in #(solve2 $))
-          #(if $ true false))))))
-
-(test-input-2 input)
-
-(fn real-input-2 [in]
+(fn solve2 [input]
   (length
    (lume.filter
-    (lume.map in #(solve2 $))
+    (lume.map input #(overlapping-pairs $))
     #(if $ true false))))
 
-(real-input-2 (aoc.string-from "2022/04.inp"))
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 4 test-input)
+
+(solve2 (aoc.string-from "2022/04.inp"))
 #+end_src
 
 #+RESULTS:
@@ -3282,14 +3272,14 @@ of each stack?
   (lume.map (aoc.table-range lines 11 (length lines))
             #(aoc.string-tonumarray $)))
 
-(fn real-input [lines]
+(fn solve [lines]
   (let [crates (scan-crates lines)
         moves (scan-moves lines)]
     (each [_ [n f t] (ipairs moves)]
       (times n (aoc.table-move 1 (. crates f) (. crates t))))
     (aoc.table-tostring (. (aoc.table-transpose crates) 1))))
 
-(real-input (aoc.string-from "2022/05.inp"))
+(solve (aoc.string-from "2022/05.inp"))
 #+end_src
 
 #+RESULTS:
@@ -3378,14 +3368,14 @@ crate ends up on top of each stack?
 
 (test-input-p2)
 
-(fn real-input-p2 [lines]
+(fn solve2 [lines]
   (let [crates (scan-crates lines)
         moves (scan-moves lines)]
     (each [_ [n f t] (ipairs moves)]
       (aoc.table-move 1 (. crates f) (. crates t) n))
     (aoc.table-tostring (. (aoc.table-transpose crates) 1))))
 
-(real-input-p2 (aoc.string-from "2022/05.inp"))
+(solve2 (aoc.string-from "2022/05.inp"))
 
 #+end_src
 
@@ -3676,29 +3666,30 @@ is the sum of the total sizes of those directories?
           [s n] (ncdu fs (aoc.table-clone pwd) s))))
     fs))
 
-(local test-1 ["$ cd /"
-               "$ ls"
-               "dir a"
-               "14848514 b.txt"
-               "8504156 c.dat"
-               "dir d"
-               "$ cd a"
-               "$ ls"
-               "dir e"
-               "29116 f"
-               "2557 g"
-               "62596 h.lst"
-               "$ cd e"
-               "$ ls"
-               "584 i"
-               "$ cd .."
-               "$ cd .."
-               "$ cd d"
-               "$ ls"
-               "4060174 j"
-               "8033020 d.log"
-               "5626152 d.ext"
-               "7214296 k"])
+(local test-input
+       ["$ cd /"
+        "$ ls"
+        "dir a"
+        "14848514 b.txt"
+        "8504156 c.dat"
+        "dir d"
+        "$ cd a"
+        "$ ls"
+        "dir e"
+        "29116 f"
+        "2557 g"
+        "62596 h.lst"
+        "$ cd e"
+        "$ ls"
+        "584 i"
+        "$ cd .."
+        "$ cd .."
+        "$ cd d"
+        "$ ls"
+        "4060174 j"
+        "8033020 d.log"
+        "5626152 d.ext"
+        "7214296 k"])
 
 (fn size [fs s]
   (lume.reduce
@@ -3711,18 +3702,16 @@ is the sum of the total sizes of those directories?
                           (fn [k] (aoc.string-starts-with k p)))]
     (aoc.fold (lume.map keys #(. fs $)))))
 
-(fn test-input [input]
-  (let [fs (read input)]
-    (assert (= 95437 (size fs 100000)))))
-
-(test-input test-1)
-
-(fn real-input [input]
+(fn solve [input]
   (let [fs (read input)]
     (size fs 100000)))
 
-(real-input (aoc.string-from "2022/07.inp"))
+(fn test [expected input]
+  (assert (= expected (solve input))))
 
+(test 95437 test-input)
+
+(solve (aoc.string-from "2022/07.inp"))
 #+end_src
 
 #+RESULTS:
@@ -3762,7 +3751,7 @@ that directory?
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
-(fn make-enough-space [input]
+(fn solve2 [input]
   (let [fs (read input)
         required 30000000
         total 70000000
@@ -3775,15 +3764,12 @@ that directory?
        (fn [x] (>= (. fs x) minimum)))
       (fn [x] (. fs x))))))
 
-(fn test-input-2 [input]
-  (assert (= 24933642 (make-enough-space input))))
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
 
-(test-input-2 test-1)
+(test2 24933642 test-input)
 
-(fn real-input [input]
-  (make-enough-space input))
-
-(real-input (aoc.string-from "2022/07.inp"))
+(solve2 (aoc.string-from "2022/07.inp"))
 #+end_src
 
 #+RESULTS:
@@ -5644,26 +5630,24 @@ Figure out  which board will  win last. Once  it wins, what  would its
 final score be?
 
 #+begin_src fennel :session d2104 :exports both
-(fn solve2 [deal boards]
+(fn find-score [deal boards]
   (let [[winner numbers] (find-winner deal boards)]
     (if (= 1 (length boards))
       (score numbers (. boards 1))
       (do
         (table.remove boards winner)
-        (solve2 deal boards)))))
+        (find-score deal boards)))))
+
+(fn solve2 [input]
+  (let [[deals boards] (read-input input)]
+    (find-score deals boards)))
 
 (fn test2 [expected input]
-  (let [[deals boards] (read-input input)
-        res (solve2 deals boards)]
-    (assert (= expected res) res)))
+  (assert (= expected (solve2 input))))
 
 (test2 1924 test-input)
 
-(fn real2 [input]
-  (let [[deals boards] (read-input input)]
-    (solve2 deals boards)))
-
-(real2 (aoc.string-from "2021/04.inp"))
+(solve2 (aoc.string-from "2021/04.inp"))
 #+end_src
 
 #+RESULTS:
