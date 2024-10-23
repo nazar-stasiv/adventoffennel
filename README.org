@@ -13345,7 +13345,6 @@ arrangement of the actual guest list?
 #+begin_src fennel :session d1513 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
-
 (local test-input
        ["Alice would gain 54 happiness units by sitting next to Bob."
         "Alice would lose 79 happiness units by sitting next to Carol."
@@ -13377,18 +13376,22 @@ arrangement of the actual guest list?
 (fn score-pairs [xs scores]
   (let [fst (. xs 1)
         lst (. xs (# xs))
-        ys (aoc.partition1 xs)]
-    (var res (+ (. (. scores fst) lst) (. (. scores lst) fst)))
+        ys (aoc.partition1 xs)
+        res [(+ (. (. scores fst) lst) (. (. scores lst) fst))]]
     (each [_ [p1 p2] (ipairs ys)]
-      (set res (+ res (. (. scores p1) p2) (. (. scores p2) p1))))
+      (table.insert res (+ (. (. scores p1) p2) (. (. scores p2) p1))))
     res))
 
-(fn solve [lines]
+(fn score-arrangements [lines]
   (let [scores (read-lines lines)
         guests (aoc.keys scores)
         arrangement []]
     (aoc.permutation guests (# guests) arrangement)
-    (aoc.math-max (lume.map arrangement #(score-pairs $ scores)))))
+    (lume.map arrangement #(score-pairs $ scores))))
+
+(fn solve [lines]
+  (let [xs (score-arrangements lines)]
+    (aoc.math-max (lume.map xs #(aoc.table-sum $)))))
 
 (fn test [expected input]
   (assert (= expected (solve input))))
@@ -13401,6 +13404,35 @@ arrangement of the actual guest list?
 #+RESULTS:
 : 733
 
+
+** Day 13.2
+
+In all the commotion, you realize that you forgot to seat yourself. At
+this point, you're  pretty apathetic toward the whole  thing, and your
+happiness wouldn't really go up or down regardless of who you sit next
+to. You assume everyone else would be just as ambivalent about sitting
+next to you, too.
+
+So, add  yourself to  the list, and  give all  happiness relationships
+that involve you a score of 0.
+
+What is the total change in happiness for the optimal seating
+arrangement that actually includes yourself?
+
+#+begin_src fennel :session d1513 :exports both
+(fn solve2 [lines]
+  (let [xs (score-arrangements lines)]
+    (each [_ x (ipairs xs)]
+        (table.sort x)
+        ;; maximize happiness sitting at its min
+        (aoc.table-swap x 1 0))
+    (aoc.math-max (lume.map xs #(aoc.table-sum $)))))
+
+(solve2 (aoc.string-from "2015/13.inp"))
+#+end_src
+
+#+RESULTS:
+: 725
 
 
 ** Stats                                                          :noexport:
