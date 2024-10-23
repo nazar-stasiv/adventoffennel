@@ -418,15 +418,6 @@ points are they worth in total?
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
-(fn table.intersect [lottery ticket]
-  (let [t1 (table.sort lottery)
-        t2 (table.sort ticket)
-        result []]
-    (each [_ val (ipairs lottery)]
-      (when (lume.find ticket val)
-        (table.insert result val)))
-    result))
-
 (fn read-game [s]
   (let [id (tonumber (string.match s "Card *([0-9]*):"))
         lottery (aoc.string-split (string.match s ":([0-9 ]*)|") " ")
@@ -448,7 +439,7 @@ points are they worth in total?
 (fn count-points [games]
   (let [result []]
     (each [_ game (ipairs games)]
-      (let [wins (table.intersect (. game :lottery) (. game :ticket))
+      (let [wins (aoc.table-intersect (. game :lottery) (. game :ticket))
             points (wins-to-points (length wins))]
         (table.insert result points)))
     result))
@@ -546,7 +537,7 @@ many total scratchcards do you end up with?
 (fn collect-cards [games]
   (let [result []]
     (each [_ game (ipairs games)]
-      (let [count (length (table.intersect (. game :lottery) (. game :ticket)))
+      (let [count (length (aoc.table-intersect (. game :lottery) (. game :ticket)))
             id (. game :id)
             cards []]
         (when (< 0 count)

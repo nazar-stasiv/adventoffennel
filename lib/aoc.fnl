@@ -1054,6 +1054,14 @@
      (^ p i)
      (^ (- 1 p) (- n i))))
 
+(fn table-intersect [t1 t2]
+  "Returns t1∩t2 - elements present in both t1 and t2"
+  (let [result []]
+    (each [_ v (ipairs t1)]
+      (when (lume.find t2 v)
+        (table.insert result v)))
+    result))
+
 {: string-from
  : string-last-index-of
  : string-indices
@@ -1210,4 +1218,5 @@
  : prob-dist-geom
  : prob-nchoosei
  : prob-binom
+ : table-intersect
  }
