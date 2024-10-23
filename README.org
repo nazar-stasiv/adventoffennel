@@ -2479,15 +2479,18 @@ is one long line; be careful when copy-pasting it.)
     (set result (% (* 17 (+ result (string.byte s i i))) 256)))
   result)
 
-(fn test-input [input]
-  (assert (= 1320 (aoc.table-sum (lume.map (aoc.string-split input ",") #(hash $))))))
+(fn solve [input]
+  (-> (. input 1)
+      (aoc.string-split ",")
+      (lume.map #(hash $))
+      (aoc.table-sum)))
 
-(test-input "rn=1,cm-,qp=3,cm=2,qp-,pc=4,ot=9,ab=5,pc-,pc=6,ot=7")
+(fn test [expected input]
+  (assert (= expected (solve [input]))))
 
-(fn real-input [input]
-  (aoc.table-sum (lume.map (aoc.string-split input ",") #(hash $))))
+(test 1320 "rn=1,cm-,qp=3,cm=2,qp-,pc=4,ot=9,ab=5,pc-,pc=6,ot=7")
 
-(real-input (. (aoc.string-from "2023/15.inp") 1))
+(solve (aoc.string-from "2023/15.inp"))
 #+end_src
 
 #+RESULTS:
@@ -2747,17 +2750,20 @@ your strategy guide?
       [:C :Y] (+ paper 0)
       [:C :Z] (+ scissors 3))))
 
-(local input ["A Y" "B X" "C Z"])
+(local test-input ["A Y" "B X" "C Z"])
 
-(fn test-input [in]
-  (assert (= 15 (aoc.table-sum (lume.map (read-input in) #(score $))))))
+(fn solve [input]
+  (-> input
+      (read-input)
+      (lume.map #(score $))
+      (aoc.table-sum)))
 
-(test-input input)
+(fn test [expected input]
+  (assert (= expected (solve input))))
 
-(fn real-input [in]
-  (aoc.table-sum (lume.map (read-input in) #(score $))))
+(test 15 test-input)
 
-(real-input (aoc.string-from "2022/02.inp"))
+(solve (aoc.string-from "2022/02.inp"))
 #+end_src
 
 #+RESULTS:
@@ -2807,16 +2813,18 @@ strategy guide?
 
 (local input2 ["A Y" "B X" "C Z"])
 
-(fn test-input2 [in]
-  (assert (= 12 (aoc.table-sum (lume.map (read-input in) #(score2 $))))))
+(fn solve2 [input]
+  (-> input
+      (read-input)
+      (lume.map #(score2 $))
+      (aoc.table-sum)))
 
-(test-input2 input2)
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
 
-(fn real-input2 [in]
-  (aoc.table-sum (lume.map (read-input in) #(score2 $))))
+(test2 12 input2)
 
-(real-input2 (aoc.string-from "2022/02.inp"))
-
+(solve2 (aoc.string-from "2022/02.inp"))
 #+end_src
 
 #+RESULTS:
@@ -5601,22 +5609,17 @@ board?
           (set numbers draw)))))
   [winner numbers])
 
-(fn solve [deal boards]
-  (let [[winner numbers] (find-winner deal boards)]
+(fn solve [input]
+  (let [[deals boards] (read-input input)
+        [winner numbers] (find-winner deals boards)]
     (score numbers (. boards winner))))
 
 (fn test [expected input]
-  (let [[deals boards] (read-input input)
-        res (solve deals boards)]
-    (assert (= expected res) res)))
+  (assert (= expected (solve input))))
 
 (test 4512 test-input)
 
-(fn real [input]
-  (let [[deals boards] (read-input input)]
-    (solve deals boards)))
-
-(real (aoc.string-from "2021/04.inp"))
+(solve (aoc.string-from "2021/04.inp"))
 #+end_src
 
 #+RESULTS:
@@ -5784,15 +5787,11 @@ least two lines overlap?
       (+ sum (length (lume.filter x #(< 1 $)))))))
 
 (fn test [expected input]
-  (let [res (solve input)]
-    (assert (= expected res) res)))
+  (assert (= expected (solve input))))
 
 (test 5 test-input)
 
-(fn real [input]
-  (solve input))
-
-(real (aoc.string-from "2021/05.inp"))
+(solve (aoc.string-from "2021/05.inp"))
 #+end_src
 
 #+RESULTS:
@@ -5842,10 +5841,7 @@ overlap?
 
 (test2 12 test-input)
 
-(fn real2 [input]
-  (solve2 input))
-
-(real2 (aoc.string-from "2021/05.inp"))
+(solve2 (aoc.string-from "2021/05.inp"))
 #+end_src
 
 #+RESULTS:
@@ -5951,20 +5947,17 @@ be after 80 days?
     result))
 
 (fn solve [input]
-  (var res (aoc.string-tonumarray input))
+  (var res (aoc.string-tonumarray (. input 1)))
   (for [i 1 80]
     (set res (life-cycle res)))
   (length res))
 
 (fn test [expected input]
-  (assert (= expected (solve input))))
+  (assert (= expected (solve [input]))))
 
 (test 5934 test-input)
 
-(fn real [input]
-  (solve (. input 1)))
-
-(real (aoc.string-from "2021/06.inp"))
+(solve (aoc.string-from "2021/06.inp"))
 #+end_src
 
 #+RESULTS:
@@ -5997,23 +5990,19 @@ days?
    (. xs 9)
    (. xs 1)])
 
-(fn solve2 [input cycles]
+(fn run-cycle [input cycles]
   (if (= 0 cycles) input
-      (solve2 (life-cycle2 input) (- cycles 1))))
+      (run-cycle (life-cycle2 input) (- cycles 1))))
 
-(fn test2 [expected input cycles]
-  (let [population (read-input input)
-        result (aoc.table-sum (solve2 population cycles))]
-    (assert (= expected result) result)))
+(fn solve2 [input]
+  (aoc.table-sum (run-cycle (read-input (. input 1)) 256)))
 
-(test2 5934 test-input 80)
+(fn test2 [expected input]
+  (assert (= expected (solve2 [input]))))
 
-(test2 26984457539 test-input 256)
+(test2 26984457539 test-input)
 
-(fn real2 [input]
-  (aoc.table-sum (solve2 (read-input (. input 1)) 256)))
-
-(real2 (aoc.string-from "2021/06.inp"))
+(solve2 (aoc.string-from "2021/06.inp"))
 #+end_src
 
 #+RESULTS:
@@ -6088,21 +6077,18 @@ that position?
         (. xs (+ 1 mid)))))
 
 (fn solve [input]
-  (let [in (aoc.string-tonumarray input)
+  (let [in (aoc.string-tonumarray (. input 1))
         med (median in)]
     (aoc.table-sum
      (icollect [_ v (ipairs in)]
        (math.abs (- med v))))))
 
 (fn test [expected input]
-  (assert (= expected (solve input))))
+  (assert (= expected (solve [input]))))
 
 (test 37 test-input)
 
-(fn real [input]
-  (solve (. input 1)))
-
-(real (aoc.string-from "2021/07.inp"))
+(solve (aoc.string-from "2021/07.inp"))
 #+end_src
 
 #+RESULTS:
@@ -6152,22 +6138,18 @@ fuel must they spend to align to that position?
   (sum (math.abs (- f t))))
 
 (fn solve2 [input]
-  (let [in (aoc.string-tonumarray input)
+  (let [in (aoc.string-tonumarray (. input 1))
         med (mean in)]
     (aoc.table-sum 
      (icollect [_ v (ipairs in)]
        (fuel med v)))))
 
 (fn test2 [expected input]
-  (let [res (solve2 input)]
-    (assert (= expected res) res)))
+  (assert (= expected (solve2 [input]))))
 
 (test2 170 test-input)
 
-(fn real2 [input]
-  (solve2 (. input 1)))
-
-(real2 (aoc.string-from "2021/07.inp"))
+(solve2 (aoc.string-from "2021/07.inp"))
 #+end_src
 
 #+RESULTS:
@@ -6252,10 +6234,7 @@ risk levels of all low points on your heightmap?
 
 (test 15 test-input)
 
-(fn real [input]
-  (solve input))
-
-(real (aoc.string-from "2021/09.inp"))
+(solve (aoc.string-from "2021/09.inp"))
 #+end_src
 
 #+RESULTS:
@@ -6363,15 +6342,11 @@ largest basins?
        (table.remove res))))
 
 (fn test2 [expected input]
-  (let [res (solve2 input)]
-    (assert (= expected res) res)))
+  (assert (= expected (solve2 input))))
 
 (test2 1134 test-input)
 
-(fn real2 [input]
-  (solve2 input))
-
-(real2 (aoc.string-from "2021/09.inp"))
+(solve2 (aoc.string-from "2021/09.inp"))
 #+end_src
 
 #+RESULTS:
