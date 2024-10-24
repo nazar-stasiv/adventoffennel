@@ -1681,7 +1681,7 @@ history. What is the sum of these extrapolated values?
       (table.insert result dt))
     result))
 
-(fn solve [t]
+(fn extrapolate [t]
   (let [result []]
     (each [_ ti (ipairs t)]
       (table.insert result (aoc.last ti)))
@@ -1693,21 +1693,21 @@ history. What is the sum of these extrapolated values?
       (table.insert input (lume.map (aoc.string-split line " ") #(tonumber $))))
     input))
 
-(fn test-input [lines expected]
-  (let [input (read-input lines)]
-    (assert (= expected (aoc.table-sum (lume.map input #(solve (derive $))))))))
+(fn solve [input]
+  (let [xs (read-input input)]
+    (aoc.table-sum (lume.map xs #(extrapolate (derive $))))))
 
-(local test-input-1 [" 0  3  6  9 12 15"
-                     " 1  3  6 10 15 21"
-                     "10 13 16 21 30 45"])
+(fn test [expected input]
+  (assert (= expected (solve input))))
 
-(test-input test-input-1 114)
+(local test-input
+       [" 0  3  6  9 12 15"
+        " 1  3  6 10 15 21"
+        "10 13 16 21 30 45"])
 
-(fn real-input [lines]
-  (let [input (read-input lines)]
-    (aoc.table-sum (lume.map input #(solve (derive $))))))
+(test 114 test-input)
 
-(real-input (aoc.string-from "2023/09.inp"))
+(solve (aoc.string-from "2023/09.inp"))
 #+end_src
 
 #+RESULTS:
@@ -1956,30 +1956,32 @@ farthest from the starting position?
                 :west (if (connected? t x y :north) (move t (- x 1) y (+ 1 s) :south))
                 :north (if (connected? t x y :west) (move t x (- y 1) (+ 1 s) :east)))))))
 
-(fn test-input [expected input sx sy]
-  (assert (= expected (move input sx sy 0 :start))))
+(fn solve [input sx sy]
+  (let [m (aoc.read-matrix input)]
+    (move m sx sy 0 :start)))
 
-(test-input 4
-            [(aoc.string-toarray "-L|F7")
-             (aoc.string-toarray "7S-7|")
-             (aoc.string-toarray "L|7||")
-             (aoc.string-toarray "-L-J|")
-             (aoc.string-toarray "L|-JF")]
-            2 2)
+(fn test [expected input sx sy]
+  (assert (= expected (solve input sx sy))))
 
-(test-input 8
-            [(aoc.string-toarray "7-F7-")
-             (aoc.string-toarray ".FJ|7")
-             (aoc.string-toarray "SJLL7")
-             (aoc.string-toarray "|F--J")
-             (aoc.string-toarray "LJ.LJ")]
-            3 1)
+(local test-input1
+       ["-L|F7"
+        "7S-7|"
+        "L|7||"
+        "-L-J|"
+        "L|-JF"])
 
-(fn real-input [lines]
-  (let [input (aoc.read-matrix lines)]
-    (move input 64 63 0 :start)))
+(test 4 test-input1 2 2)
 
-(real-input (aoc.string-from "2023/10.inp"))
+(local test-input2
+       ["7-F7-"
+        ".FJ|7"
+        "SJLL7"
+        "|F--J"
+        "LJ.LJ"])
+
+(test 8 test-input2 3 1)
+
+(solve (aoc.string-from "2023/10.inp") 64 63)
 #+end_src
 
 #+RESULTS:
@@ -2153,39 +2155,36 @@ every pair of galaxies. What is the sum of these lengths?
       (table.insert result row (. result row)))
     (aoc.table-transpose result)))
 
-(fn test-input [matrix]
-  (let [coords (find-coords matrix "#")
-        distances (calculate-distances coords)]
-    (assert (= 9 (. (. distances 5) (- 9 5 -1))))
-    (assert (= 15 (. (. distances 1) (- 7 1 -1))))
-    (assert (= 17 (. (. distances 3) (- 6 3 -1))))
-    (assert (= 5 (. (. distances 8) (- 9 8 -1))))
-    (assert (= 374 (aoc.table-sum distances)))))
-
-(test-input
- (expand-empty-space
-  (aoc.read-matrix
-   ["...#......"
-    ".......#.."
-    "#........."
-    ".........."
-    "......#..."
-    ".#........"
-    ".........#"
-    ".........."
-    ".......#.."
-    "#...#....."])))
-
-(fn real-input [matrix]
-  (let [coords (find-coords matrix "#")
+(fn solve [input]
+  (let [m (aoc.read-matrix input)
+        mm (expand-empty-space m)
+        coords (find-coords mm "#")
         dist (calculate-distances coords)]
     (aoc.table-sum dist)))
 
-(real-input (expand-empty-space (aoc.read-matrix (aoc.string-from "2023/11.inp"))))
+(fn test [expected input]
+  (assert (= expected (solve input))))
+
+(local test-input
+       ["...#......"
+        ".......#.."
+        "#........."
+        ".........."
+        "......#..."
+        ".#........"
+        ".........#"
+        ".........."
+        ".......#.."
+        "#...#....."])
+
+(test 374 test-input)
+
+(solve (aoc.string-from "2023/11.inp"))
 #+end_src
 
 #+RESULTS:
 : 9965032
+
 
 ** Day 14.1
 You reach the place where all  of the mirrors were pointing: a massive
@@ -2341,28 +2340,27 @@ what is the total load on the north support beams?
 (fn weights [xs]
   (lume.map xs #(weight $)))
 
-(fn test-input [lines]
-  (let [input (table.tonumbers lines) 
-        matrix (tilt input :north)]
-    (assert (= 136 (math.wsum (weights matrix))))))
-
-(test-input ["O....#...."
-             "O.OO#....#"
-             ".....##..."
-             "OO.#O....O"
-             ".O.....O#."
-             "O.#..O.#.#"
-             "..O..#O..O"
-             ".......O.."
-             "#....###.."
-             "#OO..#...."])
-
-(fn real-input [lines]
+(fn solve [lines]
   (let [input (table.tonumbers lines)
         matrix (tilt input :north)]
     (math.wsum (weights matrix))))
 
-(real-input (aoc.string-from "2023/14.inp"))
+(fn test [expected lines]
+  (assert (= 136 (solve lines))))
+
+(test 136
+      ["O....#...."
+       "O.OO#....#"
+       ".....##..."
+       "OO.#O....O"
+       ".O.....O#."
+       "O.#..O.#.#"
+       "..O..#O..O"
+       ".......O.."
+       "#....###.."
+       "#OO..#...."])
+
+(solve (aoc.string-from "2023/14.inp"))
 #+end_src
 
 #+RESULTS:
@@ -3446,25 +3444,25 @@ start-of-packet marker is detected?
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
-(fn solve [pos stream]
+(fn find-packet-marker [pos stream]
   (case (aoc.table-range stream (- pos 3) pos)
     (where [a b c d] (and (not= a b) (not= a c) (not= a d)
                           (not= b c) (not= b d) (not= c d))) pos
-    [_a _b _c _d] (solve (+ 1 pos) stream)))
+    [_a _b _c _d] (find-packet-marker (+ 1 pos) stream)))
 
-(fn test-input [expected input]
-  (assert (= expected (solve 4 (aoc.string-toarray input)))))
+(fn solve [input]
+  (find-packet-marker 4 (aoc.string-toarray (. input 1))))
 
-(test-input 7 "mjqjpqmgbljsphdztnvjfqwrcgsmlb")
-(test-input 5 "bvwbjplbgvbhsrlpgdmjqwftvncz")
-(test-input 6 "nppdvjthqldpwncqszvftbrmjlhg")
-(test-input 10 "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg")
-(test-input 11 "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw")
+(fn test [expected input]
+  (assert (= expected (solve input))))
 
-(fn real-input [input]
-  (solve 4 (aoc.string-toarray (. input 1))))
+(test 7 ["mjqjpqmgbljsphdztnvjfqwrcgsmlb"])
+(test 5 ["bvwbjplbgvbhsrlpgdmjqwftvncz"])
+(test 6 ["nppdvjthqldpwncqszvftbrmjlhg"])
+(test 10 ["nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg"])
+(test 11 ["zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw"])
 
-(real-input (aoc.string-from "2022/06.inp"))
+(solve (aoc.string-from "2022/06.inp"))
 #+end_src
 
 #+RESULTS:
@@ -3492,29 +3490,30 @@ start-of-message marker is detected?
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
-(fn solve2 [pos stream]
+(fn find-message-marker [pos stream]
   (let [start-message (aoc.table-range stream (- pos 13) pos)]
     (if (= (length start-message)
            (length (lume.unique start-message))) pos
-           (solve2 (+ 1 pos) stream))))
+           (find-message-marker (+ 1 pos) stream))))
 
-(fn test2-input [expected input]
-  (assert (= expected (solve2 14 (aoc.string-toarray input)))))
+(fn solve2 [input]
+  (find-message-marker 14 (aoc.string-toarray (. input 1))))
 
-(test2-input 19 "mjqjpqmgbljsphdztnvjfqwrcgsmlb")
-(test2-input 23 "bvwbjplbgvbhsrlpgdmjqwftvncz")
-(test2-input 23 "nppdvjthqldpwncqszvftbrmjlhg")
-(test2-input 29 "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg")
-(test2-input 26 "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw")
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
 
-(fn real2-input [input]
-  (solve2 14 (aoc.string-toarray (. input 1))))
+(test2 19 ["mjqjpqmgbljsphdztnvjfqwrcgsmlb"])
+(test2 23 ["bvwbjplbgvbhsrlpgdmjqwftvncz"])
+(test2 23 ["nppdvjthqldpwncqszvftbrmjlhg"])
+(test2 29 ["nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg"])
+(test2 26 ["zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw"])
 
-(real2-input (aoc.string-from "2022/06.inp"))
+(solve2 (aoc.string-from "2022/06.inp"))
 #+end_src
 
 #+RESULTS:
 : 2315
+
 
 ** Day 7.1
 You  can hear  birds  chirping  and raindrops  hitting  leaves as  the
@@ -3831,7 +3830,7 @@ Consider your map; how many trees are visible from outside the grid?
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
-(fn solve [m]
+(fn find-visible-trees [m]
   (let [res []
         M (aoc.table-transpose m)
         leni (length m)]
@@ -3850,10 +3849,13 @@ Consider your map; how many trees are visible from outside the grid?
               (table.insert res (..  i "," j)))))))
     res))
 
-(fn test [expected input]
+(fn solve [input]
   (let [matrix (aoc.read-matrix input true)
-        res (solve matrix)]
-    (assert (= expected (length res)))))
+        res (find-visible-trees matrix)]
+    (length res)))
+
+(fn test [expected input]
+  (assert (= expected (solve input))))
 
 (local test-input
        ["30373"
@@ -3864,18 +3866,14 @@ Consider your map; how many trees are visible from outside the grid?
 
 (test 21 test-input)
 
-(fn real [input]
-  (let [matrix (aoc.read-matrix input true)
-        res (solve matrix)]
-    (length res)))
-
-(real (aoc.string-from "2022/08.inp"))
+(solve (aoc.string-from "2022/08.inp"))
 #+end_src
 
 #+RESULTS:
 : 1835
 
 ** Day 8.2
+
 Content with the  amount of tree cover available, the  Elves just need
 to know the best spot to build their tree house: they would like to be
 able to see a lot of trees.
@@ -3944,7 +3942,7 @@ possible for any tree?
   (if (< res (length xs)) (+ 1 res)
       res))
 
-(fn solve2 [m]
+(fn find-scenic-score [m]
   (let [res []
         M (aoc.table-transpose m)
         leni (length m)]
@@ -3966,18 +3964,16 @@ possible for any tree?
                 (table.insert res score)))))))
     (aoc.table-max res)))
 
+(fn solve2 [input]
+  (let [matrix (aoc.read-matrix input true)]
+    (find-scenic-score matrix)))
+
 (fn test2 [expected input]
-  (let [matrix (aoc.read-matrix input true)
-        res (solve2 matrix)]
-    (assert (= expected res))))
+  (assert (= expected (solve2 input))))
 
 (test2 8 test-input)
 
-(fn real2 [input]
-  (let [matrix (aoc.read-matrix input true)]
-    (solve2 matrix)))
-
-(real2 (aoc.string-from "2022/08.inp"))
+(solve2 (aoc.string-from "2022/08.inp"))
 #+end_src
 
 #+RESULTS:
@@ -4316,15 +4312,15 @@ positions does the tail of the rope visit at least once?
     res))
 
 (fn solve [input]
-  (aoc.table-unique
-   (match-move
-    (make-move
-     (read-input input)))))
+  (-> input
+      (read-input)
+      (make-move)
+      (match-move)
+      (aoc.table-unique)
+      (length)))
 
 (fn test [expected input]
-  (let [res (solve input)]
-    (assert (= expected (length res))
-            (length res))))
+  (assert (= expected (solve input))))
 
 (local test-input
        ["R 4"
@@ -4338,10 +4334,7 @@ positions does the tail of the rope visit at least once?
 
 (test 13 test-input)
 
-(fn real [input]
-  (length (solve input)))
-
-(real (aoc.string-from "2022/09.inp"))
+(solve (aoc.string-from "2022/09.inp"))
 #+end_src
 
 #+RESULTS:
@@ -4816,14 +4809,12 @@ once?
         T6 (match-move T5)
         T7 (match-move T6)
         T8 (match-move T7)]
-    (aoc.table-unique (match-move T8))))
+    (length (aoc.table-unique (match-move T8)))))
 
 (fn test2 [expected input]
-  (let [res (solve2 input)]
-    (assert (= expected (length res))
-            (length res))))
+  (assert (= expected (solve2 input))))
 
-(local test-input-2
+(local test2-input
        ["R 5"
         "U 8"
         "L 8"
@@ -4833,12 +4824,9 @@ once?
         "L 25"
         "U 20"])
 
-(test2 36 test-input-2)
+(test2 36 test2-input)
 
-(fn real2 [input]
-  (length (solve2 input)))
-
-(real2 (aoc.string-from "2022/09.inp"))
+(solve2 (aoc.string-from "2022/09.inp"))
 #+end_src
 
 #+RESULTS:
@@ -4957,10 +4945,10 @@ How many measurements are larger than the previous measurement?
   (let [t (aoc.table-zip
            (aoc.table-range lines 1 (- (length lines) 1))
            (aoc.table-range lines 2 (length lines)))]
-    (lume.filter t (fn [[f t]] (< (tonumber f) (tonumber t))))))
+    (length (lume.filter t (fn [[f t]] (< (tonumber f) (tonumber t)))))))
 
 (fn test [expected input]
-  (assert (= expected (length (solve input)))))
+  (assert (= expected (solve input))))
 
 (local test-input ["199"
                    "200"
@@ -4975,10 +4963,7 @@ How many measurements are larger than the previous measurement?
 
 (test 7 test-input)
 
-(fn real [input]
-  (length (solve input)))
-
-(real (aoc.string-from "2021/01.inp"))
+(solve (aoc.string-from "2021/01.inp"))
 #+end_src
 
 #+RESULTS:
@@ -5048,14 +5033,11 @@ larger than the previous sum?
     (solve res)))
 
 (fn test2 [expected input]
-  (assert (= expected (length (solve2 input)))))
+  (assert (= expected (solve2 input))))
 
 (test2 5 test-input)
 
-(fn real2 [input]
-  (length (solve2 input)))
-
-(real2 (aoc.string-from "2021/01.inp"))
+(solve2 (aoc.string-from "2021/01.inp"))
 #+end_src
 
 #+RESULTS:
@@ -5120,19 +5102,17 @@ final horizontal position by your final depth?
 (fn test [expected input]
   (assert (= expected (solve input))))
 
-(local test-input ["forward 5"
-                   "down 5"
-                   "forward 8"
-                   "up 3"
-                   "down 8"
-                   "forward 2"])
+(local test-input
+       ["forward 5"
+        "down 5"
+        "forward 8"
+        "up 3"
+        "down 8"
+        "forward 2"])
 
 (test 150 test-input)
 
-(fn real [input]
-  (solve input))
-
-(real (aoc.string-from "2021/02.inp"))
+(solve (aoc.string-from "2021/02.inp"))
 #+end_src
 
 #+RESULTS:
@@ -5190,15 +5170,11 @@ position by your final depth?
     (* (. s :x) (. s :y))))
 
 (fn test2 [expected input]
-  (let [res (solve2 input)]
-    (assert (= expected res) res)))
+  (assert (= expected (solve2 input))))
 
 (test2 900 test-input)
 
-(fn real2 [input]
-  (solve2 input))
-
-(real2 (aoc.string-from "2021/02.inp"))
+(solve2 (aoc.string-from "2021/02.inp"))
 #+end_src
 
 #+RESULTS:
@@ -5287,8 +5263,7 @@ in decimal, not binary.)
        (aoc.todecimal epsilon))))
 
 (fn test [expected input]
-  (let [res (solve input)]
-    (assert (= expected res) res)))
+  (assert (= expected (solve input))))
 
 (local test-input ["00100"
                    "11110"
@@ -5305,10 +5280,7 @@ in decimal, not binary.)
 
 (test 198 test-input)
 
-(fn real [input]
-  (solve input))
-
-(real (aoc.string-from "2021/03.inp"))
+(solve (aoc.string-from "2021/03.inp"))
 #+end_src
 
 #+RESULTS:
@@ -5421,15 +5393,11 @@ to represent your answer in decimal, not binary.)
     (* g s)))
 
 (fn test2 [expected input]
-  (let [res (solve2 input)]
-    (assert (= expected res) res)))
+  (assert (= expected (solve2 input))))
 
 (test2 230 test-input)
 
-(fn real2 [input]
-  (solve2 input))
-
-(real2 (aoc.string-from "2021/03.inp"))
+(solve2 (aoc.string-from "2021/03.inp"))
 #+end_src
 
 #+RESULTS:
