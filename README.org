@@ -9621,7 +9621,7 @@ So, the final image looks like this:
 
 What message is produced after decoding your image?
 
-#+begin_src fennel :session d1908 :exports both :results output
+#+begin_src fennel :session d1908 :exports both :results output :wrap EXAMPLE
 (fn color [xs]
   (var res false)
   (each [_ col (ipairs xs) &until res]
@@ -9652,13 +9652,13 @@ What message is produced after decoding your image?
     (assert (= expected str))))
 
 (fn pretty-print [xs]
-  (print (string.format "%s" "\n"))
+  ;;(print (string.format "%s" "\n"))
   (each [i x (ipairs xs)]
     (print
      (string.format
       "%s" (.. 
             (aoc.table-tostring
-             (lume.map x #(if (= "1" $) "▬" "  "))))))))
+             (lume.map x #(if (= "1" $) "==" "  "))))))))
 
 (local test2-input ["0222112222120000"])
 (test2 "0110" test2-input 2 2)
@@ -9667,14 +9667,14 @@ What message is produced after decoding your image?
 #+end_src
 
 #+RESULTS:
-: 
-: 
-: ▬    ▬    ▬▬      ▬▬    ▬▬▬▬    ▬▬    
-: ▬  ▬    ▬    ▬  ▬    ▬  ▬        ▬    ▬  
-: ▬▬      ▬        ▬        ▬▬▬    ▬        
-: ▬  ▬    ▬        ▬  ▬▬  ▬        ▬        
-: ▬  ▬    ▬    ▬  ▬    ▬  ▬        ▬    ▬  
-: ▬    ▬    ▬▬      ▬▬▬  ▬▬▬▬    ▬▬    
+#+begin_EXAMPLE
+==    ==    ====      ====    ========    ====    
+==  ==    ==    ==  ==    ==  ==        ==    ==  
+====      ==        ==        ======    ==        
+==  ==    ==        ==  ====  ==        ==        
+==  ==    ==    ==  ==    ==  ==        ==    ==  
+==    ==    ====      ======  ========    ====    
+#+end_EXAMPLE
 
 
 
