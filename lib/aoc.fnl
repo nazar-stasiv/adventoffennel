@@ -336,6 +336,11 @@
         (table.insert (. result j) i (. (. xs i) j))))
     result))
 
+(fn table-column-sum [xs]
+  "return sum of columns of 2d array xs"
+  (let [ys (table-transpose xs)]
+    (lume.map ys #(table-sum $))))
+
 (fn table-replace [t i j v]
   "return collection with i,j element of t replaced with v"
   (let [old (table.remove (. t i) j)]
@@ -1107,6 +1112,7 @@
  : table-clone
  : table-group-by
  : table-transpose
+ : table-column-sum
  : table-replace
  : table-replace-row
  : table-swap
