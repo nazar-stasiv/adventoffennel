@@ -782,6 +782,19 @@
         _ (table.insert res [(. xs i) (. xs (+ i 1)) (. xs (+ i 2))])))
     res))
 
+(fn partitionm [xs m]
+  "partitions xs by m elements step 1"
+  (assert (<= 1 m (# xs)))
+  (if (= 1 m) (lume.map xs (fn [x] [x]))
+      (let [res []]
+        (for [i m (length xs)]
+          (table.insert
+           res
+           (lume.map (range 0 (- m 1))
+                     #(. xs (- i $)))))
+        res)))
+
+
 (fn table-no-dups? [xs]
   "returns true if xs has no duplicate elements"
   (table.sort xs)
@@ -1177,6 +1190,7 @@
  : partition3step1
  : partition2
  : partition3
+ : partitionm
  : table-no-dups?
  : frequency
  : rank
