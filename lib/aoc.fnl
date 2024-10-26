@@ -578,6 +578,14 @@
   (let [u (or table.unpack _G.unpack)]
     (u xs)))
 
+(fn powerset [xs]
+  "returns every possible combination of xs elements"
+  (let [res [[]]]
+    (for [i 1 (# xs)]
+      (for [j 1 (# res)]
+        (table.insert res [(. xs i) (table-unpack (. res j))])))
+    res))
+
 (fn max [xs]
   "return maximum element of xs"  
   (math.max (table-unpack xs)))
@@ -1164,6 +1172,7 @@
  : matrix-toggle
  : matrix-apply
  : table-unpack
+ : powerset
  : max
  : min
  : table-disjunc 
