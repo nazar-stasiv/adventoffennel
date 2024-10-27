@@ -13750,6 +13750,81 @@ What is the number of the real Aunt Sue?
 #+RESULTS:
 : 260
 
+
+** Day 17.1
+
+The elves bought too much eggnog again  - 150 liters this time. To fit
+it all  into your refrigerator,  you'll need  to move it  into smaller
+containers. You take  an inventory of the capacities  of the available
+containers.
+
+For example, suppose you have containers of  size 20, 15, 10, 5, and 5
+liters. If you need to store 25 liters, there are four ways to do it:
+- 15 and 10
+- 20 and 5 (the first 5)
+- 20 and 5 (the second 5)
+- 15, 5, and 5
+
+Filling all containers entirely, how many different combinations of
+containers can exactly fit all 150 liters of eggnog?
+
+#+begin_src fennel -n :session d1517 :exports both
+(local lume (require :lib.lume))
+(local aoc (require :lib.aoc))
+(local test-input ["20" "15" "10" "5" "5"])
+
+(fn solve [input total]
+  (-> input
+      (lume.map tonumber)
+      (aoc.powerset)
+      (lume.filter #(= total (aoc.table-sum $)))
+      (length)))
+
+(fn test [expected input total]
+  (assert (= expected (solve input total))))
+
+(test 4 test-input 25)
+
+(solve (aoc.string-from "2015/17.inp") 150)
+#+end_src
+
+#+RESULTS:
+: 1304
+
+** Day 17.2
+
+While playing with all the containers  in the kitchen, another load of
+eggnog arrives! The shipping and receiving department is requesting as
+many containers as you can spare.
+
+Find the  minimum number of  containers that  can exactly fit  all 150
+liters of eggnog. How many different  ways can you fill that number of
+containers and still hold exactly 150 litres?
+
+In the example above, the minimum  number of containers was two. There
+were three ways  to use that many containers, and  so the answer there
+would be 3.
+
+#+begin_src fennel -n :session d1517 :exports both
+(fn solve2 [input total]
+  (let [xs (lume.map input #(tonumber $))
+        ys (aoc.powerset xs)
+        zs (lume.filter ys #(= total (aoc.table-sum $)))
+        len (lume.map zs (fn [z] (length z)))]
+    (let [min (aoc.table-min len)]
+      (lume.count zs (fn [z] (= min (# z)))))))
+
+(fn test2 [expected input max]
+  (assert (= expected (solve2 input max))))
+
+(test2 3 test-input 25)
+
+(solve2 (aoc.string-from "2015/17.inp") 150)
+#+end_src
+
+#+RESULTS:
+: 18
+
 ** Stats                                                          :noexport:
 
 #+CAPTION: https://adventofcode.com/2015/stats
