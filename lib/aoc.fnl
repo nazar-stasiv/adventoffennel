@@ -5,6 +5,15 @@
   "return lines read from file at path"
   (icollect [line (io.lines path)] line))
 
+(fn bytes-from [path]
+  "return bytes read from file at path"
+  (with-open [r (io.open path "rb")]
+    (r:read "a")))
+
+(fn string-escape [s]
+  "escapes characters of s"  
+  (string.format "%q" s))
+
 (fn string-last-index-of [s c]
   "returns index of c in s looking backwards or 0 if not found"
   (let [index (string.find (string.reverse s) c 1 true)]
@@ -1094,6 +1103,8 @@
     result))
 
 {: string-from
+ : bytes-from
+ : string-escape
  : string-last-index-of
  : string-indices
  : string-pushback
