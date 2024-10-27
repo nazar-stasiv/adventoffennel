@@ -586,6 +586,11 @@
         (table.insert res [(. xs i) (table-unpack (. res j))])))
     res))
 
+(fn combination [xs i]
+  "returns every i element combination of length n xs i.e. Cⁱₙ"
+  (let [ys (powerset xs)]
+    (lume.filter ys (fn [y] (= i (# y))))))
+
 (fn max [xs]
   "return maximum element of xs"  
   (math.max (table-unpack xs)))
@@ -1173,6 +1178,7 @@
  : matrix-apply
  : table-unpack
  : powerset
+ : combination
  : max
  : min
  : table-disjunc 
