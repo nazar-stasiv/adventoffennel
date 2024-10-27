@@ -12819,6 +12819,113 @@ is ultimately provided to wire a?
 : 40149
 
 
+** Day 8.1
+Space  on the  sleigh  is limited  this  year, and  so  Santa will  be
+bringing his list as  a digital copy. He needs to  know how much space
+it will take up when stored.
+
+It is common in many programming  languages to provide a way to escape
+special  characters  in strings.  For  example,  C, JavaScript,  Perl,
+Python, and even PHP handle special characters in very similar ways.
+
+However, it is important to  realize the difference between the number
+of characters in the code representation of the string literal and the
+number of characters in the in-memory string itself.
+
+For example:
+- "" is 2 characters of code (the two double quotes), but the string
+  contains zero characters.
+- "abc" is 5 characters of code, but 3 characters in the string data.
+- "aaa\"aaa" is 10 characters of code, but the string itself contains
+  six "a" characters and a single, escaped quote character, for a
+  total of 7 characters in the string data.
+- ="\x27"= is 6 characters of code, but the string itself contains just
+  one - an apostrophe ('), escaped using hexadecimal notation.
+  
+Santa's  list  is  a  file that  contains  many  double-quoted  string
+literals,  one  on each  line.  The  only  escape sequences  used  are
+\\ (which represents a single  backslash), \" (which represents a lone
+double-quote character), and =\x= plus two hexadecimal characters (which
+represents a single character with that ASCII code).
+
+Disregarding  the  whitespace in  the  file,  what  is the  number  of
+characters of code for string  literals minus the number of characters
+in memory for the values of the strings in total for the entire file?
+
+For  example,  given the  four  strings  above,  the total  number  of
+characters of string code (2 + 5 + 10 + 6 = 23) minus the total number
+of characters in memory for string values (0 + 3 + 7 + 1 = 11) is 23 -
+11 = 12.
+
+#+begin_src fennel -n :session d1508 :exports both
+(local lume (require :lib.lume))
+(local aoc (require :lib.aoc))
+
+(fn char-len [s]
+  (var len 0)
+  (var i 1)
+  (let [xs (aoc.string-toarray s)]
+    (while (<= i (# xs))
+      (case (. xs i)
+        "\\" (set i (+ i (if (= "x" (. xs (+ 1 i))) 4 2)))
+        _ (set i (+ i 1)))
+      (set len (+ 1 len))))
+  len)
+
+(fn raw-len [s]
+  (+ 
+   (string.len "\"")
+   (string.len "\"")
+   (string.len s)))
+
+(fn solve [lines]
+  (var len1 0)
+  (var len2 0)
+  (each [_ line (ipairs lines)]
+    (set len1 (+ len1 (raw-len line)))
+    (set len2 (+ len2 (char-len line))))
+  (- len1 len2))
+
+(solve (aoc.string-from "2015/08.inp"))
+#+end_src
+
+#+RESULTS:
+: 1371
+
+** Day 8.2
+
+Now, let's  go the  other way.  In addition to  finding the  number of
+characters of code, you should  now encode each code representation as
+a new  string and  find the  number of characters  of the  new encoded
+representation, including the surrounding double quotes.
+
+For example:
+- "" encodes to "\"\"", an increase from 2 characters to 6.
+- "abc" encodes to "\"abc\"", an increase from 5 characters to 9.
+- "aaa\"aaa" encodes to "\"aaa\\\"aaa\"", an increase from 10
+  characters to 16.
+- ="\x27"= encodes to ="\"\\x27\""=, an increase from 6 characters to 11.
+  
+Your task is  to find the total number of  characters to represent the
+newly encoded strings  minus the number of characters of  code in each
+original string literal. For example, for the strings above, the total
+encoded length  (6 + 9  + 16 +  11 = 42)  minus the characters  in the
+original code representation (23, just like  in the first part of this
+puzzle) is 42 - 23 = 19.
+
+#+begin_src fennel -n :session d1508 :exports both
+(fn solve2 [lines]
+  (-> lines
+      (lume.map (fn [s] (- (string.len (aoc.string-escape s))
+                           (string.len s))))
+      (lume.reduce (fn [s x] (+ s x)))))
+
+(solve2 (aoc.string-from "2015/08.inp"))
+#+end_src
+
+#+RESULTS:
+: 2117
+
 ** Day 9.1
 
 Every year, Santa  manages to deliver all of his  presents in a single
