@@ -13932,6 +13932,250 @@ would be 3.
 #+RESULTS:
 : 18
 
+
+** Day 18.1
+
+After the million lights incident,  the fire code has gotten stricter:
+now, at  most ten thousand lights  are allowed. You arrange  them in a
+100x100 grid.
+
+Never one to  let you down, Santa again mails  you instructions on the
+ideal lighting configuration. With so few lights, he says, you'll have
+to resort to animation.
+
+Start by  setting your  lights to  the included  initial configuration
+(your puzzle input). A # means "on", and a . means "off".
+
+Then, animate  your grid in  steps, where  each step decides  the next
+configuration  based  on the  current  one.  Each light's  next  state
+(either on or off) depends on its current state and the current states
+of the  eight lights adjacent  to it (including diagonals).  Lights on
+the  edge of  the  grid might  have fewer  than  eight neighbors;  the
+missing ones always count as "off".
+
+For example,  in a  simplified 6x6  grid, the light  marked A  has the
+neighbors numbered 1 through 8, and the light marked B, which is on an
+edge, only has the neighbors marked 1 through 5:
+
+#+begin_example
+1B5...
+234...
+......
+..123.
+..8A4.
+..765.
+#+end_example
+
+The state a light  should have next is based on  its current state (on
+or off) plus the number of neighbors that are on:
+- A light which is on stays on when 2 or 3 neighbors are on, and turns
+  off otherwise.
+- A light which is off turns on if exactly 3 neighbors are on, and
+  stays off otherwise.
+  
+All of  the lights update  simultaneously; they all consider  the same
+current state before moving to the next.
+
+Here's a few steps from an example configuration of another 6x6 grid:
+
+#+begin_example
+Initial state:
+.#.#.#
+...##.
+#....#
+..#...
+#.#..#
+####..
+
+After 1 step:
+..##..
+..##.#
+...##.
+......
+#.....
+#.##..
+
+After 2 steps:
+..###.
+......
+..###.
+......
+.#....
+.#....
+
+After 3 steps:
+...#..
+......
+...#..
+..##..
+......
+......
+
+After 4 steps:
+......
+......
+..##..
+..##..
+......
+......
+#+end_example
+
+After 4 steps, this example has four lights on.
+
+In your grid of 100x100  lights, given your initial configuration, how
+many lights are on after 100 steps?
+
+#+begin_src fennel -n :session d1518 :exports both
+(local lume (require :lib.lume))
+(local aoc (require :lib.aoc))
+
+(local test-input
+       [".#.#.#"
+        "...##."
+        "#....#"
+        "..#..."
+        "#.#..#"
+        "####.."])
+
+(fn dothash2num [s]
+  (let [xs (aoc.string-toarray s)]
+    (lume.map xs (fn [x] (if (= "#" x) 1 0)))))
+
+(fn animate [xs]
+  (let [res (aoc.matrix-clone xs)]
+    (for [i 1 (# xs)]
+      (for [j 1 (# (. xs i))]
+        (let [ns (aoc.matrix-adjvals xs i j)
+              nsum (aoc.table-sum ns)]
+          (aoc.matrix-swap
+           res j i
+           (case (. (. xs i) j)
+             0 (if (= 3 nsum) 1 0)
+             1 (if (or (= 2 nsum)
+                       (= 3 nsum)) 1 0))))))
+    res))
+
+(fn solve [input steps]
+  (var xs (lume.map input dothash2num))
+  (for [i 1 steps]
+    (set xs (animate xs)))
+  (aoc.table-sum xs))
+
+(fn test [expected input steps]
+  (assert (= expected (solve input steps))))
+
+(test 4 test-input 4)
+
+(solve (aoc.string-from "2015/18.inp") 100)
+#+end_src
+
+#+RESULTS:
+: 814
+
+** Day 18.2
+
+You flip the  instructions over; Santa goes on to  point out that this
+is all just  an implementation of [[https://en.wikipedia.org/wiki/Conway's_Game_of_Life][Conway's Game of  Life]]. At least, it
+was, until you  notice that something's wrong with the  grid of lights
+you bought: four lights, one in each corner, are =stuck on= and can't be
+turned off. The example above will actually run like this:
+
+#+begin_example
+Initial state:
+##.#.#
+...##.
+#....#
+..#...
+#.#..#
+####.#
+
+After 1 step:
+#.##.#
+####.#
+...##.
+......
+#...#.
+#.####
+
+After 2 steps:
+#..#.#
+#....#
+.#.##.
+...##.
+.#..##
+##.###
+
+After 3 steps:
+#...##
+####.#
+..##.#
+......
+##....
+####.#
+
+After 4 steps:
+#.####
+#....#
+...#..
+.##...
+#.....
+#.#..#
+
+After 5 steps:
+##.###
+.##..#
+.##...
+.##...
+#.#...
+##...#
+#+end_example
+
+After 5 steps, this example now has 17 lights on.
+
+In your grid of 100x100  lights, given your initial configuration, but
+with the four corners  always in the =on= state, =how  many lights are on=
+after 100 steps?
+
+#+begin_src fennel -n :session d1518 :exports both
+(fn animate2 [xs]
+  (let [res (aoc.matrix-clone xs)]
+    (for [i 1 (# xs)]
+      (for [j 1 (# (. xs i))]
+        (let [ns (aoc.matrix-adjvals xs i j)
+              nsum (aoc.table-sum ns)]
+          (aoc.matrix-swap
+           res j i
+           (if (= 3 (# ns)) 1 ;; corners have 3 neighbours
+               (case (. (. xs i) j)
+                 0 (if (= 3 nsum) 1 0)
+                 1 (if (or (= 2 nsum)
+                           (= 3 nsum)) 1 0)))))))
+    res))
+
+(fn reset-corners [xs v]
+  (aoc.matrix-swap xs 1 1 v)
+  (aoc.matrix-swap xs (# (. xs 1)) 1 v)
+  (aoc.matrix-swap xs 1 (# xs) v)
+  (aoc.matrix-swap xs (# (. xs 1)) (# xs) v)
+  xs)
+
+(fn solve2 [input steps]
+  (var xs (reset-corners (lume.map input dothash2num) 1))
+  (for [i 1 steps]
+    (set xs (animate2 xs)))
+  (aoc.table-sum xs))
+
+(fn test2 [expected input steps]
+  (assert (= expected (solve2 input steps))))
+
+(test2 17 test-input 5)
+
+(solve2 (aoc.string-from "2015/18.inp") 100)
+#+end_src
+
+#+RESULTS:
+: 924
+
 ** Stats                                                          :noexport:
 
 #+CAPTION: https://adventofcode.com/2015/stats

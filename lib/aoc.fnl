@@ -578,6 +578,22 @@
     (for [j x1 x2]
       (matrix-swap m j i (f (. (. m i) j))))))
 
+(fn matrix-clone [xs]
+  "return copy of 2d array xs"
+  (let [res []]
+    (each [_ x (pairs xs)]
+      (table.insert res (table-clone x)))
+    res))
+
+(fn matrix-adjvals [xs i j]
+  "returns array of [j,i] neighbour vals of 2d array xs"
+  (let [adj-idx
+        [[-1 -1] [-1 0] [-1 1]
+         [0 -1]         [0 1]
+         [1 -1] [1 0] [1 1]]]
+    (icollect [_ [di dj] (ipairs adj-idx)]
+      (?. (?. xs (+ i di)) (+ j dj)))))
+
 (fn table-tonumber [xs]
   "returns elements of table converting to numbers"
   (lume.map xs #(tonumber $)))
@@ -1187,6 +1203,8 @@
  : matrix-set
  : matrix-toggle
  : matrix-apply
+ : matrix-clone
+ : matrix-adjvals
  : table-unpack
  : powerset
  : combination
