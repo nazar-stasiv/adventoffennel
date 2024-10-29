@@ -77,6 +77,15 @@
              (string.char (+ 96 (% (+ nn (- (string.byte c) 96)) 26))))]
     (table.concat cc "")))
 
+(fn string-subs [a b c ?j]
+  "returns (ind,newa) where ind index of b and newa string where b replaced with c; or (0,a) if not found"
+  (let [i (string.find a b (or ?j 1) true)]
+    (if (not i) (values 0 a)
+        (values (+ i (# b))
+                (.. (string.sub a 1 (- i 1))
+                    c
+                    (string.sub a (+ i (# b)) -1))))))
+
 (fn array-to-number [xs]
   "return integer value represented as collection xs of its digits [1 2 3]->123"
   (var result 0)
@@ -1132,6 +1141,7 @@
  : string-trim
  : string-trim2 
  : string-shift
+ : string-subs
  : array-to-number
  : math-sum
  : math-pow
