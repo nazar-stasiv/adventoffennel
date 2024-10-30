@@ -47,17 +47,7 @@ the calibration values?
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
 
-(fn test-input-1 [lines]
-  (let [numbers []]
-    (each [_ line (ipairs lines)]
-      (let [fd (string.match line "[0-9]")
-            ld (string.match (string.reverse line) "[0-9]")]
-        (table.insert numbers (tonumber (.. fd ld)))))
-    (assert (= 142 (aoc.fold numbers)))))
-
-(test-input-1 ["1abc2" "pqr3stu8vwx" "a1b2c3d4e5f" "treb7uchet"])
-
-(fn sum-of-first-and-last-digit [lines]
+(fn solve [lines]
   (let [numbers []]
     (each [_ line (ipairs lines)]
       (let [fd (string.match line "[0-9]")
@@ -65,7 +55,12 @@ the calibration values?
         (table.insert numbers (tonumber (.. fd ld)))))
     (aoc.fold numbers)))
 
-(sum-of-first-and-last-digit (aoc.string-from "2023/01.inp"))
+(fn test1 [expected lines]
+  (assert (= expected (solve lines))))
+
+(test1 142 ["1abc2" "pqr3stu8vwx" "a1b2c3d4e5f" "treb7uchet"])
+
+(solve (aoc.string-from "2023/01.inp"))
 #+end_src
 
 #+RESULTS:
@@ -92,6 +87,7 @@ In this  example, the calibration values  are 29, 83, 13,  24, 42, 14,
 and 76. Adding these together produces 281.
 
 What is the sum of all of the calibration values?
+
 #+begin_src fennel -n :session d2301 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
@@ -131,34 +127,30 @@ What is the sum of all of the calibration values?
         (table.insert new-lines new-line)))
     new-lines))
 
-(fn test-input-2 [lines]
-  (let [numbers []]
-    (each [_ line (ipairs lines)]
-      (let [fd (string.match line "[0-9]")
-            ld (string.match (string.reverse line) "[0-9]")]
-        (table.insert numbers (tonumber (.. fd ld)))))
-    (let [result  (aoc.fold numbers)]
-      (assert (= 281 result)))))
+(fn solve2 [input]
+  (let [lines (replace-literal-numbers input)]
+    (solve lines)))
 
-(test-input-2
- (replace-literal-numbers
-  ["two1nine"
-   "eightwothree"
-   "abcone2threexyz"
-   "xtwone3four"
-   "4nineeightseven2"
-   "zoneight234"
-   "7pqrstsixteen"]))
+(fn test2 [expected lines]
+  (assert (= expected (solve2 lines))))
 
-(sum-of-first-and-last-digit
- (replace-literal-numbers
-  (aoc.string-from "2023/01.inp"))) 
+(test2 281
+       ["two1nine"
+        "eightwothree"
+        "abcone2threexyz"
+        "xtwone3four"
+        "4nineeightseven2"
+        "zoneight234"
+        "7pqrstsixteen"])
+
+(solve2 (aoc.string-from "2023/01.inp"))
 #+end_src
 
 #+RESULTS:
 : 56017
 
 ** Day 2.1
+
 You're launched high into the  atmosphere! The apex of your trajectory
 just barely  reaches the  surface of  a large  island floating  in the
 sky. You gently land in a fluffy  pile of leaves. It's quite cold, but
@@ -185,6 +177,7 @@ Game 11:  ...) followed  by a semicolon-separated  list of  subsets of
 cubes that were revealed from the bag (like 3 red, 5 green, 4 blue).
 
 For example, the record of a few games might look like this:
+
 #+begin_example
 Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
 Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
@@ -244,26 +237,26 @@ is the sum of the IDs of those games?
   (accumulate [sum 0 _ game (ipairs games)]
     (+ sum (. game :id))))
 
-(fn find-possible-games-ids [lines]
+(fn solve [lines]
   (let [games []]
     (each [_ line (ipairs lines)]
       (let [game (read-game line)]
         (table.insert games game)))
     (sum-game-ids (lume.filter games possible-game?))))
 
-(fn test-input [lines]
-  (assert (= 8 (find-possible-games-ids lines))))
+(fn test1 [expected lines]
+  (assert (= expected (solve lines))))
 
-(local test-lines
+(local test-input
        ["Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green"
         "Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue"
         "Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red"
         "Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red"
         "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"])
 
-(test-input test-lines)
+(test1 8 test-input)
 
-(find-possible-games-ids (aoc.string-from "2023/02.inp"))
+(solve (aoc.string-from "2023/02.inp"))
 #+end_src
 
 #+RESULTS:
@@ -280,6 +273,7 @@ game you played, what is the fewest number of cubes of each color that
 could have been in the bag to make the game possible?
 
 Again consider the example games from earlier:
+
 #+begin_example
 Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
 Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
@@ -332,25 +326,27 @@ present. What is the sum of the power of these sets?
    (find-max-green-take game)
    (find-max-blue-take game)))
 
-(fn sum-game-power-cubes [lines]
+(fn solve [lines]
   (let [power-cubes []]
     (each [_ line (ipairs lines)]
       (let [game (read-game line)]
         (table.insert power-cubes (find-game-power-cube game))))
     (aoc.table-sum power-cubes)))
 
-(fn test-input2 [lines]
-  (assert (= 2286 (sum-game-power-cubes lines))))
+(fn test2 [expected lines]
+  (assert (= expected (solve lines))))
 
-(test-input2 test-lines)
-(sum-game-power-cubes (aoc.string-from "2023/02.inp"))
+(test2 2286 test-input)
 
+(solve (aoc.string-from "2023/02.inp"))
 #+end_src
 
 #+RESULTS:
 : 63981
 
+
 ** Day 4.1
+
 The gondola takes  you up. Strangely, though, the  ground doesn't seem
 to be coming  with you; you're not climbing a  mountain. As the circle
 of  Snow Island  recedes below  you, an  entire new  landmass suddenly
@@ -389,6 +385,7 @@ numbers. The first match makes the card worth one point and each match
 after the first doubles the point value of that card.
 
 For example:
+
 #+begin_example
 Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
 Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
@@ -468,6 +465,7 @@ points are they worth in total?
 : 18653
 
 ** Day 4.2
+
 Just as you're  about to report your  findings to the Elf,  one of you
 realizes that  the rules  have actually  been printed  on the  back of
 every card this whole time.
@@ -490,6 +488,7 @@ any more cards. (Cards will never make you copy a card past the end of
 the table.)
 
 This time, the above example goes differently:
+
 #+begin_example
 Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
 Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
@@ -569,6 +568,7 @@ many total scratchcards do you end up with?
 : 5921508
 
 ** Day 5.1
+
 You take the boat  and find the gardener right where  you were told he
 would be:  managing a  giant "garden"  that looks more  to you  like a
 farm.
@@ -601,6 +601,7 @@ numbers are reused by each category - that is, soil 123 and fertilizer
 123 aren't necessarily related to each other.
 
 For example:
+
 #+begin_example
 seeds: 79 14 55 13
 
@@ -654,6 +655,7 @@ be  converted. Each  line within  a  map contains  three numbers:  the
 destination range start, the source range start, and the range length.
 
 Consider again the example seed-to-soil map:
+
 #+begin_example
 50 98 2
 52 50 48
@@ -677,6 +679,7 @@ destination number. So, seed number 10 corresponds to soil number 10.
 
 So,  the entire  list of  seed  numbers and  their corresponding  soil
 numbers looks like this:
+
 #+begin_example
 seed  soil
 0     0
@@ -812,14 +815,14 @@ initial seed numbers?
        (search-in-range t6)
        (search-in-range t7)))
 
-(fn test-input [xs t1 t2 t3 t4 t5 t6 t7]
+(fn test1 [xs t1 t2 t3 t4 t5 t6 t7]
   (let [locations []]
     (each [_ seed (ipairs xs)]
       (let [location (seed2soil2fert2water2light2temp2hum2loc seed t1 t2 t3 t4 t5 t6 t7)]
         (table.insert locations location)))
     (assert (= 35 (aoc.table-min locations)))))
 
-(test-input test-seeds seed2soil soil2fertilizer fertilizer2water water2light light2temperature temperature2humidity humidity2location)
+(test1 test-seeds seed2soil soil2fertilizer fertilizer2water water2light light2temperature temperature2humidity humidity2location)
 
 (fn solve [xs]
   (let [locations []
@@ -842,6 +845,7 @@ initial seed numbers?
 : 1181555926
 
 ** Day 6.1
+
 The  ferry  quickly brings  you  across  Island Island.  After  asking
 around, you  discover that there  is indeed  normally a large  pile of
 sand somewhere near  here, but you don't see anything  besides lots of
@@ -875,6 +879,7 @@ only hold the  button at the start  of the race, and  boats don't move
 until the button is released.
 
 For example:
+
 #+begin_example
 Time:      7  15   30
 Distance:  9  40  200
@@ -961,12 +966,6 @@ race. What do you get if you multiply these numbers together?
                _ win (ipairs wins)]
     (* prod win)))
 
-(fn test-input [input]
-  (let [wins (find-wins input)]
-    (assert (= 288 (count-wins wins)))))
-
-(test-input [[7 9] [15 40] [30 200]])
-
 (fn lines-to-array [lines]
   [(lume.map (aoc.string-split (. lines 1) " ") #(tonumber $))
    (lume.map (aoc.string-split (. lines 2) " ") #(tonumber $))])
@@ -976,6 +975,15 @@ race. What do you get if you multiply these numbers together?
         input (aoc.table-zip i1 i2)]
     (count-wins (find-wins input))))
 
+(local test-input
+       ["Time:      7  15   30"
+        "Distance:  9  40  200"])
+
+(fn test1 [expected input]
+  (assert (= expected (solve input))))
+
+(test1 288 test-input)
+
 (solve (aoc.string-from "2023/06.inp"))
 #+end_src
 
@@ -983,18 +991,21 @@ race. What do you get if you multiply these numbers together?
 : 4811940
 
 ** Day 6.2
+
 As the  race is about  to start, you realize  the piece of  paper with
 race times and record distances you got earlier actually just has very
 bad kerning. There's really only one  race - ignore the spaces between
 the numbers on each line.
 
 So, the example from before:
+
 #+begin_example
 Time:      7  15   30
 Distance:  9  40  200
 #+end_example
 
 ...now instead means this:
+
 #+begin_example
 Time:      71530
 Distance:  940200
@@ -1009,32 +1020,29 @@ a total of 71503 ways!
 How many ways can you beat the record in this one much longer race?
 
 #+begin_src fennel -n :session d2306 :exports both
-(local lume (require :lib.lume))
-(local aoc (require :lib.aoc))
-
-(fn test-input-p2 [input]
-  (let [wins (find-wins input)]
-    (assert (= 71503 (count-wins wins)))))
-
-(test-input-p2 [[71530 940200]])
-
 (fn lines-to-string [lines]
   (let [time (string.gsub (string.gsub (. lines 1) " *" "") "Time:" "")
         distance (string.gsub (string.gsub (. lines 2) " *" "") "Distance:" "")]
     [(tonumber time)
      (tonumber distance)]))
 
-(fn solve [lines]
+(fn solve2 [lines]
   (let [input [(lines-to-string lines)]]
     (count-wins (find-wins input))))
 
-(solve (aoc.string-from "2023/06.inp"))
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 71503 test-input)
+
+(solve2 (aoc.string-from "2023/06.inp"))
 #+end_src
 
 #+RESULTS:
 : 30077773
 
 ** Day 7.1
+
 Your all-expenses-paid  trip turns  out to  be a  one-way, five-minute
 ride in an airship.  (At least it's a cool airship!)  It drops you off
 at the edge of a vast desert and descends back to Island Island.
@@ -1105,6 +1113,7 @@ card is stronger (and both hands have the same first and second card).
 
 To  play  Camel  Cards, you  are  given  a  list  of hands  and  their
 corresponding bid (your puzzle input). For example:
+
 #+begin_example
 32T3K 765
 T55J5 684
@@ -1272,58 +1281,58 @@ Find the rank of every hand in your set. What are the total winnings?
     (table.join allhands t7)
     allhands))
 
-(fn find-score [lines]
+(fn solve [lines]
   (let [hands (all-hands lines)]
     (all-wins hands)))
 
-(fn test-input [expected lines]
-  (let [score (find-score lines)]
-    (assert (= expected score) score)))
+(fn test1 [expected lines]
+  (assert (= expected (solve lines))))
 
-(test-input 6440
-            ["32T3K 765" 
-             "T55J5 684"
-             "KK677 28"
-             "KTJJT 220"
-             "QQQJA 483"])
+(test1 6440
+       ["32T3K 765" 
+        "T55J5 684"
+        "KK677 28"
+        "KTJJT 220"
+        "QQQJA 483"])
 
-(test-input 201
-            ["AAATK 1"
-             "TTTAA 100"])
+(test1 201
+       ["AAATK 1"
+        "TTTAA 100"])
 
-(test-input 10
-            ["23456 1"
-             "AAAKK 3"
-             "AAAAA 1"])
+(test1 10
+       ["23456 1"
+        "AAAKK 3"
+        "AAAAA 1"])
 
-(test-input 6592
-            ["2345A 1"
-             "Q2KJJ 13"
-             "Q2Q2Q 19"
-             "T3T3J 17"
-             "T3Q33 11"
-             "2345J 3"
-             "J345A 2"
-             "32T3K 5"
-             "T55J5 29"
-             "KK677 7"
-             "KTJJT 34"
-             "QQQJA 31"
-             "JJJJJ 37"
-             "JAAAA 43"
-             "AAAAJ 59"
-             "AAAAA 61"
-             "2AAAA 23"
-             "2JJJJ 53"
-             "JJJJ2 41"])
+(test1 6592
+       ["2345A 1"
+        "Q2KJJ 13"
+        "Q2Q2Q 19"
+        "T3T3J 17"
+        "T3Q33 11"
+        "2345J 3"
+        "J345A 2"
+        "32T3K 5"
+        "T55J5 29"
+        "KK677 7"
+        "KTJJT 34"
+        "QQQJA 31"
+        "JJJJJ 37"
+        "JAAAA 43"
+        "AAAAJ 59"
+        "AAAAA 61"
+        "2AAAA 23"
+        "2JJJJ 53"
+        "JJJJ2 41"])
 
-(find-score (aoc.string-from "2023/07.inp"))
+(solve (aoc.string-from "2023/07.inp"))
 #+end_src
 
 #+RESULTS:
 : 251545216
 
 ** Day 8.1
+
 You're  still riding  a camel  across Desert  Island when  you spot  a
 sandstorm  quickly approaching.  When you  turn to  warn the  Elf, she
 disappears before your eyes! To be fair, she had just finished warning
@@ -1343,7 +1352,9 @@ After  examining the  maps for  a bit,  two nodes  stick out:  AAA and
 ZZZ. You feel  like AAA is where  you are now, and you  have to follow
 the left/right instructions until you reach ZZZ.
 
-This format defines each node of the network individually. For example:
+This format defines each node of the network individually. For
+example:
+
 #+begin_example
 RL
 
@@ -1366,6 +1377,7 @@ Of  course, you  might not  find ZZZ  right away.  If you  run out  of
 left/right instructions, repeat the  whole sequence of instructions as
 necessary: RL really means RLRLRLRLRLRLRLRL... and so on. For example,
 here is a situation that takes 6 steps to reach ZZZ:
+
 #+begin_example
 LLR
 
@@ -1393,17 +1405,18 @@ are required to reach ZZZ?
         (tset map start [left right])))
     map))
 
-(local path "LRLLRRRLRRLRRRLRLRRLLRRLRRLRRLRRRLLRRLRRLLLRRLLRRRLRRRLRRRLRLRRRLRRRLRLRLRRLRLRRRLRLRLRRRLLRRRLRLRRLLLRRRLLRRLLLRRRLRRLLRLRLRRRLRRLLRRLRRRLRRRLLRRRLLRRRLRRLRRLRLRRRLLLRRRLRRRLRLRRLRRLRRLRRLRRLRRRLRRRLRRLLRRLRRRLRLLRLLRRLLRRLRRRLRRRLRRRLRRRLRRLRRRLLRRLRRRLRRLRRRLRRLRRLRRLRRLRRLRLRRRR")
-
 (fn path-find [map start end path step]
   (if (= end start) step
       (case (string.sub path 1 1)
         "R" (path-find map (. (. map start) 2) end (aoc.string-pushback path) (+ 1 step))
         "L" (path-find map (. (. map start) 1) end (aoc.string-pushback path) (+ 1 step)))))
 
-(fn test-input [lines expected path]
+(fn solve [lines path]
   (let [map (read-nodes lines)]
-    (assert (= expected (path-find map "AAA" "ZZZ" path  0)))))
+    (path-find map "AAA" "ZZZ" path 0)))
+
+(fn test1 [expected lines path]
+  (assert (= expected (solve lines path))))
 
 (local test-input-1
        ["AAA = (BBB, CCC)"
@@ -1414,26 +1427,26 @@ are required to reach ZZZ?
         "GGG = (GGG, GGG)"
         "ZZZ = (ZZZ, ZZZ)"])
 
-(test-input test-input-1 2 "RL")
+(test1 2 test-input-1 "RL")
 
 (local test-input-2
        ["AAA = (BBB, BBB)"
         "BBB = (AAA, ZZZ)"
         "ZZZ = (ZZZ, ZZZ)"])
 
-(test-input test-input-2 6 "LLR")
+(test1 6 test-input-2 "LLR")
 
-(fn solve [lines path]
-  (let [map (read-nodes lines)]
-    (path-find map "AAA" "ZZZ" path 0)))
+(local path-input
+       "LRLLRRRLRRLRRRLRLRRLLRRLRRLRRLRRRLLRRLRRLLLRRLLRRRLRRRLRRRLRLRRRLRRRLRLRLRRLRLRRRLRLRLRRRLLRRRLRLRRLLLRRRLLRRLLLRRRLRRLLRLRLRRRLRRLLRRLRRRLRRRLLRRRLLRRRLRRLRRLRLRRRLLLRRRLRRRLRLRRLRRLRRLRRLRRLRRRLRRRLRRLLRRLRRRLRLLRLLRRLLRRLRRRLRRRLRRRLRRRLRRLRRRLLRRLRRRLRRLRRRLRRLRRLRRLRRLRRLRLRRRR")
 
-(solve (aoc.string-from "2023/08.inp") path)
+(solve (aoc.string-from "2023/08.inp") path-input)
 #+end_src
 
 #+RESULTS:
 : 20093
 
 ** Day 8.2
+
 The sandstorm  is upon you and  you aren't any closer  to escaping the
 wasteland.  You had  the  camel follow  the  instructions, but  you've
 barely left your  starting position. It's going  to take significantly
@@ -1484,19 +1497,20 @@ Simultaneously start  on every node that  ends with A. How  many steps
 does it take before you're only on nodes that end with Z?
 
 #+begin_src fennel -n :session d2308 :exports both
-(local lume (require :lib.lume))
-(local aoc (require :lib.aoc))
-
-(fn paths-find [desert start end path step]
-  (if (aoc.table-identical? start end) step
+(fn path-to-any [map start end path step]
+  (if (aoc.table-contains? end start) step
       (let [newstart (case (string.sub path 1 1)
-                       "R" (lume.map start #(. (. desert $) 2))
-                       "L" (lume.map start #(. (. desert $) 1)))]
-        (paths-find desert newstart end (aoc.string-pushback path) (+ 1 step)))))
+                       "R" (. (. map start) 2) 
+                       "L" (. (. map start) 1))]
+        (path-to-any map newstart end (aoc.string-pushback path) (+ 1 step)))))
 
-(fn test-inputp2 [lines expected]
-  (let [map (read-nodes lines)]
-    (assert (= expected (paths-find map ["11A" "22A"] ["11Z" "22Z"] "LR" 0)))))
+(fn solve2 [lines path start end]
+  (let [map (read-nodes lines)
+        paths (lume.map start #(path-to-any map $ end path 0))]
+    (lume.reduce paths aoc.math-lcm)))
+
+(fn test2 [expected lines path start end]
+  (assert (= expected (solve2 lines path start end))))
 
 (local test-input-p2
        ["11A = (11B, XXX)"
@@ -1508,29 +1522,16 @@ does it take before you're only on nodes that end with Z?
         "22Z = (22B, 22B)"
         "XXX = (XXX, XXX)"])
 
-(test-inputp2 test-input-p2 6)
+(test2 6 test-input-p2 "LR"
+       ["11A" "22A"] ["11Z" "22Z"])
 
-(fn path-to-any [map start end path step]
-  (if (aoc.table-contains? end start) step
-      (let [newstart (case (string.sub path 1 1)
-                       "R" (. (. map start) 2) 
-                       "L" (. (. map start) 1))]
-        (path-to-any map newstart end (aoc.string-pushback path) (+ 1 step)))))
-
-(fn p2-input [lines]
-  (let [map (read-nodes lines)
-        start ["VGA" "AAA" "LHA" "RHA" "CVA" "LDA"]
-        end ["BKZ" "KJZ" "XNZ" "XLZ" "PQZ" "ZZZ"]]
-    (lume.map start #(path-to-any map $ end path 0))))
-
-(fn solve [lines]
-  (lume.reduce (p2-input lines) aoc.math-lcm))
-
-(solve (aoc.string-from "2023/08.inp"))
+(solve2 (aoc.string-from "2023/08.inp") path-input
+        ["VGA" "AAA" "LHA" "RHA" "CVA" "LDA"]
+        ["BKZ" "KJZ" "XNZ" "XLZ" "PQZ" "ZZZ"])
 #+end_src
 
 #+RESULTS:
-: 22103062509257.0
+: 22103062509257
 
 ** Day 9.1
 You ride  the camel through the  sandstorm and stop where  the ghost's
@@ -1746,18 +1747,14 @@ Analyze your OASIS report again,  this time extrapolating the previous
 value for each history. What is the sum of these extrapolated values?
 
 #+begin_src fennel -n :session d2309 :exports both
-(local lume (require :lib.lume))
-(local aoc (require :lib.aoc))
-
-(fn test-inputp2 [lines expected]
-  (let [input (read-input lines)]
-    (assert (= expected (aoc.table-sum (lume.map input #(solve (derive (aoc.table-reverse $)))))))))
-
-(test-inputp2 test-input-1 2)
-
 (fn solve2 [lines]
   (let [input (read-input lines)]
-    (aoc.table-sum (lume.map input #(solve (derive (aoc.table-reverse $)))))))
+    (aoc.table-sum (lume.map input #(extrapolate (derive (aoc.table-reverse $)))))))
+
+(fn test2 [expected lines]
+  (assert (= expected (solve2 lines))))
+
+(test2 2 test-input)
 
 (solve2 (aoc.string-from "2023/09.inp"))
 #+end_src
@@ -1766,6 +1763,7 @@ value for each history. What is the sum of these extrapolated values?
 : 925
 
 ** Day 10.1
+
 You use the hang glider to ride the hot air from Desert Island all the
 way up to the floating metal  island. This island is surprisingly cold
 and there  definitely aren't any  thermals to  glide on, so  you leave
@@ -1804,6 +1802,7 @@ Based on the acoustics of the animal's scurrying, you're confident the
 pipe that contains the animal is one large, continuous loop.
 
 For example, here is a square loop of pipe:
+
 #+begin_example
 .....
 .F-7.
@@ -1814,6 +1813,7 @@ For example, here is a square loop of pipe:
 
 If  the animal  had entered  this loop  in the  northwest corner,  the
 sketch would instead look like this:
+
 #+begin_example
 .....
 .S-7.
@@ -1828,6 +1828,7 @@ tell because of how the adjacent pipes connect to it.
 
 Unfortunately, there are also many  pipes that aren't connected to the
 loop! This sketch shows the same loop as above:
+
 #+begin_example
 -L|F7
 7S-7|
@@ -1844,6 +1845,7 @@ exactly two  pipes connecting to it,  and which is assumed  to connect
 back to those two pipes).
 
 Here is a sketch that contains a slightly more complex main loop:
+
 #+begin_example
 ..F7.
 .FJ|.
@@ -1854,6 +1856,7 @@ LJ...
 
 Here's the same example sketch with the extra, non-main-loop pipe
 tiles also shown:
+
 #+begin_example
 7-F7-
 .FJ|7
@@ -1870,6 +1873,7 @@ longest number  of steps  along the  loop to  reach from  the starting
 point - regardless of which way around the loop the animal went.
 
 In the first example with the square loop:
+
 #+begin_example
 .....
 .S-7.
@@ -1880,6 +1884,7 @@ In the first example with the square loop:
 
 You can count the distance each tile in the loop is from the starting
 point like this:
+
 #+begin_example
 .....
 .012.
@@ -1891,6 +1896,7 @@ point like this:
 In this example, the farthest point from the start is 4 steps away.
 
 Here's the more complex loop again:
+
 #+begin_example
 ..F7.
 .FJ|.
@@ -1900,6 +1906,7 @@ LJ...
 #+end_example
 
 Here are the distances for each tile on that loop:
+
 #+begin_example
 ..45.
 .236.
@@ -1988,6 +1995,7 @@ farthest from the starting position?
 : 7093
 
 ** Day 11.1
+
 You continue  following signs  for "Hot  Springs" and  eventually come
 across an  observatory. The Elf  within turns  out to be  a researcher
 studying cosmic expansion using the giant telescope here.
@@ -2027,6 +2035,7 @@ expands. In fact, the result is  that any rows or columns that contain
 no galaxies should all actually be twice as big.
 
 In the above example, three columns and two rows contain no galaxies:
+
 #+begin_example
    v  v  v
  ...#......
@@ -2044,6 +2053,7 @@ In the above example, three columns and two rows contain no galaxies:
 
 These rows and columns  need to be twice as big;  the result of cosmic
 expansion therefore looks like this:
+
 #+begin_example
 ....#........
 .........#...
@@ -2085,7 +2095,9 @@ path between  the two galaxies  using only  steps that move  up, down,
 left,  or right  exactly one  . or  # at  a time.  (The shortest  path
 between two galaxies is allowed to pass through another galaxy.)
 
-For example, here is one of the shortest paths between galaxies 5 and 9:
+For example, here is one of the shortest paths between galaxies 5 and
+9:
+
 #+begin_example
 ....1........
 .........2...
@@ -2187,6 +2199,7 @@ every pair of galaxies. What is the sum of these lengths?
 
 
 ** Day 14.1
+
 You reach the place where all  of the mirrors were pointing: a massive
 parabolic  reflector  dish  attached  to the  side  of  another  large
 mountain.
@@ -2346,7 +2359,7 @@ what is the total load on the north support beams?
     (math.wsum (weights matrix))))
 
 (fn test [expected lines]
-  (assert (= 136 (solve lines))))
+  (assert (= expected (solve lines))))
 
 (test 136
       ["O....#...."
@@ -2367,6 +2380,7 @@ what is the total load on the north support beams?
 : 113456
 
 ** Day 15.1
+
 The  newly-focused parabolic  reflector  dish is  sending  all of  the
 collected light to a  point on the side of yet  another mountain - the
 largest mountain  on Lava  Island. As you  approach the  mountain, you
@@ -2440,6 +2454,7 @@ of  running the  HASH algorithm  on  each step  in the  initialization
 sequence.
 
 For example:
+
 #+begin_example
 rn=1,cm-,qp=3,cm=2,qp-,pc=4,ot=9,ab=5,pc-,pc=6,ot=7
 #+end_example
@@ -2526,6 +2541,7 @@ is one long line; be careful when copy-pasting it.)
 #+TBLFM: $3='(orgtbl-uc-draw-grid $2 0 41 41)
 * 2022
 ** Day 1.1
+
 Santa's reindeer typically eat regular  reindeer food, but they need a
 lot  of magical  energy to  deliver presents  on Christmas.  For that,
 their favorite snack  is a special type of star  fruit that only grows
@@ -2554,6 +2570,7 @@ the previous Elf's inventory (if any) by a blank line.
 
 For example, suppose the Elves finish writing their items' Calories
 and end up with the following list:
+
 #+begin_example
 1000
 2000
@@ -2608,17 +2625,17 @@ that Elf carrying?
     (aoc.table-max
      (lume.map xs aoc.table-sum))))
 
-(local input
+(local test-input
        ["1000" "2000" "3000" ""
         "4000" ""
         "5000" "6000" ""
         "7000" "8000" "9000" ""
         "10000"])
 
-(fn test-input [inp]
-  (assert (= 24000 (solve inp))))
+(fn test1 [expected input]
+  (assert (= expected (solve input))))
 
-(test-input input)
+(test1 24000 test-input)
 
 (solve (aoc.string-from "2022/01.inp"))
 #+end_src
@@ -2627,6 +2644,7 @@ that Elf carrying?
 : 69310
 
 ** Day 1.2
+
 By the time  you calculate the answer to the  Elves' question, they've
 already realized that the Elf carrying the most Calories of food might
 eventually run out of snacks.
@@ -2645,19 +2663,16 @@ Find the top three Elves carrying the most Calories. How many Calories
 are those Elves carrying in total?
 
 #+begin_src fennel -n :session d2201 :exports both
-(local lume (require :lib.lume))
-(local aoc (require :lib.aoc))
-
-(fn solve2 [in]
-  (let [xs (read-input in)
+(fn solve2 [input]
+  (let [xs (read-input input)
         res (lume.map xs aoc.table-sum)]
     (table.sort res #(> $1 $2))
     (aoc.table-sum (aoc.take res 3))))
 
-(fn test-input2 [inp]
-  (assert (= 45000 (solve2 inp))))
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
 
-(test-input2 input)
+(test2 45000 test-input)
 
 (solve2 (aoc.string-from "2022/01.inp"))
 #+end_src
@@ -2667,6 +2682,7 @@ are those Elves carrying in total?
 
 
 ** Day 2.1
+
 The Elves begin to set up camp on the beach. To decide whose tent gets
 to  be closest  to  the snack  storage, a  giant  Rock Paper  Scissors
 tournament is already in progress.
@@ -2768,6 +2784,7 @@ your strategy guide?
 : 15572
 
 ** Day 2.2
+
 The  Elf finishes  helping  with  the tent  and  sneaks  back over  to
 you. "Anyway,  the second column  says how the  round needs to  end: X
 means you need to  lose, Y means you need to end the  round in a draw,
@@ -2792,9 +2809,6 @@ your  total score  be if  everything  goes exactly  according to  your
 strategy guide?
 
 #+begin_src fennel -n :session d2202 :exports both
-(local lume (require :lib.lume))
-(local aoc (require :lib.aoc))
-
 (fn score2 [[i j]]
   (let [rock 1 paper 2 scissors 3
         win 6 draw 3 loose 0]
@@ -2829,6 +2843,7 @@ strategy guide?
 : 16098
 
 ** Day 3.1
+
 One Elf  has the important  job of loading  all of the  rucksacks with
 supplies for the jungle journey.  Unfortunately, that Elf didn't quite
 follow the  packing instructions, and  so a few  items now need  to be
@@ -2930,6 +2945,7 @@ rucksack. What is the sum of the priorities of those item types?
 : 8085
 
 ** Day 3.2
+
 As you finish  identifying the misplaced items, the Elves  come to you
 with another issue.
 
@@ -2978,9 +2994,6 @@ Find the  item type that corresponds  to the badges of  each three-Elf
 group. What is the sum of the priorities of those item types?
 
 #+begin_src fennel -n :session d2203 :exports both
-(local lume (require :lib.lume))
-(local aoc (require :lib.aoc))
-
 (fn priorities2 [l1 l2 l3]
   (let [c1 (items-to-codes l1)
         c2 (items-to-codes l2)
@@ -3005,6 +3018,7 @@ group. What is the sum of the priorities of those item types?
 : 2515
 
 ** Day 4.1
+
 Space needs  to be cleared  before the  last supplies can  be unloaded
 from the  ships, and so  several Elves have  been assigned the  job of
 cleaning  up sections  of the  camp.  Every  section has  a unique  ID
@@ -3086,10 +3100,9 @@ In how many assignment pairs does one range fully contain the other?
         "2-6,4-8"])
 
 (fn solve [input]
-  (length
-   (lume.filter
-    (lume.map input #(find-subrange $))
-    #(if $ true false))))
+  (-> input
+      (lume.map find-subrange)
+      (lume.count #(not= false $))))
 
 (fn test [expected input]
   (assert (= expected (solve input))))
@@ -3119,9 +3132,6 @@ So,  in  this example,  the  number  of overlapping  assignment  pairs
 is 4. In how many assignment pairs do the ranges overlap?
 
 #+begin_src fennel -n :session d2204 :exports both
-(local lume (require :lib.lume))
-(local aoc (require :lib.aoc))
-
 (fn overlapping-pairs [line]
   (let [[elf1 elf2] (aoc.string-split line ",")
         [f1 t1] (aoc.string-split elf1 "-")
@@ -3132,10 +3142,9 @@ is 4. In how many assignment pairs do the ranges overlap?
         (and (<= (aoc.int f2) (aoc.int t1)) (>= (aoc.int t2) (aoc.int t1))))))
 
 (fn solve2 [input]
-  (length
-   (lume.filter
-    (lume.map input #(overlapping-pairs $))
-    #(if $ true false))))
+  (-> input
+      (lume.map overlapping-pairs)
+      (lume.count #(not= false $))))
 
 (fn test2 [expected input]
   (assert (= expected (solve2 input))))
@@ -3149,6 +3158,7 @@ is 4. In how many assignment pairs do the ranges overlap?
 : 845
 
 ** Day 5.1
+
 The expedition  can depart  as soon  as the  final supplies  have been
 unloaded  from the  ships. Supplies  are  stored in  stacks of  marked
 crates, but  because the needed  supplies are buried under  many other
@@ -3353,9 +3363,6 @@ final  supplies. After  the  rearrangement  procedure completes,  what
 crate ends up on top of each stack?
 
 #+begin_src fennel -n :session d2205 :exports both
-(local lume (require :lib.lume))
-(local aoc (require :lib.aoc))
-
 (fn test-input-p2 []
   (let [crates [["N" "Z"] ["D" "C" "M"] ["P"]]
         moves [[1 2 1] [3 1 3] [2 2 1] [1 1 2]]]
@@ -3374,7 +3381,6 @@ crate ends up on top of each stack?
     (aoc.table-tostring (. (aoc.table-transpose crates) 1))))
 
 (solve2 (aoc.string-from "2022/05.inp"))
-
 #+end_src
 
 #+RESULTS:
@@ -3487,9 +3493,6 @@ How  many   characters  need   to  be   processed  before   the  first
 start-of-message marker is detected?
 
 #+begin_src fennel -n :session d2206 :exports both
-(local lume (require :lib.lume))
-(local aoc (require :lib.aoc))
-
 (fn find-message-marker [pos stream]
   (let [start-message (aoc.table-range stream (- pos 13) pos)]
     (if (= (length start-message)
@@ -3747,9 +3750,6 @@ space on the filesystem  to run the update. What is  the total size of
 that directory?
 
 #+begin_src fennel -n :session d2207 :exports both
-(local lume (require :lib.lume))
-(local aoc (require :lib.aoc))
-
 (fn solve2 [input]
   (let [fs (read input)
         required 30000000
@@ -4894,6 +4894,7 @@ line  is a  measurement of  the  sea floor  depth as  the sweep  looks
 further and further away from the submarine.
 
 For example, suppose you had the following report:
+
 #+begin_example
 199
 200
@@ -5404,6 +5405,7 @@ to represent your answer in decimal, not binary.)
 : 6940518
 
 ** Day 4.1
+
 You're already almost  1.5km (almost a mile) below the  surface of the
 ocean, already so  deep that you can't see any  sunlight. What you can
 see, however, is a giant squid that has attached itself to the outside
@@ -5622,6 +5624,7 @@ final score be?
 : 20774
 
 ** Day 5.1
+
 You come  across a  field of  hydrothermal vents  on the  ocean floor!
 These vents  constantly produce large,  opaque clouds, so it  would be
 best to avoid them if possible.
@@ -5750,6 +5753,7 @@ least two lines overlap?
 : 8622
 
 ** Day 5.2
+
 Unfortunately, considering only horizontal  and vertical lines doesn't
 give you the full picture; you need to also consider diagonal lines.
 
@@ -5961,6 +5965,7 @@ days?
 : 1609058859115
 
 ** Day 7.1
+
 A giant  whale has decided your  submarine is its next  meal, and it's
 much faster than you are. There's nowhere to run!
 
@@ -6047,6 +6052,7 @@ that position?
 : 336131
 
 ** Day 7.2
+
 The crabs don't seem interested in your proposed solution. Perhaps you
 misunderstand crab engineering?
 
@@ -6341,6 +6347,7 @@ Examples of corrupted chunks include (], {()()()>, (((()))}, and
 its presence causes the whole line to be considered corrupted.
 
 For example, consider the following navigation subsystem:
+
 #+begin_example
 [({(<(())[]>[[{[]{<()<>>
 [(()[<>])]({[<{<<[]>>(
@@ -6356,6 +6363,7 @@ For example, consider the following navigation subsystem:
 
 Some of the lines aren't corrupted, just incomplete; you can ignore
 these lines for now. The remaining five lines are corrupted:
+
 #+begin_example
 {([(<{}[<>[]}>{[]{[(<()> - Expected ], but found } instead.
 [[<[([]))<([[{}[ [()]]] - Expected ], but found ) instead.
@@ -6450,6 +6458,7 @@ them in the correct order so that  only legal pairs are formed and all
 chunks end up closed.
 
 In the example above, there are five incomplete lines:
+
 #+begin_example
 [({(<(())[]>[[{[]{<()<>> - Complete by adding }}]])})].
 [(()[<>])]({[<{<<[]>>( - Complete by adding )}>]}).
@@ -6482,6 +6491,7 @@ follows:
   (4) to get a new total score of 294.
   
 The five lines' completion strings have total scores as follows:
+
 #+begin_example
 }}]])})] - 288957 total points.
 )}>]}) - 5566 total points.
@@ -6609,6 +6619,7 @@ Specifically, they need  you to find the two entries  that sum to 2020
 and then multiply those two numbers together.
 
 For example, suppose your expense report contained the following:
+
 #+begin_example
 1721
 979
@@ -6788,6 +6799,7 @@ letter.  Other  occurrences  of  the letter  are  irrelevant  for  the
 purposes of policy enforcement.
 
 Given the same example list from above:
+
 #+begin_example
 1-3 a: abcde is valid: position 1 contains a and position 3 does not.
 1-3 b: cdefg is invalid: neither position 1 nor position 3 contains b.
@@ -6906,7 +6918,6 @@ right 3 and down 1, how many trees would you encounter?
 #+begin_src fennel -n :session d2003 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
-
 (local test-input ["..##......."
                    "#...#...#.."
                    ".#....#..#."
@@ -6993,6 +7004,7 @@ encountered on each of the listed slopes?
 : 3492520200
 
 ** Day 4.1
+
 You arrive at the airport only  to realize that you grabbed your North
 Pole Credentials instead  of your passport. While  these documents are
 extremely similar, North  Pole Credentials aren't issued  by a country
@@ -7023,6 +7035,7 @@ passport is represented as a  sequence of key:value pairs separated by
 spaces or newlines. Passports are separated by blank lines.
 
 Here is an example batch file containing four passports:
+
 #+begin_example
 ecl:gry pid:860033327 eyr:2020 hcl:#fffffd
 byr:1937 iyr:2017 cid:147 hgt:183cm
@@ -7446,6 +7459,7 @@ What is the ID of your seat?
 : 651
 
 ** Day 6.1
+
 As your flight approaches the  regional airport where you'll switch to
 a much larger plane, customs  declaration forms are distributed to the
 passengers.
@@ -7549,6 +7563,7 @@ For each group, count the number of questions to which anyone answered
 
 
 ** Day 6.2
+
 As you  finish the last  group's customs declaration, you  notice that
 you misread one word in the instructions:
 
@@ -7765,6 +7780,7 @@ levels deeper  than this example;  be sure to  count all of  the bags,
 even if the nesting becomes topologically impractical!
 
 Here's another example:
+
 #+begin_example
 shiny gold bags contain 2 dark red bags.
 dark red bags contain 2 dark orange bags.
@@ -8252,7 +8268,6 @@ numbers?
 (test2 62 test-input 127)
 
 (solve2 (aoc.string-from "2020/09.inp") 18272118)
-
 #+end_src
 
 #+RESULTS:
@@ -8505,13 +8520,8 @@ after the program halts?
 #+begin_src fennel -n :session d1902 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
-(local test1-input "1,9,10,3,2,3,11,0,99,30,40,50")
-(local test2-input "1,0,0,0,99")
-(local test3-input "2,3,0,3,99")
-(local test4-input "2,4,4,5,99,0")
-(local test5-input "1,1,1,4,99,5,6,0,99")
 
-(fn solve [xs]
+(fn return-code [xs]
   (var pos 1)
   (var done false)
   (while (not done)
@@ -8527,23 +8537,26 @@ after the program halts?
       (set pos (+ 4 pos))))
   (. xs 1))
 
-(fn test [expected input]
-  (let [xs (aoc.string-tonumarray input)]
-    (assert (= expected (solve xs)))))
-
-(test 3500 test1-input)
-(test 2 test2-input)
-(test 2 test3-input)
-(test 2 test4-input)
-(test 30 test5-input)
-
 (fn restore-gravity-assist [input]
   (let [xs (aoc.string-tonumarray input)]
     (aoc.table-swap xs 2 12)
     (aoc.table-swap xs 3 2)
-    (solve xs)))
+    (return-code xs)))
 
-(restore-gravity-assist (. (aoc.string-from "2019/02.inp") 1))
+(fn solve [input]
+  (restore-gravity-assist (. input 1)))
+
+(fn test [expected input]
+  (let [xs (aoc.string-tonumarray input)]
+    (assert (= expected (return-code xs)))))
+
+(test 3500 "1,9,10,3,2,3,11,0,99,30,40,50")
+(test 2 "1,0,0,0,99")
+(test 2 "2,3,0,3,99")
+(test 2 "2,4,4,5,99,0")
+(test 30 "1,1,1,4,99,5,6,0,99")
+
+(solve (aoc.string-from "2019/02.inp"))
 #+end_src
 
 #+RESULTS:
@@ -8608,15 +8621,19 @@ and verb=2, the answer would be 1202.)
       (let [xs (aoc.string-tonumarray input)]
         (aoc.table-swap xs 2 i)
         (aoc.table-swap xs 3 j)
-        (when (= 19690720 (solve xs))
+        (when (= 19690720 (return-code xs))
           (set done (+ (* 100 i) j))))))
   done)
 
-(complete-gravity-assist (. (aoc.string-from "2019/02.inp") 1))
+(fn solve2 [input]
+  (complete-gravity-assist (. input 1)))
+
+(solve2 (aoc.string-from "2019/02.inp"))
 #+end_src
 
 #+RESULTS:
 : 3376
+
 ** Day 3.1
 
 The gravity assist was successful, and  you're well on your way to the
@@ -9557,12 +9574,9 @@ that layer, what is the number of 1 digits multiplied by the number of
     (. res :v)))
 
 (fn test [expected input w h]
-  (let [image-data (. input 1)]
-    (assert (= expected (solve image-data w h)))))
+  (assert (= expected (solve input w h))))
 
-(local test-input ["123456789012"])
-
-(test 1 test-input 3 2)
+(test 1 "123456789012" 3 2)
 
 (solve (. (aoc.string-from "2019/08.inp") 1) 25 6)
 #+end_src
@@ -9631,7 +9645,7 @@ What message is produced after decoding your image?
       "0" (set res "0")))
   res)
 
-(fn solve2 [input w h]
+(fn process [input w h]
   (let [res []
         layers (aoc.table-group-by
                 (aoc.table-group-by
@@ -9646,23 +9660,18 @@ What message is produced after decoding your image?
     (aoc.table-group-by res w)))
 
 (fn test2 [expected input w h]
-  (let [data (. input 1)
-        res (solve2 data w h)
+  (let [res (process input w h)
         str (aoc.table-tostring (lume.map res #(aoc.table-tostring $)))]
     (assert (= expected str))))
 
-(fn pretty-print [xs]
-  (each [i x (ipairs xs)]
-    (print
-     (string.format
-      "%s" (.. 
-            (aoc.table-tostring
-             (lume.map x #(if (= "1" $) "==" "  "))))))))
+(test2 "0110" "0222112222120000" 2 2)
 
-(local test2-input ["0222112222120000"])
-(test2 "0110" test2-input 2 2)
+(fn solve2 [input w h]
+  (let [inp (. input 1)
+        res (process inp w h)]
+    (aoc.matrix-print res)))
 
-(pretty-print (solve2 (. (aoc.string-from "2019/08.inp") 1) 25 6))
+(solve2 (aoc.string-from "2019/08.inp") 25 6)
 #+end_src
 
 #+RESULTS:
@@ -9710,6 +9719,7 @@ What message is produced after decoding your image?
 
 * 2018
 ** Day 1.1
+
 "We've detected some temporal anomalies,"  one of Santa's Elves at the
 Temporal  Anomaly  Research  and Detection  Instrument  Station  tells
 you. She  sounded pretty worried  when she  called you down  here. "At
@@ -9830,15 +9840,9 @@ What is the first frequency your device reaches twice?
   (assert (= expected (solve2 input))))
 
 (test2 2 test-input)
-
-(local test2-input ["+3" "+3" "+4" "-2" "-4"])
-(test2 10 test2-input)
-
-(local test3-input ["-6" "+3" "+8" "+5" "-6"])
-(test2 5 test3-input)
-
-(local test4-input ["+7" "+7" "-2" "-7" "-4"])
-(test2 14 test4-input)
+(test2 10 ["+3" "+3" "+4" "-2" "-4"])
+(test2 5 ["-6" "+3" "+8" "+5" "-6"])
+(test2 14 ["+7" "+7" "-2" "-7" "-4"])
 
 (solve2 (aoc.string-from "2018/01.inp"))
 #+end_src
@@ -10888,6 +10892,7 @@ What is the solution to your captcha?
 #+begin_src fennel -n :session d1701 :exports both
 (local lume (require :lib.lume))
 (local aoc (require :lib.aoc))
+
 (fn solve [input]
   (-> (. input 1)
       (.. (string.sub (. input 1) 1 1))
@@ -10898,13 +10903,13 @@ What is the solution to your captcha?
       (aoc.table-sum)))
 
 (fn test [expected input]
-  (let [res (solve input)]
-    (assert (= expected res) res)))
+  (assert (= expected (solve [input]))))
 
-(test 3 ["1122"])
-(test 4 ["1111"])
-(test 0 ["1234"])
-(test 9 ["91212129"])
+(test 3 "1122")
+(test 4 "1111")
+(test 0 "1234")
+(test 9 "91212129")
+
 (solve (aoc.string-from "2017/01.inp"))
 #+end_src
 
@@ -10942,13 +10947,14 @@ What is the solution to your new captcha?
         (if (= v (. xs (aoc.modulo+ i (/ (# xs) 2) (# xs)))) v 0)))))
 
 (fn test2 [expected input]
-  (assert (= expected (solve2 input))))
+  (assert (= expected (solve2 [input]))))
 
-(test2 6 ["1212"])
-(test2 0 ["1221"])
-(test2 4 ["123425"])
-(test2 12 ["123123"])
-(test2 4 ["12131415"])
+(test2 6 "1212")
+(test2 0 "1221")
+(test2 4 "123425")
+(test2 12 "123123")
+(test2 4 "12131415")
+
 (solve2 (aoc.string-from "2017/01.inp"))
 #+end_src
 
@@ -11365,7 +11371,7 @@ produced that has been seen before?
     (set j (if (< j (# xs)) (+ 1 j) 1)))
   xs)
 
-(fn solve [input]
+(fn find-cycle [input]
   (let [xs (aoc.string-tonumarray (. input 1))
         res [(aoc.table-clone xs)]]
     (table-inc xs (aoc.max-index xs))
@@ -11374,12 +11380,15 @@ produced that has been seen before?
       (table-inc xs (aoc.max-index xs)))
     res))
 
+(fn solve [input]
+  (length (find-cycle input)))
+
 (fn test [expected input]
-  (assert (= expected (# (solve input)))))
+  (assert (= expected (solve input))))
 
 (test 5 test-input)
 
-(# (solve (aoc.string-from "2017/06.inp")))
+(solve (aoc.string-from "2017/06.inp"))
 #+end_src
 
 #+RESULTS:
@@ -11400,7 +11409,7 @@ configuration in your puzzle input?
 
 #+begin_src fennel -n :session d1706 :exports both
 (fn solve2 [input]
-  (let [res (solve input)
+  (let [res (find-cycle input)
         xs0 (. res (# res))
         xs (table-inc xs0 (aoc.max-index xs0))
         (_ cycle-start) (aoc.matrix-contains? res xs)]
@@ -11920,22 +11929,21 @@ encrypted name=.
 What is the sector ID of the room where North Pole objects are stored?
 
 #+begin_src fennel -n :session d1604 :exports both
-(local test2-input
-       ["qzmt-zixmtkozy-ivhz-343[zimth]"])
+(local test2-input ["qzmt-zixmtkozy-ivhz-343[zimth]"])
 
 (fn ceasar-decrypt [[room id sum]]
   (let [xs (aoc.string-split room "-")]
     (lume.map xs #(aoc.string-shift $ id))))
 
 (fn solve2 [input target]
-  (. 
-   (-> input
-       (lume.map #(parse-rooms $))
-       (lume.filter #(= (checksum (. $ 1)) (. $ 3)))
-       (lume.map (fn [e] [(table.concat (ceasar-decrypt e) " ")
-                          (. e 2)]))
-       (lume.filter (fn [e] (= target (. e 1))))
-       (aoc.first)) 2))
+  (-> input
+      (lume.map #(parse-rooms $))
+      (lume.filter #(= (checksum (. $ 1)) (. $ 3)))
+      (lume.map (fn [e] [(table.concat (ceasar-decrypt e) " ")
+                         (. e 2)]))
+      (lume.filter (fn [e] (= target (. e 1))))
+      (aoc.first)
+      (. 2)))
 
 (fn test2 [expected input target]
   (assert (= expected (solve2 input target))))
@@ -12820,6 +12828,7 @@ is ultimately provided to wire a?
 
 
 ** Day 8.1
+
 Space  on the  sleigh  is limited  this  year, and  so  Santa will  be
 bringing his list as  a digital copy. He needs to  know how much space
 it will take up when stored.
@@ -13234,20 +13243,25 @@ What is the sum of all numbers in the document?
 (local aoc (require :lib.aoc))
 (local json (require :lib.dkjson))
 
-(fn solve [x]
+(fn sum-numbers [x]
   (case (type x)
     :string 0
     :number x
     :table
     (if (= 0 (length x))
         (accumulate [sum 0 k v (pairs x)]
-          (+ sum (solve v)))
+          (+ sum (sum-numbers v)))
         (accumulate [sum 0 k v (ipairs x)]
-          (+ sum (solve v))))
+          (+ sum (sum-numbers v))))
     _ (print (.. "No match found for " x))))
 
+(fn solve [input]
+  (-> (. input 1)
+      (json.decode)
+      (sum-numbers)))
+
 (fn test [expected input]
-  (assert (= expected (solve (json.decode input)))))
+  (assert (= expected (solve [input]))))
 
 (test 6 "[1,2,3]")
 (test 6 "{\"a\":2,\"b\":4}")
@@ -13257,7 +13271,8 @@ What is the sum of all numbers in the document?
 (test 0 "[-1,{\"a\":1}]")
 (test 0 "[]")
 (test 0 "{}")
-(solve (json.decode (. (aoc.string-from "2015/12.inp") 1)))
+
+(solve (aoc.string-from "2015/12.inp"))
 #+end_src
 
 #+RESULTS:
@@ -13279,7 +13294,7 @@ with the value "red". Do this only for objects ({...}), not arrays
 - [1,"red",5] has a sum of 6, because "red" in an array has no effect.
   
 #+begin_src fennel -n :session d1512 :exports both
-(fn solve2 [x]
+(fn sum-numbers2 [x]
   (case (type x)
     :string 0
     :number x
@@ -13288,12 +13303,17 @@ with the value "red". Do this only for objects ({...}), not arrays
         (if (lume.any x #(= "red" $))
             0
             (accumulate [sum 0 k v (pairs x)]
-              (+ sum (solve2 v))))
+              (+ sum (sum-numbers2 v))))
         (accumulate [sum 0 k v (ipairs x)]
-          (+ sum (solve2 v))))
+          (+ sum (sum-numbers2 v))))
     _ (print (.. "No match found for " x))))
 
-(solve2 (json.decode (. (aoc.string-from "2015/12.inp") 1)))
+(fn solve2 [input]
+  (-> (. input 1)
+      (json.decode)
+      (sum-numbers2)))
+
+(solve2 (aoc.string-from "2015/12.inp"))
 #+end_src
 
 #+RESULTS:

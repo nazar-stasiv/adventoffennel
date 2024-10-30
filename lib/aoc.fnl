@@ -425,6 +425,15 @@
       (table.concat xs "")
       ""))
 
+(fn matrix-print [xs]
+  "prints matrix with ascii == or space if zero"  
+  (each [i x (ipairs xs)]
+    (print
+     (string.format
+      "%s" (.. 
+            (table-tostring
+             (lume.map x #(if (= "1" $) "==" "  "))))))))
+
 (fn table-unique [t]
   "returns unique set of [x y] elements of t"
   (let [res []]
@@ -1184,6 +1193,7 @@
  : table-move
  : string-totable
  : table-tostring
+ : matrix-print  
  : table-unique
  : head
  : tail
