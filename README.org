@@ -28134,7 +28134,7 @@ register a  and cause the code  to output a  clock signal of 0,  1, 0,
 #+TBLFM: $3='(orgtbl-uc-draw-grid $2 0 41 41)
 
 
-* 2015 [41/50]
+* 2015 [43/50]
 ** DONE Day 1.1
 
 Santa  was hoping  for a  white Christmas,  but his  weather machine's
@@ -30692,6 +30692,7 @@ can be started on the same turn they end.
 
 For example,  suppose the player has  10 hit points and  250 mana, and
 that the boss has 13 hit points and 8 damage:
+
 #+begin_example
 -- Player turn --
 - Player has 10 hit points, 0 armor, 250 mana
@@ -30718,6 +30719,7 @@ Poison deals 3 damage. This kills the boss, and the player wins.
 
 Now, suppose the same initial conditions,  except that the boss has 14
 hit points instead:
+
 #+begin_example
 -- Player turn --
 - Player has 10 hit points, 0 armor, 250 mana
@@ -30789,9 +30791,10 @@ You start  with 50 hit points  and 500 mana points.  The boss's actual
 stats are in your  puzzle input. What is the least  amount of mana you
 can  spend and  still win  the fight?  (Do not  include mana  recharge
 effects as "spending" negative mana.)
+
 ** TODO Day 22.2                                                  :noexport:
 
-** TODO Day 23.1                                                  :noexport:
+** DONE Day 23.1
 
 Little Jane Marie just got her  very first computer for Christmas from
 some unknown  benefactor. It  comes with  instructions and  an example
@@ -30828,6 +30831,7 @@ defined.
 
 For example,  this program sets  a to  2, because the  jio instruction
 causes it to skip the tpl instruction:
+
 #+begin_example
 inc a
 jio a, +2
@@ -30837,7 +30841,76 @@ inc a
 
 What is the value in register b when the program in your puzzle input
 is finished executing?
-** TODO Day 23.2                                                  :noexport:
+
+#+begin_src fennel -n :session d1523 :exports both
+(local aoc (require :lib.aoc))
+
+(fn hlf [xs x]
+  (tset xs x (math.floor (/ (. xs x) 2)))
+  1)
+
+(fn tpl [xs x]
+  (tset xs x (* 3 (. xs x)))
+  1)
+
+(fn inc [xs x]
+  (tset xs x (+ 1 (. xs x)))
+  1)
+
+(fn jmp [offset]
+  (tonumber offset))
+
+(fn jie [xs x offset]
+  (if (= 0 (% (. xs x) 2))
+    (jmp offset)
+    1))
+
+(fn jio [xs x offset]
+  (if (= 1 (. xs x))
+    (jmp offset)
+    1))
+
+(fn eval [line xs]
+  (case (aoc.string-split line " ")
+    ["hlf" r] (hlf xs r)
+    ["inc" r] (inc xs r)
+    ["jie" re of] (jie xs (string.sub re 1 -2) of)
+    ["jio" re of] (jio xs (string.sub re 1 -2) of)
+    ["jmp" of] (jmp of)
+    ["tpl" r] (tpl xs r)
+    _ (print (.. "No match for " line))))
+
+(fn solve [input res reg]
+  (let [count (# input)]
+    (var cur 1)
+    (while (<= cur count)
+      (set cur (+ cur (eval (. input cur) res))))
+    (. res reg)))
+
+(fn test [expected input]
+  (assert (= expected (solve input {:a 0 :b 0} :a))))
+
+(test 2 ["inc a" "jio a, +2" "tpl a" "inc a"])
+
+(solve (aoc.string-from "2015/23.inp") {:a 0 :b 0} :b)
+#+end_src
+
+#+RESULTS:
+: 184
+
+** DONE Day 23.2
+
+The  unknown benefactor  is very  thankful for  releasi-- er,  helping
+little Jane Marie  with her computer. Definitely not  to distract you,
+what  is  the value  in  register  b  after  the program  is  finished
+executing if register a starts as 1 instead?
+
+#+begin_src fennel -n :session d1523 :exports both
+(solve (aoc.string-from "2015/23.inp") {:a 1 :b 0} :b)
+#+end_src
+
+#+RESULTS:
+: 231
 
 ** TODO Day 24.1                                                  :noexport:
 
