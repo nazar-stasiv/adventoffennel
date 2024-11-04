@@ -26340,7 +26340,7 @@ diagnostic checksum it produces once it's working again?
 #+TBLFM: $3='(orgtbl-uc-draw-grid $2 0 41 41)
 
 
-* 2016 [12/50]
+* 2016 [13/50]
 ** DONE Day 1.1
 
 Santa's  sleigh  uses  a  very   high-precision  clock  to  guide  its
@@ -27066,7 +27066,7 @@ send?
 #+RESULTS:
 : akothqli
 
-** TODO Day 7.1                                                   :noexport:
+** DONE Day 7.1
 
 While snooping around the local network of EBHQ, you compile a list of
 IP   addresses  (they're   IPv7,   of  course;   IPv6   is  much   too
@@ -27089,7 +27089,78 @@ For example:
   even though it's within a larger string).
 
 How many IPs in your puzzle input support TLS?
+
+#+begin_src fennel -n :session d1607 :exports both
+(local lume (require :lib.lume))
+(local aoc (require :lib.aoc))
+
+(local test-input
+       ["abba[mnop]qrst"
+        "abcd[bddb]xyyx"
+        "aaaa[qwer]tyui"
+        "ioxxoj[asdfgh]zxcvbn"])
+
+(fn find-abba-index [s]
+  (let [xs (aoc.string-toarray s)]
+    (var done false)
+    (for [i 4 (# xs) &until done]
+      (when (and
+             (= (. xs (- i 3)) (. xs i))
+             (= (. xs (- i 2)) (. xs (- i 1)))
+             (not= (. xs i) (. xs (- i 1))))
+        (set done (- i 3))))
+    done))
+
+(fn is-abba? [s]
+  (< 0 (or (find-abba-index s) 0) (length s)))
+
+(fn is-hyper-abba? [s]
+  (let [b (string.find s "[" 1 true)
+        e (string.find s "]" 1 true)]
+    (if (= nil b e) false
+        (or (is-abba? (string.sub s b e))
+            (is-hyper-abba? (string.sub s (+ 1 e)))))))
+
+(fn solve [input]
+  (-> input
+      (lume.filter #(not (is-hyper-abba? $)))
+      (lume.count #(is-abba? $))))
+
+(fn test [expected input]
+  (assert (= expected (solve input))))
+
+(test 2 test-input)
+
+(solve (aoc.string-from "2016/07.inp"))
+#+end_src
+
+#+RESULTS:
+: 110
+
 ** TODO Day 7.2                                                   :noexport:
+
+You  would also  like  to  know which  IPs  support SSL  (super-secret
+listening).
+
+An  IP supports  SSL if  it has  an Area-Broadcast  Accessor, or  ABA,
+anywhere  in  the supernet  sequences  (outside  any square  bracketed
+sections), and a corresponding Byte Allocation Block, or BAB, anywhere
+in  the hypernet  sequences. An  ABA is  any three-character  sequence
+which consists of the same  character twice with a different character
+between them,  such as  xyx or  aba. A corresponding  BAB is  the same
+characters but in reversed positions: yxy and bab, respectively.
+
+For example:
+- aba[bab]xyz  supports   SSL  (aba   outside  square   brackets  with
+  corresponding bab within square brackets).
+- xyx[xyx]xyx does not support SSL (xyx, but no corresponding yxy).
+- aaa[kek]eke supports SSL (eke in  supernet with corresponding kek in
+  hypernet;  the aaa  sequence is  not related,  because the  interior
+  character must be different).
+- zazbz[bzb]cdb supports  SSL (zaz has  no corresponding aza,  but zbz
+  has a corresponding bzb, even though zaz and zbz overlap).
+
+How many IPs in your puzzle input support SSL?
 
 ** TODO Day 8.1                                                   :noexport:
 
