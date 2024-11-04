@@ -28134,7 +28134,7 @@ register a  and cause the code  to output a  clock signal of 0,  1, 0,
 #+TBLFM: $3='(orgtbl-uc-draw-grid $2 0 41 41)
 
 
-* 2015 [43/50]
+* 2015 [44/50]
 ** DONE Day 1.1
 
 Santa  was hoping  for a  white Christmas,  but his  weather machine's
@@ -30949,6 +30949,7 @@ For example,  suppose you have ten  packages with weights 1  through 5
 and 7 through 11. For this situation, some of the unique first groups,
 their  quantum  entanglements,  and  a way  to  divide  the  remaining
 packages are as follows:
+
 #+begin_example
 Group 1;             Group 2; Group 3
 11 9       (QE= 99); 10 8 2;  7 5 4 3 1
@@ -30976,9 +30977,10 @@ would be chosen.
 
 What is the quantum entanglement of the first group of packages in the
 ideal configuration?
+
 ** TODO Day 24.2                                                  :noexport:
 
-** TODO Day 25.1                                                  :noexport:
+** DONE Day 25.1
 
 Merry Christmas! Santa  is booting up his weather  machine; looks like
 you might get a white Christmas after all.
@@ -31007,6 +31009,7 @@ the  first row  with  an empty  first  box, the  codes  are filled  in
 diagonally  up  and to  the  right.  This  process repeats  until  the
 infinite paper  is covered. So, the  first few codes are  filled in in
 this order:
+
 #+begin_example
    | 1   2   3   4   5   6  
 ---+---+---+---+---+---+---+
@@ -31034,6 +31037,7 @@ remainder of 31916031. That remainder is the second code.
 
 "Oh!", says the  voice. "It looks like  we missed a scrap  from one of
 the manuals. Let me read it to you." You write down his numbers:
+
 #+begin_example
    |    1         2         3         4         5         6
 ---+---------+---------+---------+---------+---------+---------+
@@ -31052,7 +31056,44 @@ for lunch! Bye!" The call disconnects.
 
 Santa looks  nervous. Your  puzzle input contains  the message  on the
 machine's console. What code do you give the machine?
+
+#+begin_src fennel -n :session d1525 :exports both
+(fn nth-code [n]
+  (var res 20151125)
+  (for [i 2 n]
+    (set res (% (* 252533 res) 33554393)))
+  res)
+
+(fn ind2ord [x y]
+  (let [xy (+ x y -1)]
+    (+ y (math.floor (/ (* xy (- xy 1)) 2)))))
+
+(fn xy-code [x y]
+  (let [xy (ind2ord x y)]
+    (nth-code xy)))
+
+(fn solve [x y]
+  (xy-code x y))
+
+(solve 2981 3075)
+#+end_src
+
+#+RESULTS:
+: 9132360
+
 ** TODO Day 25.2                                                  :noexport:
+
+The   machine  springs   to  life,   then  falls   silent  again.   It
+beeps.  "Insufficient  fuel",  the  console reads.  "Fifty  stars  are
+required before proceeding. One star is available."
+
+..."one star  is available"? You check  the fuel tank; sure  enough, a
+lone star  sits at the  bottom, awaiting  its friends. Looks  like you
+need to provide 49 yourself.
+
+You don't have enough stars to start the machine, though. You need 5
+more.
+
 
 ** Stats                                                          :noexport:
 
