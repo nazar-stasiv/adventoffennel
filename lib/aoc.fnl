@@ -223,9 +223,11 @@
   "return number of x in xs"
   (length (table-filter xs x)))
 
-(fn table-sort [xs f]
+(fn table-sort [xs ?f]
   "return table sorted in ascending order"
-  (table.sort xs f)
+  (if ?f
+      (table.sort xs ?f)
+      (table.sort xs))
   xs)
 
 (fn table-join [xs ys]
