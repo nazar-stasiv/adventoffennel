@@ -26340,7 +26340,7 @@ diagnostic checksum it produces once it's working again?
 #+TBLFM: $3='(orgtbl-uc-draw-grid $2 0 41 41)
 
 
-* 2016 [13/50]
+* 2016 [14/50]
 ** DONE Day 1.1
 
 Santa's  sleigh  uses  a  very   high-precision  clock  to  guide  its
@@ -27137,7 +27137,7 @@ How many IPs in your puzzle input support TLS?
 #+RESULTS:
 : 110
 
-** TODO Day 7.2                                                   :noexport:
+** DONE Day 7.2
 
 You  would also  like  to  know which  IPs  support SSL  (super-secret
 listening).
@@ -27161,6 +27161,63 @@ For example:
   has a corresponding bzb, even though zaz and zbz overlap).
 
 How many IPs in your puzzle input support SSL?
+
+#+begin_src fennel -n :session d1607 :exports both
+(local test2-input
+       ["aba[bab]xyz"
+        "xyx[xyx]xyx"
+        "aaa[kek]eke"
+        "zazbz[bzb]cdb"])
+
+(fn find-aba-index [s ?j]
+  (let [xs (aoc.string-toarray s)
+        j (or ?j 1)]
+    (var done false)
+    (for [i (+ j 2) (# xs) &until done]
+      (when (and
+             (not= "]" (. xs i))
+             (not= "[" (. xs i))
+             (not= "[" (. xs (- i 1)))
+             (not= "]" (. xs (- i 1)))
+             (not= (. xs (- i 1)) (. xs i))
+             (= (. xs (- i 2)) (. xs i)))
+        (set done (- i 2))))
+    done))
+
+(fn match-aba-to-bab [s ?h]
+  (let [i (find-aba-index s ?h)]
+    (if (not i) []
+        (let [bab (.. (string.sub s (+ 1 i) (+ 1 i))
+                      (string.sub s i i)
+                      (string.sub s (+ 1 i) (+ 1 i)))
+              btwn (fn [xs x] (and (< (. xs 1) x) (< (+ x 2) (. xs 2))))
+              op-ind (aoc.string-all-indices s "[")
+              clo-ind (aoc.string-all-indices s "]")
+              brackets (aoc.table-zip op-ind clo-ind)
+              j (lume.filter (aoc.string-all-indices s bab)
+                             (fn [jj] (lume.any brackets (fn [br] (btwn br jj)))))]
+
+          (if (and (lume.all brackets #(not (btwn $ i))) (< 0 (length j)))
+              [i (. j 1)]
+              (match-aba-to-bab s (+ 1 i)))))))
+
+(fn solve2 [input]
+  (-> input
+      (lume.map match-aba-to-bab)
+      (lume.filter aoc.not-empty?)
+      (length)))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 3 test2-input)
+
+(solve2 (aoc.string-from "2016/07.inp"))
+#+end_src
+
+#+RESULTS:
+: 242
+
 
 ** TODO Day 8.1                                                   :noexport:
 

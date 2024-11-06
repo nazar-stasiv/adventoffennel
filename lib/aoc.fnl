@@ -20,13 +20,19 @@
     (if index (- (+ 1 (length s)) index)
         0)))
 
-(fn string-indices [s c r]
+(fn string-indices [s c r ?j]
   "returns indices of char c in string s as table r"
-  (let [i (string.find s c 1)]
+  (let [i (string.find s c (or ?j 1) true)]
     (when i
       (table.insert r i)
-      (string-indices (string.sub s (+ 1 i)) c r))
+      (string-indices s c r (+ 1 i)))
     r))
+
+(fn string-all-indices [s c]
+  "returns xs array of char c indices of string s"
+  (let [res []]
+    (string-indices s c res)
+    res))
 
 (fn string-pushback [s]
   "return string with 1st character from s pushed to last position"
@@ -1143,6 +1149,7 @@
  : string-escape
  : string-last-index-of
  : string-indices
+ : string-all-indices
  : string-pushback
  : string-tonumarray
  : string-toarray
