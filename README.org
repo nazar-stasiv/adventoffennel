@@ -18845,12 +18845,12 @@ What message is produced after decoding your image?
 
 #+RESULTS:
 #+begin_EXAMPLE
-==    ==    ====      ====    ========    ====    
-==  ==    ==    ==  ==    ==  ==        ==    ==  
-====      ==        ==        ======    ==        
-==  ==    ==        ==  ====  ==        ==        
-==  ==    ==    ==  ==    ==  ==        ==    ==  
-==    ==    ====      ======  ========    ====    
+#..#..##...##..####..##..
+#.#..#..#.#..#.#....#..#.
+##...#....#....###..#....
+#.#..#....#.##.#....#....
+#.#..#..#.#..#.#....#..#.
+#..#..##...###.####..##..
 #+end_EXAMPLE
 
 ** TODO Day 9.1                                                   :noexport:
@@ -26340,7 +26340,7 @@ diagnostic checksum it produces once it's working again?
 #+TBLFM: $3='(orgtbl-uc-draw-grid $2 0 41 41)
 
 
-* 2016 [14/50]
+* 2016 [16/50]
 ** DONE Day 1.1
 
 Santa's  sleigh  uses  a  very   high-precision  clock  to  guide  its
@@ -27219,7 +27219,7 @@ How many IPs in your puzzle input support SSL?
 : 242
 
 
-** TODO Day 8.1                                                   :noexport:
+** DONE Day 8.1
 
 You come  across a door  implementing what you  can only assume  is an
 implementation  of  two-factor authentication  after  a  long game  of
@@ -27248,31 +27248,32 @@ start off, and is capable of three somewhat peculiar operations:
   bottom appear at the top of the column.
   
 For example, here is a simple sequence on a smaller screen:
+
 #+begin_example
-    rect 3x2 creates a small rectangle in the top-left corner:
+rect 3x2 creates a small rectangle in the top-left corner:
 
-    ###....
-    ###....
-    .......
+###....
+###....
+.......
 
-    rotate column x=1 by 1 rotates the second column down by one pixel:
+rotate column x=1 by 1 rotates the second column down by one pixel:
 
-    #.#....
-    ###....
-    .#.....
+#.#....
+###....
+.#.....
 
-    rotate row y=0 by 4 rotates the top row right by four pixels:
+rotate row y=0 by 4 rotates the top row right by four pixels:
 
-    ....#.#
-    ###....
-    .#.....
+....#.#
+###....
+.#.....
 
-    rotate column x=1 by 1 again rotates the second column down by one
-    pixel, causing the bottom pixel to wrap back to the top:
-    
-    .#..#.#
-    #.#....
-    .#.....
+rotate column x=1 by 1 again rotates the second column down by one
+pixel, causing the bottom pixel to wrap back to the top:
+
+.#..#.#
+#.#....
+.#.....
 #+end_example
 
 As you  can see,  this display technology  is extremely  powerful, and
@@ -27283,7 +27284,87 @@ anyway.
 There seems  to be an  intermediate check of  the voltage used  by the
 display: after you  swipe your card, if the screen  did work, how many
 pixels should be lit?
-** TODO Day 8.2                                                   :noexport:
+
+#+begin_src fennel -n :session d1608 :exports both
+(local lume (require :lib.lume))
+(local aoc (require :lib.aoc))
+
+(local test-input
+       ["rect 3x2"
+        "rotate column x=1 by 1"
+        "rotate row y=0 by 4"
+        "rotate column x=1 by 1"])
+
+(fn rect [xs [x y]]
+  (for [i 1 y]
+    (for [j 1 x]
+      (aoc.table-swap (. xs i) j 1)))
+  xs)
+
+(fn shift-row [xs y v]
+  (let [ys (. xs y)
+        zs (aoc.table-shift ys v)]
+    (aoc.table-swap xs y zs)))
+
+(fn shift-col [xs x v]
+  (-> xs
+      (aoc.table-transpose)
+      (shift-row x v)
+      (aoc.table-transpose)))
+
+(fn read-input [xs input]
+  (var res xs)
+  (each [_ s (ipairs input)]
+    (case (aoc.string-split s " ")
+      ["rect" XY]
+      (set res (rect res (aoc.string-split XY "x")))
+      ["rotate" "column" X "by" v]
+      (set res (shift-col res (+ 1 (tonumber (string.sub X 3))) (tonumber v)))
+      ["rotate" "row" Y "by" v]
+      (set res (shift-row res (+ 1 (tonumber (string.sub Y 3))) (tonumber v)))
+      _ (print (.. "No match for " s))))
+  res)
+
+(fn solve [input X Y]
+  (-> (aoc.matrix X Y 0)
+      (read-input input)
+      (aoc.table-sum)))
+
+(fn test [expected input]
+  (assert (= expected (solve input 7 3))))
+
+(test 6 test-input)
+
+(solve (aoc.string-from "2016/08.inp") 50 6)
+#+end_src
+
+#+RESULTS:
+: 128
+
+** DONE Day 8.2
+
+You  notice that  the screen  is  only capable  of displaying  capital
+letters; in the font it uses, each letter is 5 pixels wide and 6 tall.
+
+
+After you swipe your card, what code is the screen trying to display?
+
+#+begin_src fennel -n :session d1608 :results output :exports both
+(fn solve2 [input X Y]
+  (-> (aoc.matrix X Y 0)
+      (read-input input)
+      (aoc.matrix-print)))
+
+(solve2 (aoc.string-from "2016/08.inp") 50 6)
+#+end_src
+
+#+RESULTS:
+: ####..##...##..###...##..###..#..#.#...#.##...##..
+: #....#..#.#..#.#..#.#..#.#..#.#..#.#...##..#.#..#.
+: ###..#..#.#..#.#..#.#....#..#.####..#.#.#..#.#..#.
+: #....#..#.####.###..#.##.###..#..#...#..####.#..#.
+: #....#..#.#..#.#.#..#..#.#....#..#...#..#..#.#..#.
+: ####..##..#..#.#..#..###.#....#..#...#..#..#..##..
 
 ** TODO Day 9.1                                                   :noexport:
 

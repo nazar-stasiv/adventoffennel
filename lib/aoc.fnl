@@ -440,7 +440,7 @@
      (string.format
       "%s" (.. 
             (table-tostring
-             (lume.map x #(if (= "1" $) "==" "  "))))))))
+             (lume.map x #(if (= "1" (tostring $)) "#" "."))))))))
 
 (fn table-unique [t]
   "returns unique set of [x y] elements of t"
@@ -1144,6 +1144,15 @@
         (table.insert result v)))
     result))
 
+(fn table-shift [xs v]
+  "shift xsᵢ to the right by v s.t. ith element moves to i+v position"
+  (let [res (table-clone xs)
+        len (# xs)
+        u (% v len)]
+    (for [i (# res) 1 -1]
+      (table-swap res i (. xs (modulo+ len (- i u) len))))
+    res))
+
 {: string-from
  : bytes-from
  : string-escape
@@ -1312,4 +1321,5 @@
  : prob-nchoosei
  : prob-binom
  : table-intersect
+ : table-shift
  }
