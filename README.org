@@ -26340,7 +26340,7 @@ diagnostic checksum it produces once it's working again?
 #+TBLFM: $3='(orgtbl-uc-draw-grid $2 0 41 41)
 
 
-* 2016 [16/50]
+* 2016 [17/50]
 ** DONE Day 1.1
 
 Santa's  sleigh  uses  a  very   high-precision  clock  to  guide  its
@@ -27366,7 +27366,7 @@ After you swipe your card, what code is the screen trying to display?
 : #....#..#.#..#.#.#..#..#.#....#..#...#..#..#.#..#.
 : ####..##..#..#.#..#..###.#....#..#...#..#..#..##..
 
-** TODO Day 9.1                                                   :noexport:
+** DONE Day 9.1
 
 Wandering around a  secure area, you come across a  datalink port to a
 new part  of the  network. After briefly  scanning it  for interesting
@@ -27403,6 +27403,50 @@ For example:
   
 What is the decompressed length of the file (your puzzle input)? Don't
 count whitespace.
+
+#+begin_src fennel -n :session d1609 :exports both
+(local lume (require :lib.lume))
+(local aoc (require :lib.aoc))
+
+(local test-input
+       ["ADVENT"
+        "A(1x5)BC"
+        "(3x3)XYZ"
+        "A(2x2)BCD(2x2)EFG"
+        "(6x1)(1x3)A"
+        "X(8x2)(3x3)ABCY"])
+
+(fn decompress [s ?b]
+  (let [op (string.find s "(" (or ?b 1) true)
+        cp (string.find s ")" (or ?b 1) true)]
+    (if (or (not op) (not cp)) s
+        (let [marker (string.sub s (+ 1 op) (- cp 1))
+              [l t] (aoc.string-split marker "x")
+              len (tonumber l)
+              tim (tonumber t)
+              ss (..
+                  (string.sub s 1 (- op 1))
+                  (string.rep (string.sub s (+ 1 cp) (+ cp len)) tim)
+                  (string.sub s (+ 1 cp len)))]
+          (decompress ss (+ (- op 1) (* len tim)))))))
+
+(fn solve [input]
+  (-> (. input 1)
+      (decompress)
+      (length)))
+
+(fn test [expected input]
+  (let [compressed (table.concat input "")]
+    (assert (= expected (solve [compressed])))))
+
+(test 57 test-input)
+
+(solve (aoc.string-from "2016/09.inp"))
+#+end_src
+
+#+RESULTS:
+: 70186
+
 ** TODO Day 9.2                                                   :noexport:
 
 ** TODO Day 10.1                                                  :noexport:
