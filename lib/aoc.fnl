@@ -1153,6 +1153,50 @@
       (table-swap res i (. xs (modulo+ len (- i u) len))))
     res))
 
+(fn table-index-loop [xs i]
+  "get ith element of xs as if xs is an infinite seq with a cycle"
+  (let [len (# xs)
+        j (if (<= i len) i
+              (= 0 (% i len)) len
+              (% i len))]
+    (. xs j)))
+
+(fn ulam-spiral [n2]
+  "17  16  15  14  13"
+  "18   5   4   3  12"
+  "19   6   1   2  11"
+  "20   7   8   9  10"
+  "21  22  23---> ..."
+  (let [n (math.sqrt n2)
+        res (matrix n n 0)]
+    (var v n2)
+    (var xn n)
+    (var yn n)
+    (var x0 1)
+    (var y0 1)
+    (while (< 0 v)
+      (for [j xn x0 -1]
+        (table-replace res yn j v)
+        (set v (- v 1)))
+      (for [i (- yn 1) y0 -1]
+        (table-replace res i y0 v)
+        (set v (- v 1)))
+      (for [j (+ 1 x0) xn 1]
+        (table-replace res y0 j v)
+        (set v (- v 1)))
+      (for [i (+ y0 1) (- yn 1) 1]
+        (table-replace res i xn v)
+        (set v (- v 1)))
+      (set yn (- yn 1))
+      (set xn (- xn 1))
+      (set y0 (+ y0 1))
+      (set x0 (+ x0 1)))
+    res))
+
+(fn nearest-square [m]
+  "finds smallest n² s.t. n² > m e.g. 24->25"
+  (^ (+ 1 (math.floor (math.sqrt m))) 2))
+
 {: string-from
  : bytes-from
  : string-escape
@@ -1322,4 +1366,7 @@
  : prob-binom
  : table-intersect
  : table-shift
+ : table-index-loop
+ : ulam-spiral
+ : nearest-square
  }
