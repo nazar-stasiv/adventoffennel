@@ -24341,7 +24341,7 @@ How many constellations are formed by the fixed points in spacetime?
 #+TBLFM: $3='(orgtbl-uc-draw-grid $2 0 41 41)
 
 
-* 2017 [11/50]
+* 2017 [13/50]
 ** DONE Day 1.1
 
 The  night before  Christmas,  one of  Santa's Elves  calls  you in  a
@@ -25053,6 +25053,7 @@ cntj (57)
 
 ...then you would be able to recreate the structure of the towers that
 looks like this:
+
 #+begin_example
                 gyxo
               /     
@@ -25082,9 +25083,10 @@ larger.)
 
 Before  you're  ready  to  help  them, you  need  to  make  sure  your
 information is correct. What is the name of the bottom program?
+
 ** TODO Day 7.2                                                   :noexport:
 
-** TODO Day 8.1                                                   :noexport:
+** DONE Day 8.1
 
 You receive  a signal directly  from the  CPU. Because of  your recent
 assistance with  jump instructions, it  would like you to  compute the
@@ -25095,6 +25097,7 @@ whether to increase  or decrease that register's value,  the amount by
 which to  increase or decrease it,  and a condition. If  the condition
 fails,  skip  the  instruction  without modifying  the  register.  The
 registers all start at 0. The instructions look like this:
+
 #+begin_example
 b inc 5 if a > 1
 a inc 1 if b < 5
@@ -25118,7 +25121,87 @@ the registers are named, and leaves that to you to determine.
 
 What  is  the largest  value  in  any  register after  completing  the
 instructions in your puzzle input?
-** TODO Day 8.2                                                   :noexport:
+
+#+begin_src fennel -n :session d1708 :exports both
+(local aoc (require :lib.aoc))
+(local test-input
+       ["b inc 5 if a > 1"
+        "a inc 1 if b < 5"
+        "c dec -10 if a >= 1"
+        "c inc -20 if c == 10"])
+
+(fn eval [s r]
+  (case (aoc.string-split s " ")
+    [r1 "inc" v1 "if" r2 ">" v2]
+    (when (> (or (?. r r2) 0) (tonumber v2))
+      (tset r r1 (+ (or (?. r r1) 0) (tonumber v1))))
+    [r1 "inc" v1 "if" r2 "<" v2]
+    (when (< (or (?. r r2) 0) (tonumber v2))
+      (tset r r1 (+ (or (?. r r1) 0) (tonumber v1))))
+    [r1 "inc" v1 "if" r2 ">=" v2]
+    (when (>= (or (?. r r2) 0) (tonumber v2))
+      (tset r r1 (+ (or (?. r r1) 0) (tonumber v1))))
+    [r1 "inc" v1 "if" r2 "<=" v2]
+    (when (<= (or (?. r r2) 0) (tonumber v2))
+      (tset r r1 (+ (or (?. r r1) 0) (tonumber v1))))
+    [r1 "inc" v1 "if" r2 "==" v2]
+    (when (= (or (?. r r2) 0) (tonumber v2))
+      (tset r r1 (+ (or (?. r r1) 0) (tonumber v1))))
+    [r1 "inc" v1 "if" r2 "!=" v2]
+    (when (not= (or (?. r r2) 0) (tonumber v2))
+      (tset r r1 (+ (or (?. r r1) 0) (tonumber v1))))
+    [r1 "dec" v1 "if" r2 op v2]
+    (eval (.. r1 " inc " (* -1 (tonumber v1)) " if " r2 " " op " " v2) r)
+    _ (print (.. "No match for " s)))
+  r)
+
+(fn solve [input]
+  (var regs {})
+  (each [_ line (ipairs input)]
+    (set regs (eval line regs)))
+  (aoc.math-max (aoc.vals regs)))
+
+(fn test [expected input]
+  (assert (= expected (solve input))))
+
+(test 1 test-input)
+
+(solve (aoc.string-from "2017/08.inp"))
+#+end_src
+
+#+RESULTS:
+: 5966
+
+
+** DONE Day 8.2
+
+To be safe, the  CPU also needs to know the highest  value held in any
+register during this process so that  it can decide how much memory to
+allocate to these operations. For  example, in the above instructions,
+the highest  value ever  held was  10 (in register  c after  the third
+instruction was evaluated).
+
+#+begin_src fennel -n :session d1708 :exports both
+(fn solve2 [input]
+  (var regs {})
+  (var res 0)
+  (each [_ line (ipairs input)]
+    (set regs (eval line regs))
+    (let [maxreg (aoc.math-max (aoc.vals regs))]
+      (when (and maxreg (< res maxreg))
+        (set res maxreg))))
+  res)
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 10 test-input)
+
+(solve2 (aoc.string-from "2017/08.inp"))
+#+end_src
+
+#+RESULTS:
+: 6347
 
 ** TODO Day 9.1                                                   :noexport:
 
@@ -25155,11 +25238,13 @@ Here are some self-contained pieces of garbage:
 - <random characters>, garbage containing random characters.
 - <<<<>, because the extra < are ignored.
 - <{!>}>, because the first > is canceled.
-- <!!>, because the second ! is canceled, allowing the > to terminate the garbage.
+- <!!>, because the second ! is canceled, allowing the > to terminate
+  the garbage.
 - <!!!>>, because the second ! and the first > are canceled.
 - <{o"i!a,<{i<a>, which ends at the first >.
 
-Here are some examples of whole streams and the number of groups they contain:
+Here are some examples of whole streams and the number of groups they
+contain:
 - {}, 1 group.
 - {{{}}}, 3 groups.
 - {{},{}}, also 3 groups.
@@ -25260,6 +25345,7 @@ However, you  should instead use the  standard list size of  256 (with
 values  0  to  255)  and  the  sequence  of  lengths  in  your  puzzle
 input.  Once  this  process  is   complete,  what  is  the  result  of
 multiplying the first two numbers in the list?
+
 ** TODO Day 10.2                                                  :noexport:
 
 ** TODO Day 11.1                                                  :noexport:

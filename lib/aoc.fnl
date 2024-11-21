@@ -900,6 +900,10 @@
   "returns keys of a hash-map xs"
   (icollect [k v (pairs xs)] k))
 
+(fn vals [xs]
+  "returns values of a hash-map xs"
+  (icollect [k v (pairs xs)] v))
+
 (fn adjacency-root [list]
   "returns key of adjacency list with no input edges"
   (let [xs (lume.map (keys list)
@@ -1197,6 +1201,16 @@
   "finds smallest n² s.t. n² > m e.g. 24->25"
   (^ (+ 1 (math.floor (math.sqrt m))) 2))
 
+(fn file-exists? [path]
+  "returns true if path exists on fs"
+  (not= nil (io.open path)))
+
+(fn file-copy [from to files]
+  "copies each file of files from directory tree from to directory tree to"
+  (each [_ file (ipairs files)]
+    (let [cmd (.. "cp -f " "'" from "/" file "' '" to "/" file "'")]
+      (os.execute cmd))))
+
 {: string-from
  : bytes-from
  : string-escape
@@ -1322,6 +1336,7 @@
  : rank
  : adjacency-list
  : keys
+ : vals
  : adjacency-root
  : collide?
  : dist2rd
@@ -1369,4 +1384,6 @@
  : table-index-loop
  : ulam-spiral
  : nearest-square
+ : file-exists?
+ : file-copy
  }
