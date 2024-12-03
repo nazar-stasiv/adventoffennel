@@ -678,7 +678,9 @@
 
 (fn table-exclude [xs j]
   "returns all xs elements but at pos j"
-  (lume.filter xs (fn [i v] (not= j i))))
+  (let [ys (table-clone xs)]
+    (table.remove ys j)
+    ys))
 
 (fn table-exclude-all [xs js]
   "returns all xs elements but at indices specified with js"
