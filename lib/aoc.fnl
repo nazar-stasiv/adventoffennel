@@ -287,6 +287,10 @@
       (table.insert result 1 x))
     result))
 
+(fn matrix-reverse [m]
+  "return matrix with m rows reversed"
+  (lume.map m #(table-reverse $)))
+
 (fn table-reset [t]
   "removes in place any elements from table t"
   (while (< 0 (length t))
@@ -1253,6 +1257,7 @@
  : table-zip
  : table-unzip 
  : table-reverse
+ : matrix-reverse
  : table-reset
  : table-remove 
  : table-contains?
