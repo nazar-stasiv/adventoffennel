@@ -624,6 +624,21 @@
     (icollect [_ [di dj] (ipairs adj-idx)]
       (?. (?. xs (+ i di)) (+ j dj)))))
 
+(fn matrix-match-count [m s]
+  "returns number of matches of table s in matrix m up down left right and diagonally; s length limited to 4"
+  (assert (= 4 (# s)))
+  (var res 0)
+  (for [i 1 (# m)]
+    (for [j 1 (# (. m i))]
+      (when (= (. s 1) (. (. m i) j))
+        (let [pos [[-1 -1] [-1 0] [-1 1] [0 -1] [0 1] [1 -1] [1 0] [1 1]]]
+          (each [_ [di dj] (ipairs pos)]
+            (when (and (= (. s 2) (?. (?. m (+ i di)) (+ j dj)))
+                       (= (. s 3) (?. (?. m (+ i di di)) (+ j dj dj)))
+                       (= (. s 4) (?. (?. m (+ i di di di)) (+ j dj dj dj))))
+              (set res (+ 1 res))))))))
+  res)
+
 (fn table-tonumber [xs]
   "returns elements of table converting to numbers"
   (lume.map xs #(tonumber $)))
@@ -1308,6 +1323,7 @@
  : matrix-apply
  : matrix-clone
  : matrix-adjvals
+ : matrix-match-count
  : table-unpack
  : powerset
  : combination

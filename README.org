@@ -8,7 +8,7 @@
 #+PANDOC_OPTIONS: standalone:t pdf-engine:lualatex template:~/.pandoc/templates/eisvogel.tex
 #+PANDOC_VARIABLES: papersize:a4 titlepage:t book:true toc:true toc-own-page:true toc-depth:1
 
-* 2024 [5/9]
+* 2024 [6/10]
 ** DONE Day 1.1
 
 The Chief  Historian is  always present for  the big  Christmas sleigh
@@ -465,7 +465,7 @@ This time, the sum of the results is 48 (2*4 + 8*5).
 Handle the new instructions; what do you  get if you add up all of the
 results of just the enabled multiplications?
 
-** TODO Day 4.1                                                   :noexport:
+** DONE Day 4.1
 
 "Looks like the  Chief's not here. Next!" One of  The Historians pulls
 out a device  and pushes the only  button on it. After  a brief flash,
@@ -524,6 +524,76 @@ S.S.S.S.SS
 
 Take a look at the little Elf's  word search. How many times does XMAS
 appear?
+
+#+begin_src fennel -n :session d2404 :exports both
+(local lume (require :lib.lume))
+(local aoc (require :lib.aoc))
+(local test-input
+       ["MMMSXXMASM"
+        "MSAMXMSMSA"
+        "AMXSXMAAMM"
+        "MSAMASMSMX"
+        "XMASAMXAMM"
+        "XXAMMXXAMA"
+        "SMSMSASXSS"
+        "SAXAMASAAA"
+        "MAMMMXMMMM"
+        "MXMXAXMASX"])
+
+(fn solve [input]
+  (let [m (aoc.read-matrix input)]
+    (aoc.matrix-match-count m ["X" "M" "A" "S"])))
+
+(fn test [expected input]
+  (assert (= expected (solve input))))
+
+(test 18 test-input)
+
+(solve (aoc.string-from "2024/04.inp"))
+#+end_src
+
+#+RESULTS:
+: 2646
+
+** TODO Day 4.2                                                   :noexport:
+
+The  Elf  looks   quizzically  at  you.  Did   you  misunderstand  the
+assignment?
+
+Looking for  the instructions, you flip  over the word search  to find
+that this isn't actually an XMAS puzzle; it's an X-MAS puzzle in which
+you're supposed  to find  two MAS  in the shape  of an  X. One  way to
+achieve that is like this:
+
+#+begin_example
+M.S
+.A.
+M.S
+#+end_example
+
+Irrelevant characters  have again  been replaced with  . in  the above
+diagram. Within the X, each MAS can be written forwards or backwards.
+
+Here's the same example from before,  but this time all of the X-MASes
+have been kept instead:
+
+#+begin_example
+.M.S......
+..A..MSMS.
+.M.S.MAA..
+..A.ASMSM.
+.M.S.M....
+..........
+S.S.S.S.S.
+.A.A.A.A..
+M.M.M.M.M.
+..........
+#+end_example
+
+In this example, an X-MAS appears 9 times.
+
+Flip  the word  search from  the instructions  back over  to the  word
+search side and try again. How many times does an X-MAS appear?
 
 ** TODO Day 5.1                                                   :noexport:
 
