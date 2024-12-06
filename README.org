@@ -438,16 +438,17 @@ you get if you add up all of the results of the multiplications?
 
 ** TODO Day 3.2                                                   :noexport:
 
-As you scan through the corrupted memory, you notice that some of the
-conditional statements are also still intact. If you handle some of
-the uncorrupted conditional statements in the program, you might be
+As you scan through the corrupted  memory, you notice that some of the
+conditional statements  are also still  intact. If you handle  some of
+the uncorrupted  conditional statements in  the program, you  might be
 able to get an even more accurate result.
 
 There are two new instructions you'll need to handle:
 - The do() instruction enables future mul instructions.
 - The don't() instruction disables future mul instructions.
 
-Only the most recent do() or don't() instruction applies. At the beginning of the program, mul instructions are enabled.
+Only  the most  recent do()  or  don't() instruction  applies. At  the
+beginning of the program, mul instructions are enabled.
 
 For example:
 #+begin_example
