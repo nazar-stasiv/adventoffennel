@@ -8,7 +8,7 @@
 #+PANDOC_OPTIONS: standalone:t pdf-engine:lualatex template:~/.pandoc/templates/eisvogel.tex
 #+PANDOC_VARIABLES: papersize:a4 titlepage:t book:true toc:true toc-own-page:true toc-depth:1
 
-* 2024 [6/10]
+* 2024 [7/10]
 ** DONE Day 1.1
 
 The Chief  Historian is  always present for  the big  Christmas sleigh
@@ -556,7 +556,7 @@ appear?
 #+RESULTS:
 : 2646
 
-** TODO Day 4.2                                                   :noexport:
+** DONE Day 4.2
 
 The  Elf  looks   quizzically  at  you.  Did   you  misunderstand  the
 assignment?
@@ -595,6 +595,42 @@ In this example, an X-MAS appears 9 times.
 
 Flip  the word  search from  the instructions  back over  to the  word
 search side and try again. How many times does an X-MAS appear?
+
+#+begin_src fennel -n :session d2404 :exports both
+(fn matrix-match-diag-count [m s]
+  (var res 0)
+  (let [term (table.concat s "")]
+    (for [i 1 (# m)]
+      (for [j 1 (# (. m i))]
+        (when (= (. (. m i) j) (. s 2))
+          (let [term1 (.. (or (?. (?. m (+ i -1)) (+ j -1)) "")
+                          (. (. m i) j)
+                          (or (?. (?. m (+ i 1)) (+ j 1)) ""))
+                term2 (.. (or (?. (?. m (+ i -1)) (+ j 1)) "")
+                          (. (. m i) j)
+                          (or (?. (?. m (+ i 1)) (+ j -1)) ""))]
+            (when (and
+                   (or (= term1 term)
+                       (= term1 (string.reverse term)))
+                   (or (= term2 term)
+                       (= term2 (string.reverse term))))
+              (set res (+ 1 res))))))))
+  res)
+
+(fn solve2 [input]
+  (let [m (aoc.read-matrix input)]
+    (matrix-match-diag-count m ["M" "A" "S"])))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 9 test-input)
+
+(solve2 (aoc.string-from "2024/04.inp"))
+#+end_src
+
+#+RESULTS:
+: 2000
 
 ** TODO Day 5.1                                                   :noexport:
 
