@@ -432,6 +432,66 @@ This time, the sum of the results is 48 (2*4 + 8*5).
 Handle the new instructions; what do you  get if you add up all of the
 results of just the enabled multiplications?
 
+** TODO Day 4.1                                                   :noexport:
+
+"Looks like the  Chief's not here. Next!" One of  The Historians pulls
+out a device  and pushes the only  button on it. After  a brief flash,
+you recognize the interior of the Ceres monitoring station!
+
+As the search  for the Chief continues,  a small Elf who  lives on the
+station tugs on your  shirt; she'd like to know if  you could help her
+with her  word search (your  puzzle input). She  only has to  find one
+word: XMAS.
+
+This word  search allows words  to be horizontal,  vertical, diagonal,
+written  backwards, or  even overlapping  other words.  It's a  little
+unusual, though,  as you  don't merely  need to  find one  instance of
+XMAS - you  need to find all of  them. Here are a few  ways XMAS might
+appear, where irrelevant characters have been replaced with .:
+
+#+begin_example
+..X...
+.SAMX.
+.A..A.
+XMAS.S
+.X....
+#+end_example
+
+The actual word search will be full of letters instead. For example:
+
+#+begin_example
+MMMSXXMASM
+MSAMXMSMSA
+AMXSXMAAMM
+MSAMASMSMX
+XMASAMXAMM
+XXAMMXXAMA
+SMSMSASXSS
+SAXAMASAAA
+MAMMMXMMMM
+MXMXAXMASX
+#+end_example
+
+In this word search, XMAS occurs a  total of 18 times; here's the same
+word search  again, but where  letters not  involved in any  XMAS have
+been replaced with .:
+
+#+begin_example
+....XXMAS.
+.SAMXMS...
+...S..A...
+..A.A.MS.X
+XMASAMX.MM
+X.....XA.A
+S.S.S.S.SS
+.A.A.A.A.A
+..M.M.M.MM
+.X.X.XMASX
+#+end_example
+
+Take a look at the little Elf's  word search. How many times does XMAS
+appear?
+
 * 2023 [18/50]
 ** DONE Day 1.1
 You  try to  ask  why they  can't  just use  a  weather machine  ("not
