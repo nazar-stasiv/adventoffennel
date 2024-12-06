@@ -8,7 +8,7 @@
 #+PANDOC_OPTIONS: standalone:t pdf-engine:lualatex template:~/.pandoc/templates/eisvogel.tex
 #+PANDOC_VARIABLES: papersize:a4 titlepage:t book:true toc:true toc-own-page:true toc-depth:1
 
-* 2024 [4/9]
+* 2024 [5/9]
 ** DONE Day 1.1
 
 The Chief  Historian is  always present for  the big  Christmas sleigh
@@ -302,7 +302,7 @@ safe?
 #+RESULTS:
 : 598
 
-** TODO Day 2.2                                                   :noexport:
+** DONE Day 2.2
 
 The engineers  are surprised by the  low number of safe  reports until
 they realize they forgot to tell you about the Problem Dampener.
@@ -328,6 +328,39 @@ Thanks to the Problem Dampener, 4 reports are actually safe!
 Update your analysis by handling situations where the Problem Dampener
 can remove  a single level from  unsafe reports. How many  reports are
 now safe?
+
+#+begin_src fennel -n :session d2402 :exports both
+(fn is-safe? [xs]
+  (if (and (level-differ xs)
+           (or (level-increase xs)
+               (level-decrease xs)))
+      true
+      (do
+        (var done false)
+        (for [j 1 (# xs) &until done]
+          (let [ys (aoc.table-exclude xs j)]
+            (when (and (level-differ ys)
+                       (or (level-increase ys)
+                           (level-decrease ys)))
+              (set done true))))
+        done)))
+
+(fn solve2 [input]
+  (-> input
+      (lume.map #(aoc.string-tonumarray $))
+      (lume.filter #(is-safe? $))
+      (length)))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 4 test-input)
+
+(solve2 (aoc.string-from "2024/02.inp"))
+#+end_src
+
+#+RESULTS:
+: 634
 
 ** DONE Day 3.1
 
