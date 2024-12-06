@@ -879,7 +879,6 @@
                      #(. xs (- i $)))))
         res)))
 
-
 (fn table-no-dups? [xs]
   "returns true if xs has no duplicate elements"
   (table.sort xs)
@@ -1029,6 +1028,7 @@
       ">"))
 
 (fn turtle-new [width height]
+  "returns svg canvas for turtle graphics"
   (let [image
         {:at {:version "1.1"
               :width (tostring width)
@@ -1039,13 +1039,16 @@
      :drawing true :point [1 1] :angle 0 :color "black"}))
 
 (fn turtle-pen-up? [turtle]
+  "returns boolean if turtle graphics pen is in up position"
   (not (. turtle :drawing)))
 
 (fn turtle-pen-up [turtle]
+  "lifts turtle graphics pen up"
   (tset turtle :drawing false)
   turtle)
 
 (fn turtle-pen-down [turtle]
+  "sets turtle graphics pen in drawing position"
   (tset turtle :drawing true)
   turtle)
 
@@ -1055,15 +1058,18 @@
   turtle)
 
 (fn turtle-right [turtle ?degrees]
+  "move turtle graphics pen to the right"
   (let [angle (. turtle :angle)]
     (tset turtle :angle (% (+ angle (or ?degrees 90)) 360)))
   turtle)
 
 (fn turtle-left [turtle ?degrees]
+  "move turtle graphics pen to the left"
   (turtle-right turtle (- (or ?degrees 90)))
   turtle)
 
 (fn turtle-draw-line [turtle p1 p2]
+  "draw line with turtle graphics pen"
   (let [image (. turtle :image)
         color (. turtle :color)]
     (table.insert (. image :ch)
@@ -1076,6 +1082,7 @@
   turtle)
 
 (fn turtle-forward [turtle steps]
+  "move turtle graphics pen forward steps"
   (let [p1 (. turtle :point)
         angle  (. turtle :angle)
         p2 [(+ (. p1 1) (* (math.sin (* angle (/ math.pi 180))) steps))
@@ -1086,10 +1093,12 @@
   turtle)
 
 (fn turtle-back [turtle steps]
+  "move turtle graphics pen backward steps"
   (turtle-forward turtle (- steps))
   turtle)
 
 (fn turtle-go [turtle x y]
+  "move turtle graphics pen to pos x,y"
   (let [p1 (. turtle :point) p2 [x y]]
     (when (. turtle :drawing)
       (turtle-draw-line turtle p1 p2))
@@ -1097,6 +1106,7 @@
   turtle)
 
 (fn turtle-toward [turtle x y]
+  "move turtle graphics pen to pos x,y"
   (let [p (. turtle :point)
         polar (math.atan (- (. p 1) x) (- (. p 2) y))
         angle (% (/ polar (/ math.pi 180)) 360)]
@@ -1104,12 +1114,14 @@
   turtle)
 
 (fn turtle-distance [turtle x y]
+  "return taxicab distance pos x,y to turtle graphics pen pos"
   (let [p (. turtle :point)]
     (math.sqrt
      (+ (^ (- (. p 1) x) 2)
         (^ (- (. p 2) y) 2)))))
 
 (fn turtle-write [turtle name]
+  "writes turtle graphics canvas to svg file"
   (let [out (io.open name "w")
         image (. turtle :image)]
     (out.write out (html :svg image))
