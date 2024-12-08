@@ -242,6 +242,11 @@
       (table.move ys 1 (length ys) (+ 1 (length xs)) xs)
       xs))
 
+(fn table-join3 [xs ys zs]
+  "return table with ys, zs elements elements appended to xs elements"
+  (let [ws (table-join xs ys)]
+    (table-join ws zs)))
+
 (fn table-contains? [t e]
   "return bool indicating if collection t contains element e"
   (if (lume.find t e)
@@ -738,6 +743,14 @@
 (fn int/ [x y]
   "returns integer division like // operator"
   (math.floor (/ x y)))
+
+(fn concat [x y]
+  "returns concatenated xy integer"
+  (tonumber (string.format "%d%d" x y)))
+
+(fn tolong [s]
+  "converts sci notation s i.e. 1.0551712821154e+14->10551712821154"
+  (string.format "%d" s))
 
 (fn toarray [n]
   "return 6-digit number as digit array"
@@ -1279,6 +1292,7 @@
  : table-count
  : table-sort
  : table-join
+ : table-join3 
  : table-identical-2d?
  : table-identical?
  : table-zip
@@ -1352,6 +1366,8 @@
  : table-sum-if
  : runtime
  : int/
+ : concat
+ : tolong
  : toarray
  : lazy-seq
  : intersection
