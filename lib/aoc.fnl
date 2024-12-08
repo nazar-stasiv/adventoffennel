@@ -1028,6 +1028,10 @@
         (tset t k [v])))
   t)
 
+(fn table-mid [xs]
+  "returns xᵢ of xs where i is median index"
+  (. xs (math.ceil (/ (# xs) 2))))
+
 (fn html [tag xs]
   "return tag with attributes (. xs :at) and children (. xs :ch)"
   (.. "\n<"
@@ -1413,6 +1417,7 @@
  : table-even
  : table-update
  : table-upsert
+ : table-mid
  : html
  : int
  : xor

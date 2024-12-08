@@ -8,7 +8,7 @@
 #+PANDOC_OPTIONS: standalone:t pdf-engine:lualatex template:~/.pandoc/templates/eisvogel.tex
 #+PANDOC_VARIABLES: papersize:a4 titlepage:t book:true toc:true toc-own-page:true toc-depth:1
 
-* 2024 [9/13]
+* 2024 [10/14]
 ** DONE Day 1.1
 
 The Chief  Historian is  always present for  the big  Christmas sleigh
@@ -632,7 +632,7 @@ search side and try again. How many times does an X-MAS appear?
 #+RESULTS:
 : 2000
 
-** TODO Day 5.1                                                   :noexport:
+** DONE Day 5.1
 
 Satisfied  with  their  search  on Ceres,  the  squadron  of  scholars
 suggests    subsequently   scanning    the   stationery    stacks   of
@@ -756,6 +756,101 @@ rules is bigger and more complicated than the above example.
 Determine which updates are already in  the correct order. What do you
 get if you add up the  middle page number from those correctly-ordered
 updates?
+
+#+begin_src fennel -n :session d2405 :exports both
+(local lume (require :lib.lume))
+(local aoc (require :lib.aoc))
+(local test-input
+       ["47|53"
+        "97|13"
+        "97|61"
+        "97|47"
+        "75|29"
+        "61|13"
+        "75|53"
+        "29|13"
+        "97|29"
+        "53|29"
+        "61|53"
+        "97|53"
+        "61|29"
+        "47|13"
+        "75|47"
+        "97|75"
+        "47|61"
+        "75|61"
+        "47|29"
+        "75|13"
+        "53|13"
+        ""
+        "75,47,61,53,29"
+        "97,61,53,29,13"
+        "75,29,13"
+        "75,97,47,61,53"
+        "61,13,29"
+        "97,13,75,29,47"])
+
+(fn read-line [line res]
+  (case (aoc.string-split line "|")
+    [p1 p2] (aoc.table-upsert (. res :rules) (tonumber p1) (tonumber p2))
+    [s] (table.insert (. res :pages) (lume.map (aoc.string-split s ",") #(tonumber $)))))
+
+(fn read-lines [lines]
+  (let [res {:rules {} :pages []}]
+    (lume.each lines #(read-line $ res))
+    res))
+
+(fn rules-p [rules xs]
+  (var done false)
+  (let [excl []
+        start (- (# xs) 1)
+        end 1]
+    (for [i start end -1 &until done]
+      (aoc.table-join excl (. rules (. xs (+ i 1))))
+      (when (lume.find excl (. xs i))
+        (set done true))))
+  (not done))
+
+(fn solve [lines]
+  (let [xs (read-lines lines)
+        pages (. xs :pages)
+        rules (. xs :rules)]
+    (-> pages
+        (lume.filter #(rules-p rules $))
+        (lume.map #(aoc.table-mid $))
+        (aoc.table-sum))))
+
+(fn test [expected input]
+  (assert (= expected (solve input))))
+
+(test 143 test-input)
+
+(solve (aoc.string-from "2024/05.inp"))
+#+end_src
+
+#+RESULTS:
+: 5713
+
+** TODO Day 5.2                                                   :noexport:
+
+While the  Elves get to  work printing the  correctly-ordered updates,
+you have a little time to fix the rest of them.
+
+For each  of the  incorrectly-ordered updates,  use the  page ordering
+rules  to put  the page  numbers  in the  right order.  For the  above
+example,  here are  the  three incorrectly-ordered  updates and  their
+correct orderings:
+- 75,97,47,61,53 becomes 97,75,47,61,53.
+- 61,13,29 becomes 61,29,13.
+- 97,13,75,29,47 becomes 97,75,47,29,13.
+
+After taking  only the  incorrectly-ordered updates and  ordering them
+correctly, their middle page numbers are  47, 29, and 47. Adding these
+together produces 123.
+
+Find the updates which  are not in the correct order.  What do you get
+if you  add up the middle  page numbers after correctly  ordering just
+those updates?
 
 ** TODO Day 6.1                                                   :noexport:
 
