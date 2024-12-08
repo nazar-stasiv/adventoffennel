@@ -640,8 +640,8 @@ sub-basement 17.
 
 The North Pole  printing department is busier than ever  this close to
 Christmas,  and while  The Historians  continue their  search of  this
-historically significant  facility, an  Elf operating a  very familiar
-printer beckons you over.
+historically significant  facility, an  Elf operating a  [[https://adventofcode.com/2017/day/1][very familiar
+printer]] beckons you over.
 
 The Elf must recognize you, because they waste no time explaining that
 the   new   sleigh   launch   safety  manual   updates   won't   print

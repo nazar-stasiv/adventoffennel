@@ -1020,6 +1020,14 @@
         (tset t k1 {k2 v})
         (tset st k2 v))))
 
+(fn table-upsert [t k v]
+  "returns t with {:k [v]} preserving (. t k) existing value"
+  (let [xs (. t k)]
+    (if xs
+        (table.insert xs v)
+        (tset t k [v])))
+  t)
+
 (fn html [tag xs]
   "return tag with attributes (. xs :at) and children (. xs :ch)"
   (.. "\n<"
@@ -1404,6 +1412,7 @@
  : table-odd
  : table-even
  : table-update
+ : table-upsert
  : html
  : int
  : xor
