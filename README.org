@@ -1380,7 +1380,7 @@ is the resulting filesystem checksum?
     (aoc.table-flatten res)))
 
 (fn test-map2block [expected input]
-  (assert (aoc.table-identical? expected (map2block input))))
+  (assert (aoc.table-equals expected (map2block input))))
 
 (test-map2block
  (aoc.string-toarray "00...111...2...333.44.5555.6666.777.888899")
@@ -1396,7 +1396,7 @@ is the resulting filesystem checksum?
   xs)
 
 (fn test-defragment [expected input]
-  (assert (aoc.table-identical? expected (defragment input))))
+  (assert (aoc.table-equals expected (defragment input))))
 
 (test-defragment
  (aoc.string-toarray "0099811188827773336446555566..............")
@@ -1404,9 +1404,15 @@ is the resulting filesystem checksum?
 
 (fn checksum [xs]
   (-> xs
-      (lume.map #(tonumber $))
+      (lume.map #(or (tonumber $) 0))
       (aoc.table-prod-kv)
       (aoc.table-sum)))
+
+(fn test-checksum [expected input]
+  (let [xs (aoc.string-toarray input)]
+    (assert (= expected (checksum xs)))))
+
+(test-checksum 2858 "00992111777.44.333....5555.6666.....8888..")
 
 (fn solve [input]
   (-> input
