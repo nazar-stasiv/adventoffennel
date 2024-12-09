@@ -8,7 +8,7 @@
 #+PANDOC_OPTIONS: standalone:t pdf-engine:lualatex template:~/.pandoc/templates/eisvogel.tex
 #+PANDOC_VARIABLES: papersize:a4 titlepage:t book:true toc:true toc-own-page:true toc-depth:1
 
-* 2024 [11/16]
+* 2024 [12/16]
 ** DONE Day 1.1
 
 The Chief  Historian is  always present for  the big  Christmas sleigh
@@ -1431,7 +1431,7 @@ is the resulting filesystem checksum?
 #+RESULTS:
 : 6341711060162
 
-** TODO Day 9.2                                                   :noexport:
+** DONE Day 9.2
 
 Upon completion, two things immediately  become clear. First, the disk
 definitely  has  a lot  more  contiguous  free  space, just  like  the
@@ -1465,6 +1465,54 @@ example's checksum would be 2858.
 
 Start over,  now compacting the  amphipod's hard drive using  this new
 method instead. What is the resulting filesystem checksum?
+
+#+begin_src fennel -n :session d2409 :exports both
+(fn defragment2 [xs]
+  (var ys (aoc.partition-identity xs))
+  (var i (# ys))
+  (while (< 1 i)
+    (var done false)
+    (for [j 1 i &until done]
+      (when (= "." (aoc.head (. ys j)))
+        (let [delta (- (# (. ys j)) (# (. ys i)))]
+          (when (< 0 delta)
+            (let [patch []]
+                (for [k 1 delta 1]
+                  (let [x (table.remove (. ys j))]
+                    (table.insert patch x)))
+                (table.insert ys (+ 1 j) patch)
+                (set i (+ i 1))))
+          (when (<= 0 delta)
+            (aoc.table-index-swap ys j i)
+            (set done true)))))
+    (set i (- i 1))
+    ;; reset bc there's off by one error somewhere
+    (set ys (aoc.partition-identity (aoc.table-flatten ys)))) 
+  (aoc.table-flatten ys))
+
+(fn test-defragment2 [expected input]
+  (assert (aoc.table-equals expected (defragment2 input))))
+
+(test-defragment2
+ (aoc.string-toarray "00992111777.44.333....5555.6666.....8888..")
+ (map2block (. test-input 1)))
+
+(fn solve2 [input]
+  (-> input
+      (map2block)
+      (defragment2)
+      (checksum)))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 (. input 1)))))
+
+(test2 2858 test-input)
+
+(solve2 (. (aoc.string-from "2024/09.inp") 1))
+#+end_src
+
+#+RESULTS:
+: 6377400869326
 
 * 2023 [18/50]
 ** DONE Day 1.1
