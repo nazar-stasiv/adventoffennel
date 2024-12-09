@@ -847,6 +847,11 @@
           (table.insert res [(. xs i)])))
     res))
 
+(fn partition-identity [xs]
+  "groups xs elements by identity"
+  (let [identity (fn [a b] (= a b))]
+    (partition-by xs identity)))
+
 (fn partition-at [xs delim]
   "partitions xs into 2d array at each delim occurence"
   (var cur [])
@@ -1404,6 +1409,7 @@
  : decartian
  : in-segment?
  : partition-by
+ : partition-identity
  : partition-at 
  : partition1
  : partition3step1
