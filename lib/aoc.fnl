@@ -270,6 +270,16 @@
       (length t2))
    (lume.all t1 #(table-contains? t2 $))))
 
+(fn table-equals [xs ys]
+  "indicates both xs and ys hold identical elements in the same order"
+  (var done false)
+  (if (not= (# xs) (# ys))
+      (set done true)
+      (for [i 1 (# xs) &until done]
+        (when (not= (. xs i) (. ys i))
+          (set done true))))
+  (not done))
+
 (fn table-zip [t1 t2]
   "return collection of tuples: 1st t1 element, 1st t2 element, then 2nd t1 and 2nd t2, and so on"
   (assert (= (length t1) (length t2)))
@@ -1311,6 +1321,7 @@
  : table-join3 
  : table-identical-2d?
  : table-identical?
+ : table-equals
  : table-zip
  : table-unzip 
  : table-reverse
