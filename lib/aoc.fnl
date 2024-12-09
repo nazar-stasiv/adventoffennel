@@ -404,6 +404,10 @@
     (table.insert t i2 a)
     t))
 
+(fn table-prod-kv [xs]
+  "return product of xs value by its 0-based index"
+  (icollect [k v (ipairs xs)] (* (- k 1) v)))
+
 (fn permutation [xs len res]
   "returns possible permutations of xs elements as 2d array res"
   (if (= len 0)
@@ -1325,6 +1329,7 @@
  : table-replace-row
  : table-swap
  : table-index-swap
+ : table-prod-kv
  : permutation
  : table-move
  : string-totable
