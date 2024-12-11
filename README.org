@@ -8,7 +8,7 @@
 #+PANDOC_OPTIONS: standalone:t pdf-engine:lualatex template:~/.pandoc/templates/eisvogel.tex
 #+PANDOC_VARIABLES: papersize:a4 titlepage:t book:true toc:true toc-own-page:true toc-depth:1
 
-* 2024 [12/18]
+* 2024 [13/19]
 ** DONE Day 1.1
 
 The Chief  Historian is  always present for  the big  Christmas sleigh
@@ -1623,7 +1623,7 @@ The reindeer  gleefully carries over a  protractor and adds it  to the
 pile.  What  is the  sum  of  the scores  of  all  trailheads on  your
 topographic map?
 
-** TODO Day 11.1                                                  :noexport:
+** DONE Day 11.1
 
 The  ancient  civilization on  Pluto  was  known  for its  ability  to
 manipulate spacetime, and while  The Historians explore their infinite
@@ -1702,6 +1702,51 @@ stones. After blinking 25 times, you would have 55312 stones!
 
 Consider the  arrangement of stones in  front of you. How  many stones
 will you have after blinking 25 times?
+
+#+begin_src fennel -n :session d2411 :exports both
+(local lume (require :lib.lume))
+(local aoc (require :lib.aoc))
+(local test-input ["125 17"])
+
+(fn blink [xs]
+  (let [res []]
+    (each [_ x (ipairs xs)]
+      (let [lenn (length (tostring x))
+            y (case (tostring x)
+                "0" [1]
+                n (if (= 0 (% lenn 2))
+                      [(tonumber (string.sub n 1 (aoc.int/ lenn 2)))
+                       (tonumber (string.sub n (+ 1 (aoc.int/ lenn 2)) lenn))]
+                      [(* 2024 (tonumber n))]))]
+        (lume.map y #(table.insert res $))))
+    res))
+
+(fn solve [input times]
+  (let [xs (aoc.string-split (. input 1) " ")]
+    (var res (blink xs))
+    (for [i 2 times]
+      (set res (blink res)))
+    res))
+
+(fn test [expected input times]
+  (let [res (solve input times)]
+    (assert (= expected (length res)))))
+
+(test 55312 test-input 25)
+
+(length (solve (aoc.string-from "2024/11.inp") 25))
+#+end_src
+
+#+RESULTS:
+: 239714
+
+
+** TODO Day 11.2                                                  :noexport:
+
+The Historians sure  are taking a long time. To  be fair, the infinite
+corridors are very large.
+
+How many stones would you have after blinking a total of 75 times?
 
 * 2023 [18/50]
 ** DONE Day 1.1
