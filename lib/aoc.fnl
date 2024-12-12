@@ -1297,6 +1297,16 @@
     (let [cmd (.. "cp -f " "'" from "/" file "' '" to "/" file "'")]
       (os.execute cmd))))
 
+(fn literal-halves [x]
+  "splits integer literal into two halfs e.g. 1000->[10 0]"
+  (let [len (# (tostring x))]
+    [(tonumber (string.sub x 1 (int/ len 2)))
+     (tonumber (string.sub x (+ 1 (int/ len 2)) len))]))
+
+(fn even-len? [x]
+  "returns boolean indicating if length of x is even number"
+  (= 0 (% (# (tostring x)) 2)))
+
 {: string-from
  : bytes-from
  : string-escape
@@ -1483,4 +1493,6 @@
  : nearest-square
  : file-exists?
  : file-copy
+ : literal-halves
+ : even-len?
  }
