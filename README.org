@@ -1708,33 +1708,27 @@ will you have after blinking 25 times?
 (local aoc (require :lib.aoc))
 (local test-input ["125 17"])
 
-(fn blink [xs]
-  (let [res []]
-    (each [_ x (ipairs xs)]
-      (let [lenn (length (tostring x))
-            y (case (tostring x)
-                "0" [1]
-                n (if (= 0 (% lenn 2))
-                      [(tonumber (string.sub n 1 (aoc.int/ lenn 2)))
-                       (tonumber (string.sub n (+ 1 (aoc.int/ lenn 2)) lenn))]
-                      [(* 2024 (tonumber n))]))]
-        (lume.map y #(table.insert res $))))
-    res))
+(fn blink [t x]
+  (if (= t 0) 1
+      (let [u (- t 1)]
+        (if (= 0 x) (blink u 1)
+            (aoc.even? (aoc.int-len x))
+            (let [[h l] (aoc.int-halves x)]
+              (+ (blink u h) (blink u l)))
+            (blink u (* 2024 x))))))
 
 (fn solve [input times]
-  (let [xs (aoc.string-split (. input 1) " ")]
-    (var res (blink xs))
-    (for [i 2 times]
-      (set res (blink res)))
-    res))
+  (-> (. input 1)
+      (aoc.string-tonumarray " ")
+      (lume.map #(blink times $))
+      (aoc.table-sum)))
 
 (fn test [expected input times]
-  (let [res (solve input times)]
-    (assert (= expected (length res)))))
+  (assert (= expected (solve input times))))
 
 (test 55312 test-input 25)
 
-(length (solve (aoc.string-from "2024/11.inp") 25))
+(solve (aoc.string-from "2024/11.inp") 25)
 #+end_src
 
 #+RESULTS:
