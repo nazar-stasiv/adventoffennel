@@ -351,10 +351,10 @@
      (do ,body1 ,(unpack rest-body))))
 
 (macro time [body1 & rest-body]
-  `(let [start# (os.time)]
+  `(let [start# (os.clock)]
      ,body1
      ,(unpack rest-body)
-     (print (.. "Elapsed, s " (os.difftime (os.time) start#)))))
+     (print (.. "Elapsed, s " (- (os.clock) start#)))))
 
 (macro swap [a b & body1]
   `(let [tmp# ,a]
