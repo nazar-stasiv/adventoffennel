@@ -362,6 +362,9 @@
      (set ,b tmp#)
      ,(unpack body1)))
 
+(macro apply [fun args]
+  `(,fun ,((or table.unpack _G.unpack) args)))
+
 (fn table-group-by [xs n]
   "return n-ary collection of linear xs"
   (assert (= 0 (% (length xs) n)))
