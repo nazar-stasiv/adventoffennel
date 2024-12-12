@@ -733,6 +733,15 @@
         (table.insert res y)))
     res))
 
+(fn table-flatten2 [xs]
+  "returns linear collection of n-dimension table xs"
+  (let [res []]
+    (each [_ x (ipairs xs)]
+      (if (lume.isarray x)
+          (lume.map (table-flatten2 x) #(table.insert res $))
+          (table.insert res x)))
+    res))
+
 (fn table-union [xs]
   "return all elements of xs₁ .. xsₙ tables elements i.e. conjunction set"  
   (lume.unique (table-flatten xs)))
@@ -1395,6 +1404,7 @@
  : table-exclude
  : table-exclude-all
  : table-flatten
+ : table-flatten2
  : table-union 
  : table-sum-if
  : runtime
