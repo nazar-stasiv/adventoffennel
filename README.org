@@ -8,7 +8,7 @@
 #+PANDOC_OPTIONS: standalone:t pdf-engine:lualatex template:~/.pandoc/templates/eisvogel.tex
 #+PANDOC_VARIABLES: papersize:a4 titlepage:t book:true toc:true toc-own-page:true toc-depth:1
 
-* 2024 [14/22]
+* 2024 [15/22]
 ** DONE Day 1.1
 
 The Chief  Historian is  always present for  the big  Christmas sleigh
@@ -831,7 +831,7 @@ updates?
 #+RESULTS:
 : 5713
 
-** TODO Day 5.2                                                   :noexport:
+** DONE Day 5.2
 
 While the  Elves get to  work printing the  correctly-ordered updates,
 you have a little time to fix the rest of them.
@@ -851,6 +851,55 @@ together produces 123.
 Find the updates which  are not in the correct order.  What do you get
 if you  add up the middle  page numbers after correctly  ordering just
 those updates?
+
+#+begin_src fennel -n :session d2405 :exports both
+(fn read-line2 [line res]
+  (when (not= "" line)
+    (case (aoc.string-split line "|")
+      [p1 p2] (table.insert (. res :rules) [(tonumber p1) (tonumber p2)])
+      [s] (table.insert (. res :pages) (lume.map (aoc.string-split s ",") #(tonumber $)))
+      _ (print (.. "No match for " line)))))
+
+(fn read-lines2 [lines]
+  (let [res {:rules [] :pages []}]
+    (lume.each lines #(read-line2 $ res))
+    res))
+
+(fn compare2 [rules x y]
+  (aoc.table-contains-2d? rules [x y]))
+
+(fn rearrange2 [zs rules]
+  (let [comp (partial compare2 rules)]
+    (lume.each zs #(table.sort $ comp)))
+  zs)
+
+(fn rules2-p [rules xs]
+  (let [comp (partial compare2 rules)
+        ys (aoc.table-clone xs)]
+    (table.sort ys comp)
+    (aoc.table-equals xs ys)))
+
+(fn solve2 [input]
+  (let [xs (read-lines2 input)
+        pages (. xs :pages)
+        rules (. xs :rules)]
+    (-> pages
+        (lume.filter #(not (rules2-p rules $)))
+        (rearrange2 rules)
+        (lume.map #(aoc.table-mid $))
+        (aoc.table-sum))))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 123 test-input)
+
+(solve2 (aoc.string-from "2024/05.inp"))
+#+end_src
+
+#+RESULTS:
+: 5180
+
 
 ** TODO Day 6.1                                                   :noexport:
 

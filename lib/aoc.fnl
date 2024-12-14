@@ -520,7 +520,7 @@
 
 (fn table-contains-2d? [t e]
   "return bool indicating if collection t contains table e"
-  (let [xs (lume.filter t #(table-identical? $ e))]
+  (let [xs (lume.filter t #(table-equals $ e))]
     (not (empty? xs))))
 
 (fn matrix-contains? [m vec]
@@ -1069,6 +1069,7 @@
 
 (fn table-mid [xs]
   "returns xᵢ of xs where i is median index"
+  (assert (odd? (# xs)))
   (. xs (math.ceil (/ (# xs) 2))))
 
 (fn html [tag xs]
