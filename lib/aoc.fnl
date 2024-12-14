@@ -365,6 +365,14 @@
 (macro apply [fun args]
   `(,fun ,((or table.unpack _G.unpack) args)))
 
+(macro memfn1 [fun args & body]
+  `(do
+     (var ,fun nil)
+     (set ,fun (lume.memoize (fn ,args ,(unpack body))))))
+
+(macro memfn2 [fun args & body]
+  `(fn ,fun ,args (lume.memoize (fn ,args ,(unpack body)))))
+
 (fn table-group-by [xs n]
   "return n-ary collection of linear xs"
   (assert (= 0 (% (length xs) n)))
