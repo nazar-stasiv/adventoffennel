@@ -8,7 +8,7 @@
 #+PANDOC_OPTIONS: standalone:t pdf-engine:lualatex template:~/.pandoc/templates/eisvogel.tex
 #+PANDOC_VARIABLES: papersize:a4 titlepage:t book:true toc:true toc-own-page:true toc-depth:1
 
-* 2024 [15/22]
+* 2024 [16/23]
 ** DONE Day 1.1
 
 The Chief  Historian is  always present for  the big  Christmas sleigh
@@ -436,7 +436,7 @@ you get if you add up all of the results of the multiplications?
 #+RESULTS:
 : 180233229
 
-** TODO Day 3.2                                                   :noexport:
+** DONE Day 3.2
 
 As you scan through the corrupted  memory, you notice that some of the
 conditional statements  are also still  intact. If you handle  some of
@@ -465,6 +465,28 @@ This time, the sum of the results is 48 (2*4 + 8*5).
 
 Handle the new instructions; what do you  get if you add up all of the
 results of just the enabled multiplications?
+
+#+begin_src fennel -n :session d2403 :exports both
+(local test2-input ["xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"])
+
+(fn solve2 [input]
+  (let [s (.. "do()" (table.concat input "") "don't()")]
+    (-> (match-expr s "do%(%)(.-)don't%(%)")
+        (lume.map #(match-expr $ "mul%(%d*,%d*%)"))
+        (lume.map #(eval-expr $))
+        (aoc.table-sum))))
+
+(fn test2 [expected input]
+  (assert (= expected (solve2 input))))
+
+(test2 48 test2-input)
+
+(solve2 (aoc.string-from "2024/03.inp"))
+#+end_src
+
+#+RESULTS:
+: 95411583
+
 
 ** DONE Day 4.1
 
@@ -2176,6 +2198,296 @@ robot. Multiplying these together gives a total safety factor of 12.
 Predict the motion of the robots in  your list within a space which is
 101 tiles  wide and  103 tiles  tall. What will  the safety  factor be
 after exactly 100 seconds have elapsed?
+
+** TODO Day 15.1                                                  :noexport:
+
+You appear back inside your  own mini submarine! Each Historian drives
+their mini submarine in a different direction; maybe the Chief has his
+own submarine down here somewhere as well?
+
+You look up to see a vast  school of lanternfish swimming past you. On
+closer inspection,  they seem  quite anxious, so  you drive  your mini
+submarine over to see if you can help.
+
+Because lanternfish populations grow rapidly, they need a lot of food,
+and  that  food  needs  to  be  stored  somewhere.  That's  why  these
+lanternfish  have  built  elaborate warehouse  complexes  operated  by
+robots!
+
+These lanternfish  seem so anxious  because they have lost  control of
+the robot that operates one of  their most important warehouses! It is
+currently running amok, pushing around  boxes in the warehouse with no
+regard for  lanternfish logistics or lanternfish  inventory management
+strategies.
+
+Right now, none of  the lanternfish are brave enough to  swim up to an
+unpredictable robot so  they could shut it off. However,  if you could
+anticipate the robot's movements, maybe they could find a safe option.
+
+The lanternfish  already have  a map  of the warehouse  and a  list of
+movements  the robot  will attempt  to make  (your puzzle  input). The
+problem is that the movements will sometimes fail as boxes are shifted
+around, making the actual movements of the robot difficult to predict.
+
+For example:
+
+#+begin_example
+##########
+#..O..O.O#
+#......O.#
+#.OO..O.O#
+#..O@..O.#
+#O#..O...#
+#O..O..O.#
+#.OO.O.OO#
+#....O...#
+##########
+
+<vv>^<v^>v>^vv^v>v<>v^v<v<^vv<<<^><<><>>v<vvv<>^v^>^<<<><<v<<<v^vv^v>^
+vvv<<^>^v^^><<>>><>^<<><^vv^^<>vvv<>><^^v>^>vv<>v<<<<v<^v>^<^^>>>^<v<v
+><>vv>v^v^<>><>>>><^^>vv>v<^^^>>v^v^<^^>v^^>v^<^v>v<>>v^v^<v>v^^<^^vv<
+<<v<^>>^^^^>>>v^<>vvv^><v<<<>^^^vv^<vvv>^>v<^^^^v<>^>vvvv><>>v^<<^^^^^
+^><^><>>><>^^<<^^v>>><^<v>^<vv>>v>>>^v><>^v><<<<v>>v<v<v>vvv>^<><<>^><
+^>><>^v<><^vvv<^^<><v<<<<<><^v<<<><<<^^<v<^^^><^>>^<v^><<<^>>^v<v^v<v^
+>^>>^v>vv>^<<^v<>><<><<v<<v><>v<^vv<<<>^^v^>^^>>><<^v>>v^v><^^>>^<>vv^
+<><^^>^^^<><vvvvv^v<v<<>^v<v>v<<^><<><<><<<^^<<<^<<>><<><^^^>^^<>^>v<>
+^^>vv<^v^v<vv>^<><v<^v>^^^>>>^^vvv^>vvv<>>>^<^>>>>>^<<^v>^vvv<>^<><<v>
+v^^>>><<^^<>>^v^<v^vv<>v^<<>^<^v^v><^<<<><<^<v><v<>vv>>v><v^<vv<>v^<<^
+#+end_example
+
+As the robot (@)  attempts to move, if there are any  boxes (O) in the
+way, the robot will also attempt to push those boxes. However, if this
+action would cause the robot or a box to move into a wall (#), nothing
+moves instead, including the robot. The initial positions of these are
+shown on the map at the top of the document the lanternfish gave you.
+
+The rest of the document describes the  moves (^ for up, v for down, <
+for  left, >  for  right) that  the  robot will  attempt  to make,  in
+order. (The moves  form a single giant sequence; they  are broken into
+multiple lines just  to make copy-pasting easier.  Newlines within the
+move sequence should be ignored.)
+
+Here is a smaller example to get started:
+
+#+begin_example
+########
+#..O.O.#
+##@.O..#
+#...O..#
+#.#.O..#
+#...O..#
+#......#
+########
+
+<^^>>>vv<v>>v<<
+#+end_example
+
+Were the robot  to attempt the given sequence of  moves, it would push
+around the boxes as follows:
+
+#+begin_example
+Initial state:
+########
+#..O.O.#
+##@.O..#
+#...O..#
+#.#.O..#
+#...O..#
+#......#
+########
+
+Move <:
+########
+#..O.O.#
+##@.O..#
+#...O..#
+#.#.O..#
+#...O..#
+#......#
+########
+
+Move ^:
+########
+#.@O.O.#
+##..O..#
+#...O..#
+#.#.O..#
+#...O..#
+#......#
+########
+
+Move ^:
+########
+#.@O.O.#
+##..O..#
+#...O..#
+#.#.O..#
+#...O..#
+#......#
+########
+
+Move >:
+########
+#..@OO.#
+##..O..#
+#...O..#
+#.#.O..#
+#...O..#
+#......#
+########
+
+Move >:
+########
+#...@OO#
+##..O..#
+#...O..#
+#.#.O..#
+#...O..#
+#......#
+########
+
+Move >:
+########
+#...@OO#
+##..O..#
+#...O..#
+#.#.O..#
+#...O..#
+#......#
+########
+
+Move v:
+########
+#....OO#
+##..@..#
+#...O..#
+#.#.O..#
+#...O..#
+#...O..#
+########
+
+Move v:
+########
+#....OO#
+##..@..#
+#...O..#
+#.#.O..#
+#...O..#
+#...O..#
+########
+
+Move <:
+########
+#....OO#
+##.@...#
+#...O..#
+#.#.O..#
+#...O..#
+#...O..#
+########
+
+Move v:
+########
+#....OO#
+##.....#
+#..@O..#
+#.#.O..#
+#...O..#
+#...O..#
+########
+
+Move >:
+########
+#....OO#
+##.....#
+#...@O.#
+#.#.O..#
+#...O..#
+#...O..#
+########
+
+Move >:
+########
+#....OO#
+##.....#
+#....@O#
+#.#.O..#
+#...O..#
+#...O..#
+########
+
+Move v:
+########
+#....OO#
+##.....#
+#.....O#
+#.#.O@.#
+#...O..#
+#...O..#
+########
+
+Move <:
+########
+#....OO#
+##.....#
+#.....O#
+#.#O@..#
+#...O..#
+#...O..#
+########
+
+Move <:
+########
+#....OO#
+##.....#
+#.....O#
+#.#O@..#
+#...O..#
+#...O..#
+########
+#+end_example
+
+The larger example  has many more moves; after the  robot has finished
+those moves, the warehouse would look like this:
+
+#+begin_example
+##########
+#.O.O.OOO#
+#........#
+#OO......#
+#OO@.....#
+#O#.....O#
+#O.....OO#
+#O.....OO#
+#OO....OO#
+##########
+#+end_example
+
+The lanternfish use their own custom Goods Positioning System (GPS for
+short) to  track the locations of  the boxes. The GPS  coordinate of a
+box is equal  to 100 times its  distance from the top edge  of the map
+plus its  distance from the left  edge of the map.  (This process does
+not stop at wall tiles; measure all the way to the edges of the map.)
+
+So, the box shown  below has a distance of 1 from the  top edge of the
+map and 4 from the left edge of the map, resulting in a GPS coordinate
+of 100 * 1 + 4 = 104.
+
+#+begin_example
+#######
+#...O..
+#......
+#+end_example
+
+The  lanternfish  would  like  to  know the  sum  of  all  boxes'  GPS
+coordinates after  the robot finishes  moving. In the  larger example,
+the  sum of  all  boxes'  GPS coordinates  is  10092.  In the  smaller
+example, the sum is 2028.
+
+Predict the motion of the robot  and boxes in the warehouse. After the
+robot  is  finished  moving,  what  is  the  sum  of  all  boxes'  GPS
+coordinates?
+
 
 * 2023 [18/50]
 ** DONE Day 1.1
