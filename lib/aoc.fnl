@@ -687,7 +687,7 @@
         (set done (+ 1 done)))))
   done)
 
-(fn matrix-index [xs [x y]]
+(fn matrix-index [xs x y]
   "return value of xs at index [x y]"
   (if (or (= nil x)
           (= nil y)
