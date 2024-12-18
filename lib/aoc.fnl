@@ -669,6 +669,36 @@
               (set res (+ 1 res))))))))
   res)
 
+(fn matrix-find [xs s]
+  "returns [x y] pos of s in 2d table xs"
+  (var done false)
+  (for [i 1 (# xs) &until done]
+    (for [j 1 (# (. xs i)) &until done]
+      (when (= s (. (. xs i) j))
+        (set done [j i]))))
+  done)
+
+(fn matrix-count [xs s]
+  "returns count of s in 2d table xs"
+  (var done 0)
+  (for [i 1 (# xs)]
+    (for [j 1 (# (. xs i))]
+      (when (= s (. (. xs i) j))
+        (set done (+ 1 done)))))
+  done)
+
+(fn matrix-index [xs [x y]]
+  "return value of xs at index [x y]"
+  (if (or (= nil x)
+          (= nil y)
+          (not (<= 1 x (# (. xs 1))))
+          (not (<= 1 y (# xs))))
+      nil
+  (. (. xs y) x)))
+
+(fn matrix-print [xs]
+  (lume.map xs #(print (table.concat $ ""))))
+
 (fn table-tonumber [xs]
   "returns elements of table converting to numbers"
   (lume.map xs #(tonumber $)))
@@ -1414,6 +1444,10 @@
  : matrix-clone
  : matrix-adjvals
  : matrix-match-count
+ : matrix-find
+ : matrix-count
+ : matrix-index
+ : matrix-print
  : table-unpack
  : powerset
  : combination
